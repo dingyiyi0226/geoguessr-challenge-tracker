@@ -189,9 +189,12 @@ function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateC
   };
 
   const getTotalParticipants = () => {
-    return challenges.reduce((total, challenge) => {
-      return total + (challenge.participants?.length || 0);
-    }, 0);
+    return new Set(
+      challenges
+        .flatMap(challenge => challenge.participants || [])
+        .map(participant => participant.userId)
+        .filter(Boolean)
+    ).size;
   };
 
   const collapseAll = () => {
