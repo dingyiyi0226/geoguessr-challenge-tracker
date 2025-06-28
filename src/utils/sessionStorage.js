@@ -87,6 +87,18 @@ export const getChallengesList = () => {
   }
 };
 
+// Update the order of challenges in storage
+export const updateChallengeOrder = (challengeIds) => {
+  try {
+    sessionStorage.setItem(CHALLENGES_LIST_KEY, JSON.stringify(challengeIds));
+    console.log('Challenge order updated in session storage');
+    return true;
+  } catch (error) {
+    console.error('Error updating challenge order:', error);
+    return false;
+  }
+};
+
 // Load all stored challenges
 export const loadAllChallenges = () => {
   try {

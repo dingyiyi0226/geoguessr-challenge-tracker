@@ -1,5 +1,27 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from '@dnd-kit/modifiers';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import PlayerRoundDetails from './PlayerRoundDetails';
 
 const TableContainer = styled.div`
@@ -42,9 +64,42 @@ const ClearButton = styled.button`
 
 const ChallengeCard = styled.div`
   border-bottom: 1px solid #e9ecef;
+  transition: all 0.2s ease;
   
   &:last-child {
     border-bottom: none;
+  }
+  
+  ${props => props.$isDragging && `
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.15);
+    transform: rotate(5deg);
+    border-radius: 8px;
+    background: #f8f9ff;
+  `}
+`;
+
+const DragHandle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 40px;
+  cursor: ${props => props.$isDragging ? 'grabbing' : 'grab'};
+  color: #999;
+  font-size: 1.2rem;
+  margin-right: 10px;
+  transition: color 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  
+  &:hover {
+    color: #667eea;
+  }
+  
+  &:active {
+    cursor: grabbing;
   }
 `;
 
@@ -63,6 +118,19 @@ const ChallengeHeader = styled.div`
       props.$isPrivate ? '#f5c6cb' : '#f8f9fa'
     };
   }
+  
+  ${props => props.$isDragging && `
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  `}
+`;
+
+const ChallengeHeaderContent = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
 `;
 
 const ChallengeInfo = styled.div`
@@ -337,13 +405,247 @@ const EmptyState = styled.div`
   padding: 40px;
   color: #6c757d;
   font-style: italic;
-`;
+  `;
 
-function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName }) {
+// SortableItem component for individual challenges
+function SortableItem({ 
+  challenge, 
+  challengeIndex, 
+  expandedChallenges, 
+  expandedPlayers, 
+  editingChallenge,
+  editName,
+  setEditName,
+  toggleChallenge,
+  togglePlayer,
+  onRemoveChallenge,
+  formatScore,
+  formatTime,
+  formatDistance,
+  getCountryFlag,
+  getRankDisplay,
+  startEditingName,
+  saveEditingName,
+  cancelEditingName,
+  handleNameInputKeyDown
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: challenge.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <ChallengeCard
+      ref={setNodeRef}
+      style={style}
+      $isDragging={isDragging}
+    >
+      <ChallengeHeader 
+        onClick={() => toggleChallenge(challengeIndex)}
+        $isSimulated={challenge.isSimulated}
+        $isPrivate={challenge.isPrivate}
+        $isDragging={isDragging}
+      >
+        <ChallengeHeaderContent>
+          <DragHandle 
+            {...attributes}
+            {...listeners}
+            title="Drag to reorder challenges"
+            onClick={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
+            $isDragging={isDragging}
+          >
+            ⋮⋮
+          </DragHandle>
+          <ChallengeInfo>
+            <ChallengeNameContainer>
+              {editingChallenge === challengeIndex ? (
+                <>
+                  <ChallengeNameInput
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    onKeyDown={handleNameInputKeyDown}
+                    autoFocus
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <SaveButton 
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      saveEditingName(); 
+                    }}
+                    title="Save"
+                  >
+                    ✓
+                  </SaveButton>
+                  <CancelButton 
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      cancelEditingName(); 
+                    }}
+                    title="Cancel"
+                  >
+                    ✕
+                  </CancelButton>
+                </>
+              ) : (
+                <>
+                  <ChallengeName>
+                    {challenge.name || 'Unknown Challenge'}
+                  </ChallengeName>
+                  <EditButton 
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      startEditingName(challengeIndex, challenge.name || 'Unknown Challenge'); 
+                    }}
+                    title="Edit challenge name"
+                  >
+                    ✎
+                  </EditButton>
+                  <LinkButton 
+                    href={`https://www.geoguessr.com/challenge/${challenge.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    title="View original challenge"
+                  >
+                    🔗
+                  </LinkButton>
+                </>
+              )}
+              {challenge.isSimulated && <SimulatedBadge>DEMO</SimulatedBadge>}
+              {challenge.isPrivate && <PrivateBadge>PRIVATE</PrivateBadge>}
+            </ChallengeNameContainer>
+            <ChallengeDetails>
+              <span>🏆 {challenge.highscoreCount || challenge.participants?.length || 0} results</span>
+              <span>👥 {challenge.totalParticipants || 0} players</span>
+              <span>📍 {challenge.mapName || 'Unknown Map'}</span>
+              <span>👤 Creator: {challenge.creator || 'Unknown'}</span>
+              {challenge.mode && <span>🎮 {challenge.mode}</span>}
+              {challenge.timeLimit && <span>⏱️ {challenge.timeLimit}s</span>}
+            </ChallengeDetails>
+          </ChallengeInfo>
+        </ChallengeHeaderContent>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <ExpandButton 
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              toggleChallenge(challengeIndex); 
+            }}
+          >
+            {expandedChallenges.has(challengeIndex) ? '▼' : '▶'}
+          </ExpandButton>
+          <ActionButton onClick={(e) => { e.stopPropagation(); onRemoveChallenge(challengeIndex); }}>
+            Remove
+          </ActionButton>
+        </div>
+      </ChallengeHeader>
+      
+      <PlayersContainer $expanded={expandedChallenges.has(challengeIndex)}>
+        {challenge.participants && challenge.participants.length > 0 ? (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableHeaderCell>Rank</TableHeaderCell>
+                <TableHeaderCell>Player</TableHeaderCell>
+                <TableHeaderCell>Score</TableHeaderCell>
+                <TableHeaderCell>Time</TableHeaderCell>
+                <TableHeaderCell>Played at</TableHeaderCell>
+                <TableHeaderCell>Details</TableHeaderCell>
+              </TableRow>
+            </TableHead>
+            <tbody>
+              {challenge.participants.map((participant, playerIndex) => {
+                const playerKey = `${challengeIndex}-${playerIndex}`;
+                return (
+                  <React.Fragment key={playerIndex}>
+                    <PlayerRow onClick={() => togglePlayer(playerKey)}>
+                      <RankCell $rank={participant.rank || playerIndex + 1}>
+                        {getRankDisplay(participant.rank || playerIndex + 1)}
+                      </RankCell>
+                      <PlayerNameCell>
+                        <CountryFlag>{getCountryFlag(participant.countryCode)}</CountryFlag>
+                        <span>{participant.nick || 'Anonymous'}</span>
+                        {participant.isVerified && <VerifiedIcon>✓</VerifiedIcon>}
+                      </PlayerNameCell>
+                      <ScoreCell $score={participant.totalScore}>
+                        {formatScore(participant.totalScore)}
+                      </ScoreCell>
+                      <TableCell>{formatTime(participant.totalTime)}</TableCell>
+                      <TableCell>
+                        {participant.playedAt ? new Date(participant.playedAt).toLocaleDateString() : 'N/A'}
+                      </TableCell>
+                      <TableCell>
+                        <RoundsToggleButton>
+                          {expandedPlayers.has(playerKey) ? (
+                            <>
+                              <span>▼</span>
+                              <span>Hide Rounds</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>▶</span>
+                              <span>Show Rounds</span>
+                            </>
+                          )}
+                          {participant.rounds && participant.rounds.length > 0 && (
+                            <RoundCountBadge>
+                              {participant.rounds.length}
+                            </RoundCountBadge>
+                          )}
+                        </RoundsToggleButton>
+                      </TableCell>
+                    </PlayerRow>
+                    <PlayerRoundDetails
+                      participant={participant}
+                      isExpanded={expandedPlayers.has(playerKey)}
+                      formatScore={formatScore}
+                      formatTime={formatTime}
+                      formatDistance={formatDistance}
+                    />
+                  </React.Fragment>
+                );
+              })}
+            </tbody>
+          </Table>
+        ) : (
+          <EmptyState>
+            {challenge.isPrivate ? (
+              <>
+                🔒 This challenge is private or has no public results.
+                <br />
+                <small>{challenge.warning}</small>
+              </>
+            ) : (
+              'No participants found for this challenge.'
+            )}
+          </EmptyState>
+        )}
+      </PlayersContainer>
+    </ChallengeCard>
+  );
+}
+  
+  function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName, onReorderChallenges }) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
   const [editingChallenge, setEditingChallenge] = useState(null);
   const [editName, setEditName] = useState('');
+  
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   if (challenges.length === 0) {
     return null;
@@ -438,6 +740,19 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChall
     }
   };
 
+  function handleDragEnd(event) {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = challenges.findIndex((challenge) => challenge.id === active.id);
+      const newIndex = challenges.findIndex((challenge) => challenge.id === over.id);
+
+      onReorderChallenges(oldIndex, newIndex);
+    }
+  }
+
+  const challengeIds = challenges.map(challenge => challenge.id);
+
   return (
     <TableContainer>
       <TableHeader>
@@ -447,178 +762,39 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChall
         <ClearButton onClick={onClearAll}>Clear All</ClearButton>
       </TableHeader>
       
-      {challenges.map((challenge, challengeIndex) => (
-        <ChallengeCard key={challengeIndex}>
-          <ChallengeHeader 
-            onClick={() => toggleChallenge(challengeIndex)}
-            $isSimulated={challenge.isSimulated}
-            $isPrivate={challenge.isPrivate}
-          >
-            <ChallengeInfo>
-              <ChallengeNameContainer>
-                {editingChallenge === challengeIndex ? (
-                  <>
-                    <ChallengeNameInput
-                      value={editName}
-                      onChange={(e) => setEditName(e.target.value)}
-                      onKeyDown={handleNameInputKeyDown}
-                      autoFocus
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                    <SaveButton 
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        saveEditingName(); 
-                      }}
-                      title="Save"
-                    >
-                      ✓
-                    </SaveButton>
-                    <CancelButton 
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        cancelEditingName(); 
-                      }}
-                      title="Cancel"
-                    >
-                      ✕
-                    </CancelButton>
-                  </>
-                ) : (
-                  <>
-                    <ChallengeName>
-                      {challenge.name || 'Unknown Challenge'}
-                    </ChallengeName>
-                    <EditButton 
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        startEditingName(challengeIndex, challenge.name || 'Unknown Challenge'); 
-                      }}
-                      title="Edit challenge name"
-                    >
-                      ✎
-                    </EditButton>
-                    <LinkButton 
-                      href={`https://www.geoguessr.com/challenge/${challenge.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      title="View original challenge"
-                    >
-                      🔗
-                    </LinkButton>
-                  </>
-                )}
-                {challenge.isSimulated && <SimulatedBadge>DEMO</SimulatedBadge>}
-                {challenge.isPrivate && <PrivateBadge>PRIVATE</PrivateBadge>}
-              </ChallengeNameContainer>
-              <ChallengeDetails>
-                <span>🏆 {challenge.highscoreCount || challenge.participants?.length || 0} results</span>
-                <span>👥 {challenge.totalParticipants || 0} players</span>
-                <span>📍 {challenge.mapName || 'Unknown Map'}</span>
-                <span>👤 Creator: {challenge.creator || 'Unknown'}</span>
-                {challenge.mode && <span>🎮 {challenge.mode}</span>}
-                {challenge.timeLimit && <span>⏱️ {challenge.timeLimit}s</span>}
-              </ChallengeDetails>
-            </ChallengeInfo>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <ExpandButton 
-                onClick={(e) => { 
-                  e.stopPropagation(); 
-                  toggleChallenge(challengeIndex); 
-                }}
-              >
-                {expandedChallenges.has(challengeIndex) ? '▼' : '▶'}
-              </ExpandButton>
-              <ActionButton onClick={(e) => { e.stopPropagation(); onRemoveChallenge(challengeIndex); }}>
-                Remove
-              </ActionButton>
-            </div>
-          </ChallengeHeader>
-          
-          <PlayersContainer $expanded={expandedChallenges.has(challengeIndex)}>
-            {challenge.participants && challenge.participants.length > 0 ? (
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableHeaderCell>Rank</TableHeaderCell>
-                    <TableHeaderCell>Player</TableHeaderCell>
-                    <TableHeaderCell>Score</TableHeaderCell>
-                    <TableHeaderCell>Time</TableHeaderCell>
-                    <TableHeaderCell>Played at</TableHeaderCell>
-                    <TableHeaderCell>Details</TableHeaderCell>
-                  </TableRow>
-                </TableHead>
-                <tbody>
-                  {challenge.participants.map((participant, playerIndex) => {
-                    const playerKey = `${challengeIndex}-${playerIndex}`;
-                    return (
-                      <React.Fragment key={playerIndex}>
-                        <PlayerRow onClick={() => togglePlayer(playerKey)}>
-                          <RankCell $rank={participant.rank || playerIndex + 1}>
-                            {getRankDisplay(participant.rank || playerIndex + 1)}
-                          </RankCell>
-                          <PlayerNameCell>
-                            <CountryFlag>{getCountryFlag(participant.countryCode)}</CountryFlag>
-                            <span>{participant.nick || 'Anonymous'}</span>
-                            {participant.isVerified && <VerifiedIcon>✓</VerifiedIcon>}
-                          </PlayerNameCell>
-                          <ScoreCell $score={participant.totalScore}>
-                            {formatScore(participant.totalScore)}
-                          </ScoreCell>
-                          <TableCell>{formatTime(participant.totalTime)}</TableCell>
-                          <TableCell>
-                            {participant.playedAt ? new Date(participant.playedAt).toLocaleDateString() : 'N/A'}
-                          </TableCell>
-                          <TableCell>
-                            <RoundsToggleButton>
-                              {expandedPlayers.has(playerKey) ? (
-                                <>
-                                  <span>▼</span>
-                                  <span>Hide Rounds</span>
-                                </>
-                              ) : (
-                                <>
-                                  <span>▶</span>
-                                  <span>Show Rounds</span>
-                                </>
-                              )}
-                              {participant.rounds && participant.rounds.length > 0 && (
-                                <RoundCountBadge>
-                                  {participant.rounds.length}
-                                </RoundCountBadge>
-                              )}
-                            </RoundsToggleButton>
-                          </TableCell>
-                        </PlayerRow>
-                        <PlayerRoundDetails
-                          participant={participant}
-                          isExpanded={expandedPlayers.has(playerKey)}
-                          formatScore={formatScore}
-                          formatTime={formatTime}
-                          formatDistance={formatDistance}
-                        />
-                      </React.Fragment>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            ) : (
-              <EmptyState>
-                {challenge.isPrivate ? (
-                  <>
-                    🔒 This challenge is private or has no public results.
-                    <br />
-                    <small>{challenge.warning}</small>
-                  </>
-                ) : (
-                  'No participants found for this challenge.'
-                )}
-              </EmptyState>
-            )}
-          </PlayersContainer>
-        </ChallengeCard>
-      ))}
+      <DndContext 
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+      >
+        <SortableContext items={challengeIds} strategy={verticalListSortingStrategy}>
+          {challenges.map((challenge, challengeIndex) => (
+            <SortableItem
+              key={challenge.id}
+              challenge={challenge}
+              challengeIndex={challengeIndex}
+              expandedChallenges={expandedChallenges}
+              expandedPlayers={expandedPlayers}
+              editingChallenge={editingChallenge}
+              editName={editName}
+              setEditName={setEditName}
+              toggleChallenge={toggleChallenge}
+              togglePlayer={togglePlayer}
+              onRemoveChallenge={onRemoveChallenge}
+              formatScore={formatScore}
+              formatTime={formatTime}
+              formatDistance={formatDistance}
+              getCountryFlag={getCountryFlag}
+              getRankDisplay={getRankDisplay}
+              startEditingName={startEditingName}
+              saveEditingName={saveEditingName}
+              cancelEditingName={cancelEditingName}
+              handleNameInputKeyDown={handleNameInputKeyDown}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
     </TableContainer>
   );
 }

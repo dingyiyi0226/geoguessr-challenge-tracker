@@ -7,7 +7,8 @@ import {
   loadAllChallenges, 
   clearAllChallenges,
   removeChallenge,
-  updateChallengeName 
+  updateChallengeName,
+  updateChallengeOrder 
 } from './utils/sessionStorage';
 
 const AppContainer = styled.div`
@@ -92,6 +93,20 @@ function App() {
     });
   };
 
+  const handleReorderChallenges = (sourceIndex, destinationIndex) => {
+    setChallenges(prev => {
+      const updatedChallenges = [...prev];
+      const [reorderedChallenge] = updatedChallenges.splice(sourceIndex, 1);
+      updatedChallenges.splice(destinationIndex, 0, reorderedChallenge);
+      
+      // Update the order in session storage
+      const challengeIds = updatedChallenges.map(challenge => challenge.id);
+      updateChallengeOrder(challengeIds);
+      
+      return updatedChallenges;
+    });
+  };
+
   return (
     <AppContainer>
       <MainContent>
@@ -110,6 +125,7 @@ function App() {
               onRemoveChallenge={removeChallengeFromList}
               onClearAll={clearAll}
               onUpdateChallengeName={handleUpdateChallengeName}
+              onReorderChallenges={handleReorderChallenges}
             />
           )}
         </ContentBody>
