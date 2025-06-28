@@ -281,7 +281,7 @@ const ImportFromFileButton = styled.button`
   }
 `;
 
-function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError, hasExistingChallenges }) {
+function AddChallengeForm({ onAddChallenge, hasExistingChallenges }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
@@ -290,6 +290,8 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
   const [addAtStart, setAddAtStart] = useState(false);
   const [showCustomNameInput, setShowCustomNameInput] = useState(false);
   const [customName, setCustomName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();

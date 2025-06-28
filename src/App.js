@@ -33,8 +33,6 @@ const ContentBody = styled.div`
 
 function App() {
   const [challenges, setChallenges] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
   // Load challenges from session storage on component mount
   useEffect(() => {
@@ -70,7 +68,6 @@ function App() {
 
   const clearAll = () => {
     setChallenges([]);
-    setError('');
     // Clear session storage as well
     clearAllChallenges();
   };
@@ -138,10 +135,6 @@ function App() {
         <ContentBody>
           <AddChallengeForm 
             onAddChallenge={addChallenge}
-            loading={loading}
-            setLoading={setLoading}
-            error={error}
-            setError={setError}
             hasExistingChallenges={challenges.length > 0}
           />
           {challenges.length > 0 && (
