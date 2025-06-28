@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AddChallengeForm from './components/AddChallengeForm';
-import ResultsTable from './components/ResultsTable';
+import ChallengeResults from './components/ChallengeResults';
 import ChallengeTrends from './components/ChallengeTrends';
 import Header from './components/Header';
 import { 
@@ -122,7 +122,7 @@ function App() {
           />
           {challenges.length > 0 && (
             <>
-              <ResultsTable 
+              <ChallengeResults 
                 challenges={challenges}
                 onRemoveChallenge={removeChallengeFromList}
                 onClearAll={clearAll}

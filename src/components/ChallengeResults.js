@@ -78,7 +78,7 @@ const ButtonGroup = styled.div`
   gap: 10px;
 `;
 
-function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName, onReorderChallenges }) {
+function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName, onReorderChallenges }) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
   const [editingChallenge, setEditingChallenge] = useState(null);
@@ -255,4 +255,4 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChall
   );
 }
 
-export default ResultsTable; 
+export default ChallengeResults; 
