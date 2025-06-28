@@ -12,6 +12,7 @@ import {
   updateChallengeOrder,
   saveChallenge 
 } from './utils/sessionStorage';
+import demoChallenges from './data/demoChallenges.json';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -128,6 +129,32 @@ function App() {
     return addedCount;
   };
 
+  const loadDemoData = () => {
+    if (demoChallenges && demoChallenges.challenges && demoChallenges.challenges.length > 0) {
+      let addedCount = 0;
+      
+      setChallenges(prev => {
+        const updatedChallenges = [...prev];
+        const existingIds = new Set(prev.map(challenge => challenge.id));
+        
+        // Add only new demo challenges (avoid duplicates)
+        for (const challenge of demoChallenges.challenges) {
+          if (!existingIds.has(challenge.id)) {
+            saveChallenge(challenge);
+            updatedChallenges.push(challenge);
+            addedCount++;
+          }
+        }
+        
+        return updatedChallenges;
+      });
+      
+      console.log(`Loaded ${addedCount} demo challenges`);
+      return addedCount;
+    }
+    return 0;
+  };
+
   return (
     <AppContainer>
       <MainContent>
@@ -136,6 +163,7 @@ function App() {
           <AddChallengeForm 
             onAddChallenge={addChallenge}
             hasExistingChallenges={challenges.length > 0}
+            onLoadDemoData={loadDemoData}
           />
           {challenges.length > 0 && (
             <>

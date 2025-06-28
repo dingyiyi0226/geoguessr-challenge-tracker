@@ -281,7 +281,34 @@ const ImportFromFileButton = styled.button`
   }
 `;
 
-function AddChallengeForm({ onAddChallenge, hasExistingChallenges }) {
+const LoadDemoButton = styled.button`
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+`;
+
+function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
@@ -339,6 +366,28 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges }) {
     } catch (err) {
       console.error('Error importing challenges:', err);
       setError(err.message || 'Failed to import challenges. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLoadDemoData = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      
+      const addedCount = onLoadDemoData();
+      
+      if (addedCount > 0) {
+        setError(`Successfully loaded ${addedCount} demo challenges!`);
+      } else {
+        setError('All demo challenges already exist.');
+      }
+      
+      console.log(`Loaded ${addedCount} demo challenges`);
+    } catch (err) {
+      console.error('Error loading demo data:', err);
+      setError(err.message || 'Failed to load demo data. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -533,13 +582,22 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges }) {
               Challenge Name
             </OptionButton>
             {!hasExistingChallenges && (
-              <ImportFromFileButton
-                type="button"
-                onClick={handleImportFromFile}
-                disabled={loading}
-              >
-                📁 Import from file
-              </ImportFromFileButton>
+              <>
+                <LoadDemoButton
+                  type="button"
+                  onClick={handleLoadDemoData}
+                  disabled={loading}
+                >
+                  🎮 Load Demo Data
+                </LoadDemoButton>
+                <ImportFromFileButton
+                  type="button"
+                  onClick={handleImportFromFile}
+                  disabled={loading}
+                >
+                  📁 Import from file
+                </ImportFromFileButton>
+              </>
             )}
             
             {showCustomNameInput && (
@@ -570,7 +628,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges }) {
       </form>
 
       {error && (
-        error.includes('Successfully imported') ? (
+        error.includes('Successfully') ? (
           <InfoMessage>{error}</InfoMessage>
         ) : error.includes('Note:') ? (
           <InfoMessage>{error}</InfoMessage>
