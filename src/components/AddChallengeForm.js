@@ -568,7 +568,9 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
       </form>
 
       {error && (
-        error.includes('Note:') ? (
+        error.includes('Successfully imported') ? (
+          <InfoMessage>{error}</InfoMessage>
+        ) : error.includes('Note:') ? (
           <InfoMessage>{error}</InfoMessage>
         ) : error.includes('simulated') ? (
           <WarningMessage>{error}</WarningMessage>
