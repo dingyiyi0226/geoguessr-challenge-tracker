@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken } from '../utils/geoguessrApi';
-import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder } from '../utils/sessionStorage';
+import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge } from '../utils/sessionStorage';
+import { importChallenges } from '../utils/fileOperations';
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -260,7 +261,27 @@ const OptionsRow = styled.div`
   }
 `;
 
-function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError }) {
+const ImportFromFileButton = styled.button`
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  }
+`;
+
+function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError, hasExistingChallenges }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
@@ -285,6 +306,40 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
     clearAuthToken();
     setIsAuthenticated(false);
     setError('');
+  };
+
+  const handleImportFromFile = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      
+      // Use the utility function to import
+      const importedChallenges = await importChallenges();
+      
+      // Add each challenge individually to maintain proper state management
+      let addedCount = 0;
+      for (const challenge of importedChallenges) {
+        // Check if challenge already exists to avoid duplicates
+        if (!hasChallenge(challenge.id)) {
+          saveChallenge(challenge);
+          onAddChallenge(challenge, false); // Add to back by default
+          addedCount++;
+        }
+      }
+      
+      if (addedCount > 0) {
+        setError(`Successfully imported ${addedCount} challenges!`);
+      } else {
+        setError('All challenges from the file already exist.');
+      }
+      
+      console.log(`Imported ${addedCount} out of ${importedChallenges.length} challenges`);
+    } catch (err) {
+      console.error('Error importing challenges:', err);
+      setError(err.message || 'Failed to import challenges. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e, forceRefreshParam = false) => {
@@ -472,9 +527,18 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
                   setCustomName('');
                 }
               }}
-            >
+              >
               Challenge Name
             </OptionButton>
+            {!hasExistingChallenges && (
+              <ImportFromFileButton
+                type="button"
+                onClick={handleImportFromFile}
+                disabled={loading}
+              >
+                📁 Import from file
+              </ImportFromFileButton>
+            )}
             
             {showCustomNameInput && (
               <CustomNameInput

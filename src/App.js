@@ -142,6 +142,7 @@ function App() {
             setLoading={setLoading}
             error={error}
             setError={setError}
+            hasExistingChallenges={challenges.length > 0}
           />
           {challenges.length > 0 && (
             <>
