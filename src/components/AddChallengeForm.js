@@ -287,7 +287,7 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
   const [showAuthInput, setShowAuthInput] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(hasAuthToken());
   const [forceRefresh, setForceRefresh] = useState(false);
-  const [addToFront, setAddToFront] = useState(false);
+  const [addAtStart, setAddAtStart] = useState(false);
   const [showCustomNameInput, setShowCustomNameInput] = useState(false);
   const [customName, setCustomName] = useState('');
 
@@ -358,7 +358,7 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
         name: customName.trim() || challengeData.name
       };
 
-      if (addToFront) {
+      if (addAtStart) {
         const currentChallenges = getChallengesList();
         const updatedOrder = [challengeData.id, ...currentChallenges.filter(id => id !== challengeData.id)];
         updateChallengeOrder(updatedOrder);
@@ -367,7 +367,7 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
         updateChallengeName(challengeData.id, customName.trim());
       }
       
-      onAddChallenge(finalChallengeData, addToFront);
+      onAddChallenge(finalChallengeData, addAtStart);
       setChallengeUrl('');
       setCustomName('');
       setShowCustomNameInput(false);
@@ -429,7 +429,7 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
         <AuthStatus>
           <AuthIndicator $authenticated={isAuthenticated} />
           <AuthText $authenticated={isAuthenticated}>
-            {isAuthenticated ? 'Connected to Geoguessr API' : 'Not authenticated - using simulated data'}
+            {isAuthenticated ? 'Connected to Geoguessr API' : 'Not authenticated - try importing from file'}
           </AuthText>
         </AuthStatus>
         
@@ -447,7 +447,7 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
                 <li>Find the <strong>_ncfa</strong> cookie and copy its value</li>
                 <li>Paste it above to connect to the real API</li>
               </ol>
-              Without authentication, the app will show simulated data for demonstration.
+              Without authentication, the app cannot fetch real data. But you can import challenges from an existing file.
             </InstructionsText>
           </>
         )}
@@ -513,9 +513,9 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
         {/* Challenge Options */}
         <AddChallengeOptionsContainer>
           <OptionsRow>
-            <ToggleLabel onClick={() => setAddToFront(!addToFront)}>
-              <ToggleSwitch $checked={addToFront} />
-              <span>Add to {addToFront ? 'front' : 'back'}</span>
+            <ToggleLabel onClick={() => setAddAtStart(!addAtStart)}>
+              <ToggleSwitch $checked={addAtStart} />
+              <span>Add at {addAtStart ? 'start' : 'end'}</span>
             </ToggleLabel>
             
             <OptionButton
