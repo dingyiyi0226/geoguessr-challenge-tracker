@@ -9,7 +9,8 @@ import {
   clearAllChallenges,
   removeChallenge,
   updateChallengeName,
-  updateChallengeOrder 
+  updateChallengeOrder,
+  saveChallenge 
 } from './utils/sessionStorage';
 
 const AppContainer = styled.div`
@@ -108,6 +109,28 @@ function App() {
     });
   };
 
+  const handleImportChallenges = (importedChallenges) => {
+    let addedCount = 0;
+    
+    setChallenges(prev => {
+      const updatedChallenges = [...prev];
+      const existingIds = new Set(prev.map(challenge => challenge.id));
+      
+      // Add only new challenges (avoid duplicates)
+      for (const challenge of importedChallenges) {
+        if (!existingIds.has(challenge.id)) {
+          saveChallenge(challenge);
+          updatedChallenges.push(challenge);
+          addedCount++;
+        }
+      }
+      
+      return updatedChallenges;
+    });
+    
+    return addedCount;
+  };
+
   return (
     <AppContainer>
       <MainContent>
@@ -128,6 +151,7 @@ function App() {
                 onClearAll={clearAll}
                 onUpdateChallengeName={handleUpdateChallengeName}
                 onReorderChallenges={handleReorderChallenges}
+                onImportChallenges={handleImportChallenges}
               />
               <ChallengeTrends challenges={challenges} />
             </>

@@ -80,4 +80,104 @@ export const exportChallenges = (challenges) => {
   };
 
   return downloadAsJSON(exportData, filename);
+};
+
+/**
+ * Reads and parses a JSON file
+ * @param {File} file - The file to read
+ * @returns {Promise<Object>} Parsed JSON data
+ */
+export const readJSONFile = (file) => {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      reject(new Error('No file provided'));
+      return;
+    }
+
+    if (!file.type.includes('json') && !file.name.endsWith('.json')) {
+      reject(new Error('Please select a JSON file'));
+      return;
+    }
+
+    const reader = new FileReader();
+    
+    reader.onload = (event) => {
+      try {
+        const jsonData = JSON.parse(event.target.result);
+        resolve(jsonData);
+      } catch (error) {
+        reject(new Error('Invalid JSON file format'));
+      }
+    };
+    
+    reader.onerror = () => {
+      reject(new Error('Failed to read file'));
+    };
+    
+    reader.readAsText(file);
+  });
+};
+
+/**
+ * Validates imported challenge data structure
+ * @param {Object} data - The imported data to validate
+ * @returns {Array} Array of challenges if valid
+ */
+export const validateChallengeData = (data) => {
+  // Handle both old format (direct array) and new format (with metadata)
+  let challenges;
+  
+  if (Array.isArray(data)) {
+    // Old format: direct array of challenges
+    challenges = data;
+  } else if (data && Array.isArray(data.challenges)) {
+    // New format: object with challenges array
+    challenges = data.challenges;
+  } else {
+    throw new Error('Invalid file format. Expected challenge data not found.');
+  }
+
+  if (!challenges || challenges.length === 0) {
+    throw new Error('No challenges found in the file');
+  }
+
+  // Basic validation of challenge structure
+  for (const challenge of challenges) {
+    if (!challenge.id || !challenge.name) {
+      throw new Error('Invalid challenge data structure. Missing required fields (id, name).');
+    }
+  }
+
+  return challenges;
+};
+
+/**
+ * Triggers file picker for importing challenges
+ * @returns {Promise<Array>} Array of challenges from the imported file
+ */
+export const importChallenges = () => {
+  return new Promise((resolve, reject) => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    
+    input.onchange = async (event) => {
+      try {
+        const file = event.target.files[0];
+        if (!file) {
+          reject(new Error('No file selected'));
+          return;
+        }
+
+        const data = await readJSONFile(file);
+        const challenges = validateChallengeData(data);
+        
+        resolve(challenges);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    
+    input.click();
+  });
 }; 

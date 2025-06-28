@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { loadAllChallenges } from '../utils/sessionStorage';
-import { exportChallenges } from '../utils/fileOperations';
+import { exportChallenges, importChallenges } from '../utils/fileOperations';
 import {
   DndContext,
   closestCenter,
@@ -90,12 +90,27 @@ const ExportButton = styled.button`
   }
 `;
 
+const ImportButton = styled.button`
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #0056b3;
+  }
+`;
+
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
 `;
 
-function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName, onReorderChallenges }) {
+function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName, onReorderChallenges, onImportChallenges }) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
   const [editingChallenge, setEditingChallenge] = useState(null);
@@ -199,6 +214,22 @@ function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateC
     }
   };
 
+  const handleImportChallenges = async () => {
+    try {
+      // Use the utility function to import
+      const importedChallenges = await importChallenges();
+      
+      // Pass the imported challenges to the parent component
+      if (onImportChallenges) {
+        const addedCount = onImportChallenges(importedChallenges);
+        console.log(`Imported ${importedChallenges.length} challenges, ${addedCount} added (duplicates skipped)`);
+      }
+    } catch (error) {
+      console.error('Error importing challenges:', error);
+      alert(error.message || 'Failed to import challenges. Please try again.');
+    }
+  };
+
   const startEditingName = (challengeIndex, currentName) => {
     setEditingChallenge(challengeIndex);
     setEditName(currentName);
@@ -245,6 +276,7 @@ function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateC
           Challenge Results ({challenges.length} challenges, {getTotalParticipants()} players)
         </TableTitle>
         <ButtonGroup>
+          <ImportButton onClick={handleImportChallenges}>Import</ImportButton>
           <ExportButton onClick={handleExportChallenges}>Export</ExportButton>
           <CollapseButton onClick={collapseAll}>Collapse All</CollapseButton>
           <ClearButton onClick={onClearAll}>Clear All</ClearButton>
