@@ -170,12 +170,55 @@ const InstructionsText = styled.div`
   }
 `;
 
+const AddChallengeOptionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+`;
+
+const ToggleLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
+  user-select: none;
+`;
+
+const ToggleSwitch = styled.div`
+  position: relative;
+  width: 48px;
+  height: 24px;
+  background: ${props => props.$checked ? '#667eea' : '#ccc'};
+  border-radius: 12px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: ${props => props.$checked ? '26px' : '2px'};
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: left 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+`;
+
 function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(hasAuthToken());
   const [forceRefresh, setForceRefresh] = useState(false);
+  const [addToFront, setAddToFront] = useState(false);
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
@@ -203,7 +246,7 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
 
     try {
       const challengeData = await fetchChallengeData(challengeUrl, forceRefreshParam || forceRefresh);
-      onAddChallenge(challengeData);
+      onAddChallenge(challengeData, addToFront);
       setChallengeUrl('');
       setForceRefresh(false);
       
@@ -343,6 +386,14 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
             </SmallButton>
           )}
         </InputGroup>
+        
+        {/* Add Position Toggle */}
+        <AddChallengeOptionsContainer>
+          <ToggleLabel onClick={() => setAddToFront(!addToFront)}>
+            <ToggleSwitch $checked={addToFront} />
+            <span>Add to {addToFront ? 'front' : 'back'}</span>
+          </ToggleLabel>
+        </AddChallengeOptionsContainer>
         
         {/* Cache Status */}
         {challengeUrl.trim() && (

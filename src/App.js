@@ -44,7 +44,7 @@ function App() {
     }
   }, []);
 
-  const addChallenge = (challengeData) => {
+  const addChallenge = (challengeData, addToFront = false) => {
     setChallenges(prev => {
       // Check if challenge already exists to avoid duplicates
       const exists = prev.some(challenge => challenge.id === challengeData.id);
@@ -52,7 +52,7 @@ function App() {
         console.log(`Challenge ${challengeData.id} already exists, not adding duplicate`);
         return prev;
       }
-      return [...prev, challengeData];
+      return addToFront ? [challengeData, ...prev] : [...prev, challengeData];
     });
   };
 
