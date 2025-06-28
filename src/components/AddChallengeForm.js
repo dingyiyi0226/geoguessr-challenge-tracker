@@ -170,7 +170,7 @@ const InstructionsText = styled.div`
   }
 `;
 
-function ChallengeForm({ onAddChallenge, loading, setLoading, error, setError }) {
+function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
@@ -378,4 +378,4 @@ function ChallengeForm({ onAddChallenge, loading, setLoading, error, setError })
   );
 }
 
-export default ChallengeForm; 
+export default AddChallengeForm; 

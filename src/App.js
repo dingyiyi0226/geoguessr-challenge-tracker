@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import ChallengeForm from './components/ChallengeForm';
+import AddChallengeForm from './components/AddChallengeForm';
 import ResultsTable from './components/ResultsTable';
 import Header from './components/Header';
 import { 
@@ -112,7 +112,7 @@ function App() {
       <MainContent>
         <Header />
         <ContentBody>
-          <ChallengeForm 
+          <AddChallengeForm 
             onAddChallenge={addChallenge}
             loading={loading}
             setLoading={setLoading}
