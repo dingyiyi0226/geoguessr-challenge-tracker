@@ -350,10 +350,6 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
                 <span>👥 {challenge.totalParticipants || 0} players</span>
                 <span>📍 {challenge.mapName || 'Unknown Map'}</span>
                 <span>👤 Creator: {challenge.creator || 'Unknown'}</span>
-                <span>📅 {challenge.created ? new Date(challenge.created).toLocaleDateString() : 'N/A'}</span>
-                {challenge.maxParticipants && challenge.maxParticipants !== 'unlimited' && (
-                  <span>📊 Max: {challenge.maxParticipants}</span>
-                )}
                 {challenge.mode && <span>🎮 {challenge.mode}</span>}
                 {challenge.timeLimit && <span>⏱️ {challenge.timeLimit}s</span>}
               </ChallengeDetails>
@@ -377,7 +373,7 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
                     <TableHeaderCell>Player</TableHeaderCell>
                     <TableHeaderCell>Score</TableHeaderCell>
                     <TableHeaderCell>Time</TableHeaderCell>
-                    <TableHeaderCell>Played</TableHeaderCell>
+                    <TableHeaderCell>Played at</TableHeaderCell>
                     <TableHeaderCell>Details</TableHeaderCell>
                   </TableRow>
                 </TableHead>

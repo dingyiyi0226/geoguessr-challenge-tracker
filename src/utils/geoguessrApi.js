@@ -148,13 +148,11 @@ const fetchChallengeResultsFromAPI = async (challengeId, authToken) => {
       id: challengeId,
       name: challengeData.map?.name || 'Unknown Challenge',
       description: challengeData.map?.description || '',
-      created: challengeData.creator?.created,
       creator: challengeData.creator?.nick || 'Unknown',
-      mode: challengeData.challenge?.gameMode || 'standard',
+      mode: getGameMode(challengeData),
       timeLimit: challengeData.challenge?.timeLimit,
       participants: participants,
       totalParticipants: participants.length,
-      maxParticipants: challengeData.challenge?.numberOfParticipants || 'unlimited',
       mapName: challengeData.map?.name,
       mapId: challengeData.map?.id,
       url: challengeData.map?.url,
@@ -267,3 +265,13 @@ export const getChallengeHighscores = async (challengeId, options = {}) => {
     throw new Error('Failed to fetch highscores');
   }
 }; 
+
+export const getGameMode = (challengeData) => {
+  if (challengeData.challenge.forbidMoving && challengeData.challenge.forbidRotating && challengeData.challenge.forbidZooming) {
+    return 'NMPZ';
+  } else if (challengeData.challenge.forbidMoving) {
+    return 'No move';
+  } else {
+    return 'Moving';
+  }
+}
