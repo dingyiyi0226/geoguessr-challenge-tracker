@@ -58,6 +58,26 @@ const ClearButton = styled.button`
   }
 `;
 
+const CollapseButton = styled.button`
+  padding: 8px 16px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #5a6268;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
 function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName, onReorderChallenges }) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
@@ -142,6 +162,11 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChall
     }, 0);
   };
 
+  const collapseAll = () => {
+    setExpandedChallenges(new Set());
+    setExpandedPlayers(new Set());
+  };
+
   const startEditingName = (challengeIndex, currentName) => {
     setEditingChallenge(challengeIndex);
     setEditName(currentName);
@@ -187,7 +212,10 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChall
         <TableTitle>
           Challenge Results ({challenges.length} challenges, {getTotalParticipants()} players)
         </TableTitle>
-        <ClearButton onClick={onClearAll}>Clear All</ClearButton>
+        <ButtonGroup>
+          <CollapseButton onClick={collapseAll}>Collapse All</CollapseButton>
+          <ClearButton onClick={onClearAll}>Clear All</ClearButton>
+        </ButtonGroup>
       </TableHeader>
       
       <DndContext 
