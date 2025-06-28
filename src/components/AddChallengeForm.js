@@ -212,6 +212,54 @@ const ToggleSwitch = styled.div`
   }
 `;
 
+const OptionButton = styled.button`
+  margin-left: 10px;
+  padding: 8px 12px;
+  background: ${props => props.$active ? '#667eea' : '#ffffff'};
+  color: ${props => props.$active ? 'white' : '#667eea'};
+  border: 2px solid #667eea;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${props => props.$active ? '#5a67d8' : '#f7fafc'};
+  }
+`;
+
+const CustomNameInput = styled.input`
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+  max-width: 300px;
+
+  &:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+`;
+
+const OptionsRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: flex-start;
+
+  &:not(:first-child) {
+    margin-top: 0;
+  }
+`;
+
 function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
@@ -219,6 +267,8 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
   const [isAuthenticated, setIsAuthenticated] = useState(hasAuthToken());
   const [forceRefresh, setForceRefresh] = useState(false);
   const [addToFront, setAddToFront] = useState(false);
+  const [showCustomNameInput, setShowCustomNameInput] = useState(false);
+  const [customName, setCustomName] = useState('');
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
@@ -246,8 +296,17 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
 
     try {
       const challengeData = await fetchChallengeData(challengeUrl, forceRefreshParam || forceRefresh);
-      onAddChallenge(challengeData, addToFront);
+      
+      // Apply custom name if provided
+      const finalChallengeData = {
+        ...challengeData,
+        name: customName.trim() || challengeData.name
+      };
+      
+      onAddChallenge(finalChallengeData, addToFront);
       setChallengeUrl('');
+      setCustomName('');
+      setShowCustomNameInput(false);
       setForceRefresh(false);
       
       // Show cache status info
@@ -387,12 +446,36 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
           )}
         </InputGroup>
         
-        {/* Add Position Toggle */}
+        {/* Challenge Options */}
         <AddChallengeOptionsContainer>
-          <ToggleLabel onClick={() => setAddToFront(!addToFront)}>
-            <ToggleSwitch $checked={addToFront} />
-            <span>Add to {addToFront ? 'front' : 'back'}</span>
-          </ToggleLabel>
+          <OptionsRow>
+            <ToggleLabel onClick={() => setAddToFront(!addToFront)}>
+              <ToggleSwitch $checked={addToFront} />
+              <span>Add to {addToFront ? 'front' : 'back'}</span>
+            </ToggleLabel>
+            
+            <OptionButton
+              type="button"
+              $active={showCustomNameInput}
+              onClick={() => {
+                setShowCustomNameInput(!showCustomNameInput);
+                if (showCustomNameInput) {
+                  setCustomName('');
+                }
+              }}
+            >
+              Challenge Name
+            </OptionButton>
+            
+            {showCustomNameInput && (
+              <CustomNameInput
+                type="text"
+                value={customName}
+                onChange={(e) => setCustomName(e.target.value)}
+                placeholder="Custom challenge name"
+              />
+            )}
+          </OptionsRow>
         </AddChallengeOptionsContainer>
         
         {/* Cache Status */}
