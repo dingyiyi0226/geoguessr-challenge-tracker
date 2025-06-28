@@ -480,7 +480,7 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
         
         {/* Cache Status */}
         {challengeUrl.trim() && (
-          <InstructionsText style={{ marginTop: '10px', fontSize: '0.8rem' }}>
+          <InstructionsText style={{ marginTop: '10px', marginLeft: '15px', fontSize: '0.8rem' }}>
             {isCached ? (
               <span style={{ color: '#28a745' }}>
                 ✅ This challenge is cached - will load instantly. Use "Refresh" for latest data.
@@ -505,7 +505,7 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
       )}
 
       {/* Storage Info */}
-      <InstructionsText style={{ marginTop: '15px', fontSize: '0.75rem', color: '#999' }}>
+      <InstructionsText style={{ marginTop: '15px', marginLeft: '15px', fontSize: '0.75rem', color: '#999' }}>
         💾 Cache: {getStorageInfo().challengeCount} challenge{getStorageInfo().challengeCount !== 1 ? 's' : ''} stored ({getStorageInfo().approximateSize})
       </InstructionsText>
     </FormContainer>
