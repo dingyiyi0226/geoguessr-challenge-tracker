@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken } from '../utils/geoguessrApi';
-import { hasChallenge, getStorageInfo } from '../utils/sessionStorage';
+import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder } from '../utils/sessionStorage';
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -302,6 +302,15 @@ function AddChallengeForm({ onAddChallenge, loading, setLoading, error, setError
         ...challengeData,
         name: customName.trim() || challengeData.name
       };
+
+      if (addToFront) {
+        const currentChallenges = getChallengesList();
+        const updatedOrder = [challengeData.id, ...currentChallenges.filter(id => id !== challengeData.id)];
+        updateChallengeOrder(updatedOrder);
+      }
+      if (customName.trim()) {
+        updateChallengeName(challengeData.id, customName.trim());
+      }
       
       onAddChallenge(finalChallengeData, addToFront);
       setChallengeUrl('');
