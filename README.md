@@ -4,12 +4,16 @@ A modern React application to track and visualize your Geoguessr challenge resul
 
 ## ✨ Features
 
+- **Real API Integration**: Connect to Geoguessr's official API to fetch actual challenge data
+- **Multiple Players Support**: View all participants in a challenge with detailed breakdowns
+- **Round-by-Round Analysis**: Expand player results to see performance in each round
 - **Easy URL Input**: Paste any Geoguessr challenge URL and automatically fetch results
+- **Authentication Management**: Secure token-based authentication with easy setup
 - **Beautiful UI**: Modern, responsive design with gradient backgrounds and smooth animations
-- **Detailed Results**: View challenge names, player names, scores, completion times, and dates
-- **Color-coded Scores**: Scores are color-coded based on performance (Green: Excellent, Yellow: Good, Orange: Fair, Red: Needs Improvement)
+- **Detailed Results**: View challenge names, player names, scores, completion times, distances, and dates
+- **Color-coded Performance**: Scores are color-coded based on performance levels
 - **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
-- **Real-time Loading**: Loading indicators and error handling for better user experience
+- **Smart Fallback**: Graceful fallback to simulated data when API is unavailable
 
 ## 🚀 Getting Started
 
@@ -41,23 +45,49 @@ A modern React application to track and visualize your Geoguessr challenge resul
 
 ## 📖 How to Use
 
-1. **Enter Challenge URL**: Paste a Geoguessr challenge URL in the input field. Supported formats:
+### Initial Setup (Optional but Recommended)
+
+1. **Authentication Setup** (for real data):
+   - Open Geoguessr in your browser and log in
+   - Open browser Developer Tools (F12)
+   - Go to Application/Storage → Cookies → geoguessr.com
+   - Find the `_ncfa` cookie and copy its value
+   - In the app, click "Setup API Access" and paste the token
+
+### Adding Challenges
+
+2. **Enter Challenge URL**: Paste a Geoguessr challenge URL in the input field. Supported formats:
    - `https://www.geoguessr.com/challenge/ABC123`
    - `https://www.geoguessr.com/results/ABC123`
+   - `https://www.geoguessr.com/c/ABC123` (short URL)
    - Or just the challenge ID: `ABC123`
 
-2. **Click "Add Challenge"**: The application will fetch the challenge data automatically
+3. **Click "Add Challenge"**: The application will fetch the challenge data automatically
 
-3. **View Results**: Results will appear in a beautiful table below with:
-   - Challenge name
-   - Player name
-   - Total score (color-coded)
-   - Total completion time
-   - Date played
+### Viewing Results
 
-4. **manage Results**: 
+4. **Browse Challenges**: Each challenge appears as an expandable card showing:
+   - Challenge name and map
+   - Number of participants
+   - Creator and creation date
+   - Demo badge (if using simulated data)
+
+5. **View All Players**: Click on a challenge card to expand and see:
+   - All participants and their scores
+   - Total completion times
+   - When each player completed the challenge
+
+6. **Detailed Round Analysis**: Click on any player to see:
+   - Score for each round (1-5)
+   - Time taken per round
+   - Distance from correct location
+
+### Management
+
+7. **Manage Results**: 
    - Remove individual challenges with the "Remove" button
    - Clear all results with the "Clear All" button
+   - Disconnect API authentication when needed
 
 ## 🔧 Technical Details
 
@@ -70,20 +100,27 @@ A modern React application to track and visualize your Geoguessr challenge resul
 
 ### API Integration
 
-Currently, the application uses mock data to demonstrate functionality. To integrate with the real Geoguessr API:
+The application includes **full integration** with Geoguessr's official API:
 
-1. Obtain API credentials from Geoguessr
-2. Update the `fetchChallengeData` function in `src/utils/geoguessrApi.js`
-3. Replace the mock implementation with actual API calls
+- **Endpoints Used**:
+  - `v3/challenges/<challengeId>` - Fetch challenge details and participants
+  - `v3/games/<gameToken>` - Fetch detailed game results for each player
 
-```javascript
-// Example real API integration
-const response = await axios.get(`https://api.geoguessr.com/api/v3/challenges/${challengeId}`, {
-  headers: {
-    'Authorization': `Bearer ${YOUR_API_TOKEN}`,
-  }
-});
-```
+- **Authentication**: Uses the `_ncfa` cookie for authentication (same as the website)
+
+- **Data Retrieved**:
+  - Challenge metadata (name, creator, map, etc.)
+  - All participants and their game tokens
+  - Round-by-round results for each player
+  - Exact scores, times, and distances
+
+- **Error Handling**: Comprehensive error handling for:
+  - Authentication failures
+  - Private/inaccessible challenges
+  - Network issues
+  - Invalid challenge IDs
+
+**Note**: When authentication is not provided, the app displays realistic simulated data for demonstration purposes.
 
 ### Project Structure
 
@@ -109,17 +146,21 @@ The application uses styled-components for styling. You can customize colors, fo
 ### Adding Features
 
 Some ideas for additional features:
-- Export results to CSV
-- Statistics and charts
-- Player comparison
-- Historical tracking
-- Round-by-round breakdown
+- Export results to CSV/Excel
+- Performance statistics and charts
+- Player comparison and ranking
+- Historical tracking and trends
+- Map-based visualization of guesses
+- Challenge leaderboard sorting
+- Score improvement tracking
 
 ## 🐛 Known Limitations
 
-- Currently uses mock data (API integration needed)
-- Geoguessr API access requires authentication
-- Some challenge URLs might not be accessible due to privacy settings
+- Geoguessr API access requires manual cookie extraction (no official OAuth)
+- Some challenges might be private or require specific permissions
+- Cookie tokens expire periodically and need to be renewed
+- Rate limiting may apply to API requests
+- CORS restrictions may require running the app from localhost
 
 ## 📝 License
 
