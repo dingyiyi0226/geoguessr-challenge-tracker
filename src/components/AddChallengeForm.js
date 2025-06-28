@@ -345,6 +345,11 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
       // Use the utility function to import
       const importedChallenges = await importChallenges();
       
+      // Handle cancellation case cleanly
+      if (importedChallenges === null) {
+        return;
+      }
+      
       // Add each challenge individually to maintain proper state management
       let addedCount = 0;
       for (const challenge of importedChallenges) {

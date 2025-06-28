@@ -153,7 +153,7 @@ export const validateChallengeData = (data) => {
 
 /**
  * Triggers file picker for importing challenges
- * @returns {Promise<Array>} Array of challenges from the imported file
+ * @returns {Promise<Array|null>} Array of challenges from the imported file, or null if cancelled
  */
 export const importChallenges = () => {
   return new Promise((resolve, reject) => {
@@ -161,11 +161,17 @@ export const importChallenges = () => {
     input.type = 'file';
     input.accept = '.json,application/json';
     
+    let resolved = false;
+    
     input.onchange = async (event) => {
+      if (resolved) return;
+      resolved = true;
+      
       try {
         const file = event.target.files[0];
         if (!file) {
-          reject(new Error('No file selected'));
+          // No file selected - this is cancellation
+          resolve(null);
           return;
         }
 
@@ -177,6 +183,22 @@ export const importChallenges = () => {
         reject(error);
       }
     };
+    
+    // Handle cancel case - when user clicks cancel or closes dialog
+    input.oncancel = () => {
+      if (resolved) return;
+      resolved = true;
+      resolve(null); // Return null instead of throwing error
+    };
+    
+    // Fallback for browsers that don't support oncancel
+    // Check if the dialog was cancelled after a short delay
+    setTimeout(() => {
+      if (!resolved && !input.files.length) {
+        resolved = true;
+        resolve(null); // Return null instead of throwing error
+      }
+    }, 100);
     
     input.click();
   });
