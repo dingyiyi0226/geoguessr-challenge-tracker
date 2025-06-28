@@ -69,11 +69,67 @@ const ChallengeInfo = styled.div`
   flex: 1;
 `;
 
+const ChallengeNameContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+`;
+
 const ChallengeName = styled.h4`
   color: #333;
   font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin: 0;
+`;
+
+const ChallengeNameInput = styled.input`
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: 2px solid #667eea;
+  border-radius: 4px;
+  padding: 4px 8px;
+  background: white;
+  
+  &:focus {
+    outline: none;
+    border-color: #5a67d8;
+  }
+`;
+
+const EditButton = styled.button`
+  background:rgb(221, 221, 221);
+  border: none;
+  border-radius: 3px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background:rgb(188, 188, 188);
+  }
+`;
+
+const SaveButton = styled(EditButton)`
+  background:rgb(177, 215, 255);
+
+  &:hover {
+    background:rgb(105, 177, 253);
+  }
+`;
+
+const CancelButton = styled(EditButton)`
+  background:rgb(221, 221, 221);
+  
+  &:hover {
+    background:rgb(188, 188, 188);
+  }
 `;
 
 const ChallengeDetails = styled.div`
@@ -262,9 +318,11 @@ const EmptyState = styled.div`
   font-style: italic;
 `;
 
-function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
+function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName }) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
+  const [editingChallenge, setEditingChallenge] = useState(null);
+  const [editName, setEditName] = useState('');
 
   if (challenges.length === 0) {
     return null;
@@ -333,6 +391,32 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
     }, 0);
   };
 
+  const startEditingName = (challengeIndex, currentName) => {
+    setEditingChallenge(challengeIndex);
+    setEditName(currentName);
+  };
+
+  const cancelEditingName = () => {
+    setEditingChallenge(null);
+    setEditName('');
+  };
+
+  const saveEditingName = () => {
+    if (editName.trim() && onUpdateChallengeName) {
+      onUpdateChallengeName(editingChallenge, editName.trim());
+    }
+    setEditingChallenge(null);
+    setEditName('');
+  };
+
+  const handleNameInputKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      saveEditingName();
+    } else if (e.key === 'Escape') {
+      cancelEditingName();
+    }
+  };
+
   return (
     <TableContainer>
       <TableHeader>
@@ -350,11 +434,54 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
             $isPrivate={challenge.isPrivate}
           >
             <ChallengeInfo>
-              <ChallengeName>
-                {challenge.name || 'Unknown Challenge'}
+              <ChallengeNameContainer>
+                {editingChallenge === challengeIndex ? (
+                  <>
+                    <ChallengeNameInput
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      onKeyDown={handleNameInputKeyDown}
+                      autoFocus
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    <SaveButton 
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        saveEditingName(); 
+                      }}
+                      title="Save"
+                    >
+                      ✓
+                    </SaveButton>
+                    <CancelButton 
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        cancelEditingName(); 
+                      }}
+                      title="Cancel"
+                    >
+                      ✕
+                    </CancelButton>
+                  </>
+                ) : (
+                  <>
+                    <ChallengeName>
+                      {challenge.name || 'Unknown Challenge'}
+                    </ChallengeName>
+                    <EditButton 
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        startEditingName(challengeIndex, challenge.name || 'Unknown Challenge'); 
+                      }}
+                      title="Edit challenge name"
+                    >
+                      ✎
+                    </EditButton>
+                  </>
+                )}
                 {challenge.isSimulated && <SimulatedBadge>DEMO</SimulatedBadge>}
                 {challenge.isPrivate && <PrivateBadge>PRIVATE</PrivateBadge>}
-              </ChallengeName>
+              </ChallengeNameContainer>
               <ChallengeDetails>
                 <span>🏆 {challenge.highscoreCount || challenge.participants?.length || 0} results</span>
                 <span>👥 {challenge.totalParticipants || 0} players</span>

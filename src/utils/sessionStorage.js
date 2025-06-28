@@ -141,6 +141,32 @@ export const hasChallenge = (challengeId) => {
   }
 };
 
+// Update challenge name in session storage
+export const updateChallengeName = (challengeId, newName) => {
+  try {
+    const challengeData = loadChallenge(challengeId);
+    if (!challengeData) {
+      console.warn(`Challenge ${challengeId} not found in storage for name update`);
+      return false;
+    }
+    
+    const updatedData = {
+      ...challengeData,
+      name: newName,
+      lastModified: Date.now()
+    };
+    
+    const storageKey = `${STORAGE_PREFIX}${challengeId}`;
+    sessionStorage.setItem(storageKey, JSON.stringify(updatedData));
+    
+    console.log(`Challenge ${challengeId} name updated to: ${newName}`);
+    return true;
+  } catch (error) {
+    console.error('Error updating challenge name in session storage:', error);
+    return false;
+  }
+};
+
 // Get storage info (for debugging)
 export const getStorageInfo = () => {
   try {

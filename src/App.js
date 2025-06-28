@@ -6,7 +6,8 @@ import Header from './components/Header';
 import { 
   loadAllChallenges, 
   clearAllChallenges,
-  removeChallenge 
+  removeChallenge,
+  updateChallengeName 
 } from './utils/sessionStorage';
 
 const AppContainer = styled.div`
@@ -71,6 +72,26 @@ function App() {
     clearAllChallenges();
   };
 
+  const handleUpdateChallengeName = (challengeIndex, newName) => {
+    setChallenges(prev => {
+      const updatedChallenges = [...prev];
+      const challenge = updatedChallenges[challengeIndex];
+      
+      if (challenge) {
+        // Update in state
+        updatedChallenges[challengeIndex] = {
+          ...challenge,
+          name: newName
+        };
+        
+        // Update in session storage
+        updateChallengeName(challenge.id, newName);
+      }
+      
+      return updatedChallenges;
+    });
+  };
+
   return (
     <AppContainer>
       <MainContent>
@@ -88,6 +109,7 @@ function App() {
               challenges={challenges}
               onRemoveChallenge={removeChallengeFromList}
               onClearAll={clearAll}
+              onUpdateChallengeName={handleUpdateChallengeName}
             />
           )}
         </ContentBody>
