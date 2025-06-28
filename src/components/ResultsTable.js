@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PlayerRoundDetails from './PlayerRoundDetails';
 
 const TableContainer = styled.div`
   background: white;
@@ -209,40 +210,34 @@ const PlayerRow = styled(TableRow)`
   cursor: pointer;
 `;
 
-const RoundsContainer = styled.tr`
-  td {
-    padding: 0;
-    background: #f8f9fa;
+
+
+const RoundsToggleButton = styled.span`
+  cursor: pointer;
+  color: #667eea;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: #f0f4ff;
+    transform: translateX(2px);
   }
 `;
 
-const RoundsTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin: 10px 0;
-`;
-
-const RoundRow = styled.tr`
-  &:nth-child(even) {
-    background: #ffffff;
-  }
-`;
-
-const RoundCell = styled.td`
-  padding: 8px 15px;
-  font-size: 0.8rem;
-  color: #666;
-  border-bottom: 1px solid #e9ecef;
-`;
-
-const RoundScoreCell = styled(RoundCell)`
+const RoundCountBadge = styled.span`
+  color: #999;
+  font-size: 0.75rem;
+  background: #f8f9fa;
+  padding: 2px 6px;
+  border-radius: 8px;
   font-weight: 600;
-  color: ${props => {
-    if (props.$score >= 4800) return '#28a745';
-    if (props.$score >= 4000) return '#ffc107';
-    if (props.$score >= 3000) return '#fd7e14';
-    return '#dc3545';
-  }};
+  margin-left: auto;
 `;
 
 const EmptyState = styled.div`
@@ -274,9 +269,9 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
   const formatDistance = (distance) => {
     if (distance === undefined || distance === null) return 'N/A';
     if (distance < 1000) {
-      return `${Math.round(distance)}m`;
+      return `${Math.round(distance)} m`;
     }
-    return `${(distance / 1000).toFixed(1)}km`;
+    return `${(distance / 1000).toFixed(1)} km`;
   };
 
   const getCountryFlag = (countryCode) => {
@@ -399,44 +394,33 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
                             {participant.playedAt ? new Date(participant.playedAt).toLocaleDateString() : 'N/A'}
                           </TableCell>
                           <TableCell>
-                            <span style={{ cursor: 'pointer', color: '#667eea' }}>
-                              {expandedPlayers.has(playerKey) ? '▼ Hide Rounds' : '▶ Show Rounds'}
-                              {participant.rounds && participant.rounds.length > 0 && (
-                                <span style={{ color: '#999', fontSize: '0.8rem', marginLeft: '5px' }}>
-                                  ({participant.rounds.length})
-                                </span>
+                            <RoundsToggleButton>
+                              {expandedPlayers.has(playerKey) ? (
+                                <>
+                                  <span>▼</span>
+                                  <span>Hide Rounds</span>
+                                </>
+                              ) : (
+                                <>
+                                  <span>▶</span>
+                                  <span>Show Rounds</span>
+                                </>
                               )}
-                            </span>
+                              {participant.rounds && participant.rounds.length > 0 && (
+                                <RoundCountBadge>
+                                  {participant.rounds.length}
+                                </RoundCountBadge>
+                              )}
+                            </RoundsToggleButton>
                           </TableCell>
                         </PlayerRow>
-                        {expandedPlayers.has(playerKey) && participant.rounds && participant.rounds.length > 0 && (
-                          <RoundsContainer>
-                            <td colSpan="6">
-                              <RoundsTable>
-                                <thead>
-                                  <tr>
-                                    <TableHeaderCell>Round</TableHeaderCell>
-                                    <TableHeaderCell>Score</TableHeaderCell>
-                                    <TableHeaderCell>Time</TableHeaderCell>
-                                    <TableHeaderCell>Distance</TableHeaderCell>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {participant.rounds.map((round, roundIndex) => (
-                                    <RoundRow key={roundIndex}>
-                                      <RoundCell>Round {round.roundNumber}</RoundCell>
-                                      <RoundScoreCell $score={round.score}>
-                                        {formatScore(round.score)}
-                                      </RoundScoreCell>
-                                      <RoundCell>{formatTime(round.time)}</RoundCell>
-                                      <RoundCell>{formatDistance(round.distance)}</RoundCell>
-                                    </RoundRow>
-                                  ))}
-                                </tbody>
-                              </RoundsTable>
-                            </td>
-                          </RoundsContainer>
-                        )}
+                        <PlayerRoundDetails
+                          participant={participant}
+                          isExpanded={expandedPlayers.has(playerKey)}
+                          formatScore={formatScore}
+                          formatTime={formatTime}
+                          formatDistance={formatDistance}
+                        />
                       </React.Fragment>
                     );
                   })}
