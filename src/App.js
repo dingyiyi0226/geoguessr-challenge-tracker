@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ChallengeForm from './components/ChallengeForm';
 import ResultsTable from './components/ResultsTable';
 import Header from './components/Header';
+import { 
+  loadAllChallenges, 
+  clearAllChallenges,
+  removeChallenge 
+} from './utils/sessionStorage';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -27,17 +32,43 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Load challenges from session storage on component mount
+  useEffect(() => {
+    const storedChallenges = loadAllChallenges();
+    if (storedChallenges.length > 0) {
+      setChallenges(storedChallenges);
+      console.log(`Restored ${storedChallenges.length} challenges from session storage`);
+    }
+  }, []);
+
   const addChallenge = (challengeData) => {
-    setChallenges(prev => [...prev, challengeData]);
+    setChallenges(prev => {
+      // Check if challenge already exists to avoid duplicates
+      const exists = prev.some(challenge => challenge.id === challengeData.id);
+      if (exists) {
+        console.log(`Challenge ${challengeData.id} already exists, not adding duplicate`);
+        return prev;
+      }
+      return [...prev, challengeData];
+    });
   };
 
-  const removeChallenge = (index) => {
-    setChallenges(prev => prev.filter((_, i) => i !== index));
+  const removeChallengeFromList = (index) => {
+    setChallenges(prev => {
+      const challengeToRemove = prev[index];
+      if (challengeToRemove) {
+        // Remove from session storage as well
+        removeChallenge(challengeToRemove.id);
+      }
+      return prev.filter((_, i) => i !== index);
+    });
   };
 
   const clearAll = () => {
     setChallenges([]);
     setError('');
+    // Clear session storage as well
+    clearAllChallenges();
   };
 
   return (
@@ -55,7 +86,7 @@ function App() {
           {challenges.length > 0 && (
             <ResultsTable 
               challenges={challenges}
-              onRemoveChallenge={removeChallenge}
+              onRemoveChallenge={removeChallengeFromList}
               onClearAll={clearAll}
             />
           )}

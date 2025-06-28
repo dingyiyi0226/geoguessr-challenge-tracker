@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken } from '../utils/geoguessrApi';
+import { hasChallenge, getStorageInfo } from '../utils/sessionStorage';
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -174,6 +175,7 @@ function ChallengeForm({ onAddChallenge, loading, setLoading, error, setError })
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(hasAuthToken());
+  const [forceRefresh, setForceRefresh] = useState(false);
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
@@ -192,7 +194,7 @@ function ChallengeForm({ onAddChallenge, loading, setLoading, error, setError })
     setError('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, forceRefreshParam = false) => {
     e.preventDefault();
     if (!challengeUrl.trim()) return;
 
@@ -200,9 +202,16 @@ function ChallengeForm({ onAddChallenge, loading, setLoading, error, setError })
     setError('');
 
     try {
-      const challengeData = await fetchChallengeData(challengeUrl);
+      const challengeData = await fetchChallengeData(challengeUrl, forceRefreshParam || forceRefresh);
       onAddChallenge(challengeData);
       setChallengeUrl('');
+      setForceRefresh(false);
+      
+      // Show cache status info
+      if (challengeData.cachedAt && !forceRefreshParam && !forceRefresh) {
+        const cacheAge = Math.round((Date.now() - challengeData.cachedAt) / 60000);
+        setError(`Note: Loaded from cache (${cacheAge} minute${cacheAge !== 1 ? 's' : ''} old). Use "Refresh" for latest data.`);
+      }
       
       // Show info if using simulated data
       if (challengeData.isSimulated) {
@@ -214,6 +223,35 @@ function ChallengeForm({ onAddChallenge, loading, setLoading, error, setError })
       setLoading(false);
     }
   };
+
+  // Check if current URL is cached
+  const getCurrentChallengeId = () => {
+    try {
+      if (!challengeUrl.trim()) return null;
+      const patterns = [
+        /\/challenge\/([a-zA-Z0-9-_]+)/,
+        /\/results\/([a-zA-Z0-9-_]+)/,
+        /challenge=([a-zA-Z0-9-_]+)/,
+        /\/c\/([a-zA-Z0-9-_]+)/,
+      ];
+      
+      for (const pattern of patterns) {
+        const match = challengeUrl.match(pattern);
+        if (match) return match[1];
+      }
+      
+      if (/^[a-zA-Z0-9-_]+$/.test(challengeUrl.trim())) {
+        return challengeUrl.trim();
+      }
+      
+      return null;
+    } catch {
+      return null;
+    }
+  };
+
+  const currentChallengeId = getCurrentChallengeId();
+  const isCached = currentChallengeId ? hasChallenge(currentChallengeId) : false;
 
   return (
     <FormContainer>
@@ -291,9 +329,35 @@ function ChallengeForm({ onAddChallenge, loading, setLoading, error, setError })
           />
           <Button type="submit" disabled={loading || !challengeUrl.trim()}>
             {loading && <LoadingSpinner />}
-            {loading ? 'Fetching...' : 'Add Challenge'}
+            {loading ? 'Fetching...' : (isCached ? 'Load Cached' : 'Add Challenge')}
           </Button>
+          {isCached && (
+            <SmallButton 
+              type="button"
+              onClick={(e) => handleSubmit(e, true)}
+              disabled={loading}
+              style={{ background: '#fd7e14' }}
+            >
+              {loading && <LoadingSpinner />}
+              {loading ? 'Refreshing...' : '🔄 Refresh'}
+            </SmallButton>
+          )}
         </InputGroup>
+        
+        {/* Cache Status */}
+        {challengeUrl.trim() && (
+          <InstructionsText style={{ marginTop: '10px', fontSize: '0.8rem' }}>
+            {isCached ? (
+              <span style={{ color: '#28a745' }}>
+                ✅ This challenge is cached - will load instantly. Use "Refresh" for latest data.
+              </span>
+            ) : (
+              <span style={{ color: '#666' }}>
+                💾 This challenge will be cached after first load.
+              </span>
+            )}
+          </InstructionsText>
+        )}
       </form>
 
       {error && (
@@ -305,6 +369,11 @@ function ChallengeForm({ onAddChallenge, loading, setLoading, error, setError })
           <ErrorMessage>{error}</ErrorMessage>
         )
       )}
+
+      {/* Storage Info */}
+      <InstructionsText style={{ marginTop: '15px', fontSize: '0.75rem', color: '#999' }}>
+        💾 Cache: {getStorageInfo().challengeCount} challenge{getStorageInfo().challengeCount !== 1 ? 's' : ''} stored ({getStorageInfo().approximateSize})
+      </InstructionsText>
     </FormContainer>
   );
 }

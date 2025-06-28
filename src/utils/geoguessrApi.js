@@ -1,4 +1,9 @@
 import axios from 'axios';
+import { 
+  saveChallenge, 
+  loadChallenge, 
+  hasChallenge 
+} from './sessionStorage';
 
 // Geoguessr API configuration
 const GEOGUESSR_BASE_URL = '/api'; // Using proxy, so relative URL
@@ -180,17 +185,32 @@ const fetchChallengeResultsFromAPI = async (challengeId, authToken) => {
   }
 };
 
-// Main function to fetch challenge data using results/highscores approach
-export const fetchChallengeData = async (challengeUrl) => {
+// Main function to fetch challenge data with session storage caching
+export const fetchChallengeData = async (challengeUrl, forceRefresh = false) => {
   try {
     const challengeId = extractChallengeId(challengeUrl);
+    
+    // Check session storage first (unless force refresh)
+    if (!forceRefresh && hasChallenge(challengeId)) {
+      const cachedData = loadChallenge(challengeId);
+      if (cachedData) {
+        console.log(`Using cached data for challenge ${challengeId}`);
+        return cachedData;
+      }
+    }
     
     if (!hasAuthToken()) {
       throw new Error('Authentication required. Please set your _ncfa token in the settings.');
     }
 
     const authToken = getAuthToken();
-    return await fetchChallengeResultsFromAPI(challengeId, authToken);
+    console.log(`Fetching fresh data for challenge ${challengeId}`);
+    const challengeData = await fetchChallengeResultsFromAPI(challengeId, authToken);
+    
+    // Save to session storage after successful fetch
+    saveChallenge(challengeData);
+    
+    return challengeData;
   } catch (error) {
     console.error('Error fetching challenge data:', error);
     throw error;
