@@ -102,11 +102,26 @@ const PrivateBadge = styled(Badge)`
   color: white;
 `;
 
-const ExpandIcon = styled.div`
-  color: #666;
-  font-size: 1.2rem;
-  transition: transform 0.2s ease;
-  transform: ${props => props.$expanded ? 'rotate(180deg)' : 'rotate(0deg)'};
+const ExpandButton = styled.button`
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+  
+  &:hover {
+    background: #5a67d8;
+  }
+
 `;
 
 const ActionButton = styled.button`
@@ -350,12 +365,17 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
               </ChallengeDetails>
             </ChallengeInfo>
             <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ExpandButton 
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  toggleChallenge(challengeIndex); 
+                }}
+              >
+                {expandedChallenges.has(challengeIndex) ? '▼' : '▶'}
+              </ExpandButton>
               <ActionButton onClick={(e) => { e.stopPropagation(); onRemoveChallenge(challengeIndex); }}>
                 Remove
               </ActionButton>
-              <ExpandIcon $expanded={expandedChallenges.has(challengeIndex)}>
-                ▼
-              </ExpandIcon>
             </div>
           </ChallengeHeader>
           
