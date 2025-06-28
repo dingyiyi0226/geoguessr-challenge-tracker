@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AddChallengeForm from './components/AddChallengeForm';
 import ResultsTable from './components/ResultsTable';
+import ChallengeTrends from './components/ChallengeTrends';
 import Header from './components/Header';
 import { 
   loadAllChallenges, 
@@ -120,13 +121,16 @@ function App() {
             setError={setError}
           />
           {challenges.length > 0 && (
-            <ResultsTable 
-              challenges={challenges}
-              onRemoveChallenge={removeChallengeFromList}
-              onClearAll={clearAll}
-              onUpdateChallengeName={handleUpdateChallengeName}
-              onReorderChallenges={handleReorderChallenges}
-            />
+            <>
+              <ResultsTable 
+                challenges={challenges}
+                onRemoveChallenge={removeChallengeFromList}
+                onClearAll={clearAll}
+                onUpdateChallengeName={handleUpdateChallengeName}
+                onReorderChallenges={handleReorderChallenges}
+              />
+              <ChallengeTrends challenges={challenges} />
+            </>
           )}
         </ContentBody>
       </MainContent>
