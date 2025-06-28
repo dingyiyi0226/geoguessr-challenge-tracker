@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { loadAllChallenges } from '../utils/sessionStorage';
+import { exportChallenges } from '../utils/fileOperations';
 import {
   DndContext,
   closestCenter,
@@ -70,6 +72,21 @@ const CollapseButton = styled.button`
 
   &:hover {
     background: #5a6268;
+  }
+`;
+
+const ExportButton = styled.button`
+  padding: 8px 16px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #218838;
   }
 `;
 
@@ -167,6 +184,21 @@ function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateC
     setExpandedPlayers(new Set());
   };
 
+  const handleExportChallenges = () => {
+    try {
+      // Get all challenges from session storage
+      const allChallenges = loadAllChallenges();
+      
+      // Use the utility function to export
+      exportChallenges(allChallenges);
+      
+      console.log(`Exported ${allChallenges.length} challenges`);
+    } catch (error) {
+      console.error('Error exporting challenges:', error);
+      alert(error.message || 'Failed to export challenges. Please try again.');
+    }
+  };
+
   const startEditingName = (challengeIndex, currentName) => {
     setEditingChallenge(challengeIndex);
     setEditName(currentName);
@@ -213,6 +245,7 @@ function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateC
           Challenge Results ({challenges.length} challenges, {getTotalParticipants()} players)
         </TableTitle>
         <ButtonGroup>
+          <ExportButton onClick={handleExportChallenges}>Export</ExportButton>
           <CollapseButton onClick={collapseAll}>Collapse All</CollapseButton>
           <ClearButton onClick={onClearAll}>Clear All</ClearButton>
         </ButtonGroup>
