@@ -1,0 +1,1575 @@
+{
+    "items": [
+        {
+            "game": {
+                "token": "B6czgmVtKEAVIQ4V",
+                "type": "challenge",
+                "mode": "standard",
+                "state": "finished",
+                "roundCount": 5,
+                "timeLimit": 120,
+                "forbidMoving": true,
+                "forbidZooming": false,
+                "forbidRotating": false,
+                "streakType": "countrystreak",
+                "map": "62a44b22040f04bd36e8a914",
+                "mapName": "A Community World",
+                "panoramaProvider": 1,
+                "bounds": {
+                    "min": {
+                        "lat": -84.99784921796194,
+                        "lng": -177.3921240186748
+                    },
+                    "max": {
+                        "lat": 81.6812215033565,
+                        "lng": 178.4581818407309
+                    }
+                },
+                "round": 5,
+                "rounds": [
+                    {
+                        "lat": 7.147619224426784,
+                        "lng": 80.36642344242426,
+                        "panoId": "6E673348625A4D6E477363356C377444614277675A41",
+                        "heading": 357.0533447265625,
+                        "pitch": -3.0493690967559814,
+                        "zoom": 0,
+                        "streakLocationCode": "lk",
+                        "startTime": "2025-06-23T15:43:50.2840000+00:00"
+                    },
+                    {
+                        "lat": 47.13261695063441,
+                        "lng": 9.521705580228776,
+                        "panoId": "5F3236362D4646345552746256514C6D71375A415077",
+                        "heading": 279.6374816894531,
+                        "pitch": 0.021329335868358612,
+                        "zoom": 0,
+                        "streakLocationCode": "li",
+                        "startTime": "2025-06-23T15:46:05.5330000+00:00"
+                    },
+                    {
+                        "lat": 35.06554623281037,
+                        "lng": 133.6595395275997,
+                        "panoId": "6649465334476C547238424531776B5F676444484241",
+                        "heading": 255.38702392578125,
+                        "pitch": 3.4101462364196777,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-23T15:48:12.9510000+00:00"
+                    },
+                    {
+                        "lat": 35.14411067528464,
+                        "lng": 135.8394470454446,
+                        "panoId": "796A556A6C785135796A61456B56736D5362646A4751",
+                        "heading": 344.6733703613281,
+                        "pitch": 0.0906081423163414,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-23T15:50:18.6840000+00:00"
+                    },
+                    {
+                        "lat": 52.59697117101643,
+                        "lng": -8.225429107033793,
+                        "panoId": "53503335563850697A316D7A4A31546B343037392D77",
+                        "heading": 114.33898162841797,
+                        "pitch": 1.2184830904006958,
+                        "zoom": 0,
+                        "streakLocationCode": "ie",
+                        "startTime": "2025-06-23T15:52:25.9650000+00:00"
+                    }
+                ],
+                "player": {
+                    "totalScore": {
+                        "amount": "24585",
+                        "unit": "points",
+                        "percentage": 98.34
+                    },
+                    "totalDistance": {
+                        "meters": {
+                            "amount": "157",
+                            "unit": "km"
+                        },
+                        "miles": {
+                            "amount": "97.6",
+                            "unit": "miles"
+                        }
+                    },
+                    "totalDistanceInMeters": 157011.1687177192,
+                    "totalStepsCount": 0,
+                    "totalTime": 564,
+                    "totalStreak": 0,
+                    "guesses": [
+                        {
+                            "lat": 7.292664399419124,
+                            "lng": 80.63554567596816,
+                            "timedOut": false,
+                            "timedOutWithGuess": true,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4910",
+                                "unit": "points",
+                                "percentage": 98.2
+                            },
+                            "roundScoreInPercentage": 98.2,
+                            "roundScoreInPoints": 4910,
+                            "distance": {
+                                "meters": {
+                                    "amount": "33.8",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "21",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 33785.8399889104,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 120
+                        },
+                        {
+                            "lat": 47.12023713278189,
+                            "lng": 9.53964472801144,
+                            "timedOut": false,
+                            "timedOutWithGuess": true,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4995",
+                                "unit": "points",
+                                "percentage": 99.9
+                            },
+                            "roundScoreInPercentage": 99.9,
+                            "roundScoreInPoints": 4995,
+                            "distance": {
+                                "meters": {
+                                    "amount": "1.9",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "1.2",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 1933.1098612958,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 120
+                        },
+                        {
+                            "lat": 34.87978984659447,
+                            "lng": 133.82385191366814,
+                            "timedOut": false,
+                            "timedOutWithGuess": true,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4932",
+                                "unit": "points",
+                                "percentage": 98.64
+                            },
+                            "roundScoreInPercentage": 98.64,
+                            "roundScoreInPoints": 4932,
+                            "distance": {
+                                "meters": {
+                                    "amount": "25.5",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "15.9",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 25510.4034564809,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 120
+                        },
+                        {
+                            "lat": 35.16419497464212,
+                            "lng": 135.85453272733793,
+                            "timedOut": false,
+                            "timedOutWithGuess": true,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4993",
+                                "unit": "points",
+                                "percentage": 99.86
+                            },
+                            "roundScoreInPercentage": 99.86,
+                            "roundScoreInPoints": 4993,
+                            "distance": {
+                                "meters": {
+                                    "amount": "2.6",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "1.6",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 2620.7824365765,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 120
+                        },
+                        {
+                            "lat": 53.100348578495044,
+                            "lng": -7.116415694866505,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4755",
+                                "unit": "points",
+                                "percentage": 95.1
+                            },
+                            "roundScoreInPercentage": 95.1,
+                            "roundScoreInPoints": 4755,
+                            "distance": {
+                                "meters": {
+                                    "amount": "93.2",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "57.9",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 93161.0329744556,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 84
+                        }
+                    ],
+                    "isLeader": false,
+                    "currentPosition": 0,
+                    "pin": {
+                        "url": "pin/3e77630ce7f799f815bc2dd903e9ad91.png",
+                        "anchor": "center-center",
+                        "isDefault": false
+                    },
+                    "newBadges": [],
+                    "explorer": null,
+                    "id": "67796f07e17f6fab2eab5ca1",
+                    "nick": "toxicpie",
+                    "isVerified": false,
+                    "flair": 0,
+                    "countryCode": "tw"
+                },
+                "progressChange": {
+                    "xpProgressions": [
+                        {
+                            "xp": 255327,
+                            "currentLevel": {
+                                "level": 83,
+                                "xpStart": 254280
+                            },
+                            "nextLevel": {
+                                "level": 84,
+                                "xpStart": 262660
+                            },
+                            "currentTitle": {
+                                "id": 260,
+                                "tierId": 90,
+                                "minimumLevel": 83,
+                                "name": "Globetrotter"
+                            }
+                        },
+                        {
+                            "xp": 255475,
+                            "currentLevel": {
+                                "level": 83,
+                                "xpStart": 254280
+                            },
+                            "nextLevel": {
+                                "level": 84,
+                                "xpStart": 262660
+                            },
+                            "currentTitle": {
+                                "id": 260,
+                                "tierId": 90,
+                                "minimumLevel": 83,
+                                "name": "Globetrotter"
+                            }
+                        }
+                    ],
+                    "awardedXp": {
+                        "totalAwardedXp": 148,
+                        "xpAwards": [
+                            {
+                                "xp": 123,
+                                "reason": "Score",
+                                "count": 1
+                            },
+                            {
+                                "xp": 25,
+                                "reason": "SpeedBonus",
+                                "count": 1
+                            }
+                        ]
+                    },
+                    "medal": 0,
+                    "competitiveProgress": null,
+                    "rankedSystemProgress": null,
+                    "rankedTeamDuelsProgress": null
+                }
+            }
+        },
+        {
+            "game": {
+                "token": "L9gcQowF4YMe25BM",
+                "type": "challenge",
+                "mode": "standard",
+                "state": "finished",
+                "roundCount": 5,
+                "timeLimit": 120,
+                "forbidMoving": true,
+                "forbidZooming": false,
+                "forbidRotating": false,
+                "streakType": "countrystreak",
+                "map": "62a44b22040f04bd36e8a914",
+                "mapName": "A Community World",
+                "panoramaProvider": 1,
+                "bounds": {
+                    "min": {
+                        "lat": -84.99784921796194,
+                        "lng": -177.3921240186748
+                    },
+                    "max": {
+                        "lat": 81.6812215033565,
+                        "lng": 178.4581818407309
+                    }
+                },
+                "round": 5,
+                "rounds": [
+                    {
+                        "lat": 7.147619224426784,
+                        "lng": 80.36642344242426,
+                        "panoId": "6E673348625A4D6E477363356C377444614277675A41",
+                        "heading": 357.0533447265625,
+                        "pitch": -3.0493690967559814,
+                        "zoom": 0,
+                        "streakLocationCode": "lk",
+                        "startTime": "2025-06-23T13:47:20.7210000+00:00"
+                    },
+                    {
+                        "lat": 47.13261695063441,
+                        "lng": 9.521705580228776,
+                        "panoId": "5F3236362D4646345552746256514C6D71375A415077",
+                        "heading": 279.6374816894531,
+                        "pitch": 0.021329335868358612,
+                        "zoom": 0,
+                        "streakLocationCode": "li",
+                        "startTime": "2025-06-23T13:47:35.3020000+00:00"
+                    },
+                    {
+                        "lat": 35.06554623281037,
+                        "lng": 133.6595395275997,
+                        "panoId": "6649465334476C547238424531776B5F676444484241",
+                        "heading": 255.38702392578125,
+                        "pitch": 3.4101462364196777,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-23T13:48:36.9250000+00:00"
+                    },
+                    {
+                        "lat": 35.14411067528464,
+                        "lng": 135.8394470454446,
+                        "panoId": "796A556A6C785135796A61456B56736D5362646A4751",
+                        "heading": 344.6733703613281,
+                        "pitch": 0.0906081423163414,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-23T13:49:17.5210000+00:00"
+                    },
+                    {
+                        "lat": 52.59697117101643,
+                        "lng": -8.225429107033793,
+                        "panoId": "53503335563850697A316D7A4A31546B343037392D77",
+                        "heading": 114.33898162841797,
+                        "pitch": 1.2184830904006958,
+                        "zoom": 0,
+                        "streakLocationCode": "ie",
+                        "startTime": "2025-06-23T13:51:21.2930000+00:00"
+                    }
+                ],
+                "player": {
+                    "totalScore": {
+                        "amount": "24263",
+                        "unit": "points",
+                        "percentage": 97.052
+                    },
+                    "totalDistance": {
+                        "meters": {
+                            "amount": "280.1",
+                            "unit": "km"
+                        },
+                        "miles": {
+                            "amount": "174.1",
+                            "unit": "miles"
+                        }
+                    },
+                    "totalDistanceInMeters": 280130.9204856014,
+                    "totalStepsCount": 0,
+                    "totalTime": 226,
+                    "totalStreak": 0,
+                    "guesses": [
+                        {
+                            "lat": 6.6512258228363175,
+                            "lng": 80.40494582444929,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4853",
+                                "unit": "points",
+                                "percentage": 97.06
+                            },
+                            "roundScoreInPercentage": 97.06,
+                            "roundScoreInPoints": 4853,
+                            "distance": {
+                                "meters": {
+                                    "amount": "55.4",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "34.4",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 55359.9952471896,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 13
+                        },
+                        {
+                            "lat": 46.892597112353776,
+                            "lng": 8.650425011216653,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4811",
+                                "unit": "points",
+                                "percentage": 96.22
+                            },
+                            "roundScoreInPercentage": 96.22,
+                            "roundScoreInPoints": 4811,
+                            "distance": {
+                                "meters": {
+                                    "amount": "71.2",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "44.3",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 71245.0430733941,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 30
+                        },
+                        {
+                            "lat": 35.075855407508016,
+                            "lng": 133.75395952044568,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4977",
+                                "unit": "points",
+                                "percentage": 99.54
+                            },
+                            "roundScoreInPercentage": 99.54,
+                            "roundScoreInPoints": 4977,
+                            "distance": {
+                                "meters": {
+                                    "amount": "8.7",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "5.4",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 8668.9848811373,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 38
+                        },
+                        {
+                            "lat": 35.26316566654377,
+                            "lng": 135.86972490103904,
+                            "timedOut": false,
+                            "timedOutWithGuess": true,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4964",
+                                "unit": "points",
+                                "percentage": 99.28
+                            },
+                            "roundScoreInPercentage": 99.28,
+                            "roundScoreInPoints": 4964,
+                            "distance": {
+                                "meters": {
+                                    "amount": "13.5",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "8.4",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 13521.1257648939,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 120
+                        },
+                        {
+                            "lat": 53.638734834230775,
+                            "lng": -7.297946511896742,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4658",
+                                "unit": "points",
+                                "percentage": 93.16
+                            },
+                            "roundScoreInPercentage": 93.16,
+                            "roundScoreInPoints": 4658,
+                            "distance": {
+                                "meters": {
+                                    "amount": "131.3",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "81.6",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 131335.7715189865,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 26
+                        }
+                    ],
+                    "isLeader": false,
+                    "currentPosition": 0,
+                    "pin": {
+                        "url": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
+                        "anchor": "center-center",
+                        "isDefault": false
+                    },
+                    "newBadges": [],
+                    "explorer": null,
+                    "id": "5f84853be4f30f00010d49ee",
+                    "nick": "dingyiyi",
+                    "isVerified": false,
+                    "flair": 1,
+                    "countryCode": "tw"
+                },
+                "progressChange": {
+                    "xpProgressions": [
+                        {
+                            "xp": 443079,
+                            "currentLevel": {
+                                "level": 101,
+                                "xpStart": 432140
+                            },
+                            "nextLevel": {
+                                "level": 102,
+                                "xpStart": 443590
+                            },
+                            "currentTitle": {
+                                "id": 310,
+                                "tierId": 110,
+                                "minimumLevel": 100,
+                                "name": "Master Explorer Pro"
+                            }
+                        },
+                        {
+                            "xp": 443225,
+                            "currentLevel": {
+                                "level": 101,
+                                "xpStart": 432140
+                            },
+                            "nextLevel": {
+                                "level": 102,
+                                "xpStart": 443590
+                            },
+                            "currentTitle": {
+                                "id": 310,
+                                "tierId": 110,
+                                "minimumLevel": 100,
+                                "name": "Master Explorer Pro"
+                            }
+                        }
+                    ],
+                    "awardedXp": {
+                        "totalAwardedXp": 146,
+                        "xpAwards": [
+                            {
+                                "xp": 121,
+                                "reason": "Score",
+                                "count": 1
+                            },
+                            {
+                                "xp": 25,
+                                "reason": "SpeedBonus",
+                                "count": 1
+                            }
+                        ]
+                    },
+                    "medal": 0,
+                    "competitiveProgress": null,
+                    "rankedSystemProgress": null,
+                    "rankedTeamDuelsProgress": null
+                }
+            }
+        },
+        {
+            "game": {
+                "token": "owYWUU6D09ccLBGW",
+                "type": "challenge",
+                "mode": "standard",
+                "state": "finished",
+                "roundCount": 5,
+                "timeLimit": 120,
+                "forbidMoving": true,
+                "forbidZooming": false,
+                "forbidRotating": false,
+                "streakType": "countrystreak",
+                "map": "62a44b22040f04bd36e8a914",
+                "mapName": "A Community World",
+                "panoramaProvider": 1,
+                "bounds": {
+                    "min": {
+                        "lat": -84.99784921796194,
+                        "lng": -177.3921240186748
+                    },
+                    "max": {
+                        "lat": 81.6812215033565,
+                        "lng": 178.4581818407309
+                    }
+                },
+                "round": 5,
+                "rounds": [
+                    {
+                        "lat": 7.147619224426784,
+                        "lng": 80.36642344242426,
+                        "panoId": "6E673348625A4D6E477363356C377444614277675A41",
+                        "heading": 357.0533447265625,
+                        "pitch": -3.0493690967559814,
+                        "zoom": 0,
+                        "streakLocationCode": "lk",
+                        "startTime": "2025-06-23T13:36:15.3080000+00:00"
+                    },
+                    {
+                        "lat": 47.13261695063441,
+                        "lng": 9.521705580228776,
+                        "panoId": "5F3236362D4646345552746256514C6D71375A415077",
+                        "heading": 279.6374816894531,
+                        "pitch": 0.021329335868358612,
+                        "zoom": 0,
+                        "streakLocationCode": "li",
+                        "startTime": "2025-06-23T13:36:36.5500000+00:00"
+                    },
+                    {
+                        "lat": 35.06554623281037,
+                        "lng": 133.6595395275997,
+                        "panoId": "6649465334476C547238424531776B5F676444484241",
+                        "heading": 255.38702392578125,
+                        "pitch": 3.4101462364196777,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-23T13:37:06.0530000+00:00"
+                    },
+                    {
+                        "lat": 35.14411067528464,
+                        "lng": 135.8394470454446,
+                        "panoId": "796A556A6C785135796A61456B56736D5362646A4751",
+                        "heading": 344.6733703613281,
+                        "pitch": 0.0906081423163414,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-23T13:38:44.2770000+00:00"
+                    },
+                    {
+                        "lat": 52.59697117101643,
+                        "lng": -8.225429107033793,
+                        "panoId": "53503335563850697A316D7A4A31546B343037392D77",
+                        "heading": 114.33898162841797,
+                        "pitch": 1.2184830904006958,
+                        "zoom": 0,
+                        "streakLocationCode": "ie",
+                        "startTime": "2025-06-23T13:40:44.9010000+00:00"
+                    }
+                ],
+                "player": {
+                    "totalScore": {
+                        "amount": "24071",
+                        "unit": "points",
+                        "percentage": 96.284
+                    },
+                    "totalDistance": {
+                        "meters": {
+                            "amount": "358",
+                            "unit": "km"
+                        },
+                        "miles": {
+                            "amount": "222.5",
+                            "unit": "miles"
+                        }
+                    },
+                    "totalDistanceInMeters": 357999.32462909364,
+                    "totalStepsCount": 0,
+                    "totalTime": 261,
+                    "totalStreak": 0,
+                    "guesses": [
+                        {
+                            "lat": 7.303248192957189,
+                            "lng": 80.60439525078158,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4916",
+                                "unit": "points",
+                                "percentage": 98.32
+                            },
+                            "roundScoreInPercentage": 98.32,
+                            "roundScoreInPoints": 4916,
+                            "distance": {
+                                "meters": {
+                                    "amount": "31.4",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "19.5",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 31441.843810714,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 19
+                        },
+                        {
+                            "lat": 47.142064048007455,
+                            "lng": 9.519957507049499,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4997",
+                                "unit": "points",
+                                "percentage": 99.94
+                            },
+                            "roundScoreInPercentage": 99.94,
+                            "roundScoreInPoints": 4997,
+                            "distance": {
+                                "meters": {
+                                    "amount": "1.1",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "1157.9",
+                                    "unit": "yd"
+                                }
+                            },
+                            "distanceInMeters": 1058.7581499812,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 27
+                        },
+                        {
+                            "lat": 34.504450092401505,
+                            "lng": 132.12060377528175,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4602",
+                                "unit": "points",
+                                "percentage": 92.04
+                            },
+                            "roundScoreInPercentage": 92.04,
+                            "roundScoreInPoints": 4602,
+                            "distance": {
+                                "meters": {
+                                    "amount": "153.8",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "95.5",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 153765.9311908732,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 80
+                        },
+                        {
+                            "lat": 35.22362224564677,
+                            "lng": 135.86102747619728,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4976",
+                                "unit": "points",
+                                "percentage": 99.52
+                            },
+                            "roundScoreInPercentage": 99.52,
+                            "roundScoreInPoints": 4976,
+                            "distance": {
+                                "meters": {
+                                    "amount": "9.1",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "5.6",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 9056.1991955252,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 111
+                        },
+                        {
+                            "lat": 53.89496312855613,
+                            "lng": -7.097319754567435,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4580",
+                                "unit": "points",
+                                "percentage": 91.6
+                            },
+                            "roundScoreInPercentage": 91.6,
+                            "roundScoreInPoints": 4580,
+                            "distance": {
+                                "meters": {
+                                    "amount": "162.7",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "101.1",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 162676.592282,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 23
+                        }
+                    ],
+                    "isLeader": false,
+                    "currentPosition": 0,
+                    "pin": {
+                        "url": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
+                        "anchor": "center-center",
+                        "isDefault": false
+                    },
+                    "newBadges": [],
+                    "explorer": null,
+                    "id": "63091004ec3ddbb1d5f031d1",
+                    "nick": "PK",
+                    "isVerified": false,
+                    "flair": 1,
+                    "countryCode": "tt"
+                },
+                "progressChange": {
+                    "xpProgressions": [
+                        {
+                            "xp": 214728,
+                            "currentLevel": {
+                                "level": 77,
+                                "xpStart": 207670
+                            },
+                            "nextLevel": {
+                                "level": 78,
+                                "xpStart": 215010
+                            },
+                            "currentTitle": {
+                                "id": 240,
+                                "tierId": 80,
+                                "minimumLevel": 77,
+                                "name": "Master Trailblazer"
+                            }
+                        },
+                        {
+                            "xp": 214873,
+                            "currentLevel": {
+                                "level": 77,
+                                "xpStart": 207670
+                            },
+                            "nextLevel": {
+                                "level": 78,
+                                "xpStart": 215010
+                            },
+                            "currentTitle": {
+                                "id": 240,
+                                "tierId": 80,
+                                "minimumLevel": 77,
+                                "name": "Master Trailblazer"
+                            }
+                        }
+                    ],
+                    "awardedXp": {
+                        "totalAwardedXp": 145,
+                        "xpAwards": [
+                            {
+                                "xp": 120,
+                                "reason": "Score",
+                                "count": 1
+                            },
+                            {
+                                "xp": 25,
+                                "reason": "SpeedBonus",
+                                "count": 1
+                            }
+                        ]
+                    },
+                    "medal": 0,
+                    "competitiveProgress": null,
+                    "rankedSystemProgress": null,
+                    "rankedTeamDuelsProgress": null
+                }
+            }
+        },
+        {
+            "game": {
+                "token": "RLjSzz6aBjs47x6U",
+                "type": "challenge",
+                "mode": "standard",
+                "state": "finished",
+                "roundCount": 5,
+                "timeLimit": 120,
+                "forbidMoving": true,
+                "forbidZooming": false,
+                "forbidRotating": false,
+                "streakType": "countrystreak",
+                "map": "62a44b22040f04bd36e8a914",
+                "mapName": "A Community World",
+                "panoramaProvider": 1,
+                "bounds": {
+                    "min": {
+                        "lat": -84.99784921796194,
+                        "lng": -177.3921240186748
+                    },
+                    "max": {
+                        "lat": 81.6812215033565,
+                        "lng": 178.4581818407309
+                    }
+                },
+                "round": 5,
+                "rounds": [
+                    {
+                        "lat": 7.147619224426784,
+                        "lng": 80.36642344242426,
+                        "panoId": "6E673348625A4D6E477363356C377444614277675A41",
+                        "heading": 357.0533447265625,
+                        "pitch": -3.0493690967559814,
+                        "zoom": 0,
+                        "streakLocationCode": "lk",
+                        "startTime": "2025-06-24T03:00:37.9550000+00:00"
+                    },
+                    {
+                        "lat": 47.13261695063441,
+                        "lng": 9.521705580228776,
+                        "panoId": "5F3236362D4646345552746256514C6D71375A415077",
+                        "heading": 279.6374816894531,
+                        "pitch": 0.021329335868358612,
+                        "zoom": 0,
+                        "streakLocationCode": "li",
+                        "startTime": "2025-06-24T03:00:51.8340000+00:00"
+                    },
+                    {
+                        "lat": 35.06554623281037,
+                        "lng": 133.6595395275997,
+                        "panoId": "6649465334476C547238424531776B5F676444484241",
+                        "heading": 255.38702392578125,
+                        "pitch": 3.4101462364196777,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-24T03:02:23.8960000+00:00"
+                    },
+                    {
+                        "lat": 35.14411067528464,
+                        "lng": 135.8394470454446,
+                        "panoId": "796A556A6C785135796A61456B56736D5362646A4751",
+                        "heading": 344.6733703613281,
+                        "pitch": 0.0906081423163414,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-24T03:04:11.2000000+00:00"
+                    },
+                    {
+                        "lat": 52.59697117101643,
+                        "lng": -8.225429107033793,
+                        "panoId": "53503335563850697A316D7A4A31546B343037392D77",
+                        "heading": 114.33898162841797,
+                        "pitch": 1.2184830904006958,
+                        "zoom": 0,
+                        "streakLocationCode": "ie",
+                        "startTime": "2025-06-24T03:06:25.0860000+00:00"
+                    }
+                ],
+                "player": {
+                    "totalScore": {
+                        "amount": "23720",
+                        "unit": "points",
+                        "percentage": 94.88
+                    },
+                    "totalDistance": {
+                        "meters": {
+                            "amount": "514.3",
+                            "unit": "km"
+                        },
+                        "miles": {
+                            "amount": "319.6",
+                            "unit": "miles"
+                        }
+                    },
+                    "totalDistanceInMeters": 514298.1612123268,
+                    "totalStepsCount": 0,
+                    "totalTime": 263,
+                    "totalStreak": 0,
+                    "guesses": [
+                        {
+                            "lat": 7.162988441917472,
+                            "lng": 80.23057756833258,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4959",
+                                "unit": "points",
+                                "percentage": 99.18
+                            },
+                            "roundScoreInPercentage": 99.18,
+                            "roundScoreInPoints": 4959,
+                            "distance": {
+                                "meters": {
+                                    "amount": "15.1",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "9.4",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 15084.8525123719,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 12
+                        },
+                        {
+                            "lat": 47.08130960157882,
+                            "lng": 9.340629844708385,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4960",
+                                "unit": "points",
+                                "percentage": 99.2
+                            },
+                            "roundScoreInPercentage": 99.2,
+                            "roundScoreInPoints": 4960,
+                            "distance": {
+                                "meters": {
+                                    "amount": "14.8",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "9.2",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 14844.413248285,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 41
+                        },
+                        {
+                            "lat": 35.73872164716118,
+                            "lng": 137.92381202486627,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4043",
+                                "unit": "points",
+                                "percentage": 80.86
+                            },
+                            "roundScoreInPercentage": 80.86,
+                            "roundScoreInPoints": 4043,
+                            "distance": {
+                                "meters": {
+                                    "amount": "393.6",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "244.6",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 393642.1741852574,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 102
+                        },
+                        {
+                            "lat": 35.413828541636335,
+                            "lng": 135.941988767268,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4916",
+                                "unit": "points",
+                                "percentage": 98.32
+                            },
+                            "roundScoreInPercentage": 98.32,
+                            "roundScoreInPoints": 4916,
+                            "distance": {
+                                "meters": {
+                                    "amount": "31.4",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "19.5",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 31402.487034796,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 90
+                        },
+                        {
+                            "lat": 52.86505977892491,
+                            "lng": -7.4636982680892805,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4842",
+                                "unit": "points",
+                                "percentage": 96.84
+                            },
+                            "roundScoreInPercentage": 96.84,
+                            "roundScoreInPoints": 4842,
+                            "distance": {
+                                "meters": {
+                                    "amount": "59.3",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "36.9",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 59324.2342316165,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 18
+                        }
+                    ],
+                    "isLeader": false,
+                    "currentPosition": 0,
+                    "pin": {
+                        "url": "pin/23b33fb1efd31d09b978595404e69479.png",
+                        "anchor": "center-center",
+                        "isDefault": false
+                    },
+                    "newBadges": [],
+                    "explorer": null,
+                    "id": "606459637e5fbe00012e9339",
+                    "nick": "Utaha",
+                    "isVerified": false,
+                    "flair": 0,
+                    "countryCode": "tw"
+                },
+                "progressChange": {
+                    "xpProgressions": [
+                        {
+                            "xp": 169733,
+                            "currentLevel": {
+                                "level": 71,
+                                "xpStart": 167090
+                            },
+                            "nextLevel": {
+                                "level": 72,
+                                "xpStart": 173450
+                            },
+                            "currentTitle": {
+                                "id": 220,
+                                "tierId": 80,
+                                "minimumLevel": 70,
+                                "name": "Rookie Trailblazer"
+                            }
+                        },
+                        {
+                            "xp": 169877,
+                            "currentLevel": {
+                                "level": 71,
+                                "xpStart": 167090
+                            },
+                            "nextLevel": {
+                                "level": 72,
+                                "xpStart": 173450
+                            },
+                            "currentTitle": {
+                                "id": 220,
+                                "tierId": 80,
+                                "minimumLevel": 70,
+                                "name": "Rookie Trailblazer"
+                            }
+                        }
+                    ],
+                    "awardedXp": {
+                        "totalAwardedXp": 144,
+                        "xpAwards": [
+                            {
+                                "xp": 119,
+                                "reason": "Score",
+                                "count": 1
+                            },
+                            {
+                                "xp": 25,
+                                "reason": "SpeedBonus",
+                                "count": 1
+                            }
+                        ]
+                    },
+                    "medal": 0,
+                    "competitiveProgress": null,
+                    "rankedSystemProgress": null,
+                    "rankedTeamDuelsProgress": null
+                }
+            }
+        },
+        {
+            "game": {
+                "token": "z7MEUrRTfpWJkhKU",
+                "type": "challenge",
+                "mode": "standard",
+                "state": "finished",
+                "roundCount": 5,
+                "timeLimit": 120,
+                "forbidMoving": true,
+                "forbidZooming": false,
+                "forbidRotating": false,
+                "streakType": "countrystreak",
+                "map": "62a44b22040f04bd36e8a914",
+                "mapName": "A Community World",
+                "panoramaProvider": 1,
+                "bounds": {
+                    "min": {
+                        "lat": -84.99784921796194,
+                        "lng": -177.3921240186748
+                    },
+                    "max": {
+                        "lat": 81.6812215033565,
+                        "lng": 178.4581818407309
+                    }
+                },
+                "round": 5,
+                "rounds": [
+                    {
+                        "lat": 7.147619224426784,
+                        "lng": 80.36642344242426,
+                        "panoId": "6E673348625A4D6E477363356C377444614277675A41",
+                        "heading": 357.0533447265625,
+                        "pitch": -3.0493690967559814,
+                        "zoom": 0,
+                        "streakLocationCode": "lk",
+                        "startTime": "2025-06-24T02:11:53.5860000+00:00"
+                    },
+                    {
+                        "lat": 47.13261695063441,
+                        "lng": 9.521705580228776,
+                        "panoId": "5F3236362D4646345552746256514C6D71375A415077",
+                        "heading": 279.6374816894531,
+                        "pitch": 0.021329335868358612,
+                        "zoom": 0,
+                        "streakLocationCode": "li",
+                        "startTime": "2025-06-24T02:12:55.1780000+00:00"
+                    },
+                    {
+                        "lat": 35.06554623281037,
+                        "lng": 133.6595395275997,
+                        "panoId": "6649465334476C547238424531776B5F676444484241",
+                        "heading": 255.38702392578125,
+                        "pitch": 3.4101462364196777,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-24T02:13:17.7770000+00:00"
+                    },
+                    {
+                        "lat": 35.14411067528464,
+                        "lng": 135.8394470454446,
+                        "panoId": "796A556A6C785135796A61456B56736D5362646A4751",
+                        "heading": 344.6733703613281,
+                        "pitch": 0.0906081423163414,
+                        "zoom": 0,
+                        "streakLocationCode": "jp",
+                        "startTime": "2025-06-24T02:14:00.9790000+00:00"
+                    },
+                    {
+                        "lat": 52.59697117101643,
+                        "lng": -8.225429107033793,
+                        "panoId": "53503335563850697A316D7A4A31546B343037392D77",
+                        "heading": 114.33898162841797,
+                        "pitch": 1.2184830904006958,
+                        "zoom": 0,
+                        "streakLocationCode": "ie",
+                        "startTime": "2025-06-24T02:15:30.2610000+00:00"
+                    }
+                ],
+                "player": {
+                    "totalScore": {
+                        "amount": "21474",
+                        "unit": "points",
+                        "percentage": 85.896
+                    },
+                    "totalDistance": {
+                        "meters": {
+                            "amount": "1491.5",
+                            "unit": "km"
+                        },
+                        "miles": {
+                            "amount": "926.8",
+                            "unit": "miles"
+                        }
+                    },
+                    "totalDistanceInMeters": 1491507.98350051,
+                    "totalStepsCount": 0,
+                    "totalTime": 164,
+                    "totalStreak": 0,
+                    "guesses": [
+                        {
+                            "lat": 7.513128387594879,
+                            "lng": 80.8974658876993,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4811",
+                                "unit": "points",
+                                "percentage": 96.22
+                            },
+                            "roundScoreInPercentage": 96.22,
+                            "roundScoreInPoints": 4811,
+                            "distance": {
+                                "meters": {
+                                    "amount": "71.3",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "44.3",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 71287.2349812406,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 56
+                        },
+                        {
+                            "lat": 47.134320914497685,
+                            "lng": 9.56003581084289,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4992",
+                                "unit": "points",
+                                "percentage": 99.84
+                            },
+                            "roundScoreInPercentage": 99.84,
+                            "roundScoreInPoints": 4992,
+                            "distance": {
+                                "meters": {
+                                    "amount": "2.9",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "1.8",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 2905.6786738691,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 21
+                        },
+                        {
+                            "lat": 37.82327423364635,
+                            "lng": 140.12729995720693,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "3512",
+                                "unit": "points",
+                                "percentage": 70.24
+                            },
+                            "roundScoreInPercentage": 70.24,
+                            "roundScoreInPoints": 3512,
+                            "distance": {
+                                "meters": {
+                                    "amount": "654.6",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "406.7",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 654551.3110880977,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 34
+                        },
+                        {
+                            "lat": 37.91359061278692,
+                            "lng": 140.34870945427494,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "3803",
+                                "unit": "points",
+                                "percentage": 76.06
+                            },
+                            "roundScoreInPercentage": 76.06,
+                            "roundScoreInPoints": 3803,
+                            "distance": {
+                                "meters": {
+                                    "amount": "507",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "315",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 507007.9595953346,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 33
+                        },
+                        {
+                            "lat": 54.625769697920894,
+                            "lng": -6.398160403622712,
+                            "timedOut": false,
+                            "timedOutWithGuess": false,
+                            "skippedRound": false,
+                            "roundScore": {
+                                "amount": "4356",
+                                "unit": "points",
+                                "percentage": 87.12
+                            },
+                            "roundScoreInPercentage": 87.12,
+                            "roundScoreInPoints": 4356,
+                            "distance": {
+                                "meters": {
+                                    "amount": "255.8",
+                                    "unit": "km"
+                                },
+                                "miles": {
+                                    "amount": "158.9",
+                                    "unit": "miles"
+                                }
+                            },
+                            "distanceInMeters": 255755.7991619678,
+                            "stepsCount": 0,
+                            "streakLocationCode": null,
+                            "time": 20
+                        }
+                    ],
+                    "isLeader": false,
+                    "currentPosition": 0,
+                    "pin": {
+                        "url": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
+                        "anchor": "center-center",
+                        "isDefault": false
+                    },
+                    "newBadges": [],
+                    "explorer": null,
+                    "id": "60962b23744ef70001786506",
+                    "nick": "余竑勳",
+                    "isVerified": false,
+                    "flair": 1,
+                    "countryCode": "tw"
+                },
+                "progressChange": {
+                    "xpProgressions": [
+                        {
+                            "xp": 202385,
+                            "currentLevel": {
+                                "level": 76,
+                                "xpStart": 200500
+                            },
+                            "nextLevel": {
+                                "level": 77,
+                                "xpStart": 207670
+                            },
+                            "currentTitle": {
+                                "id": 230,
+                                "tierId": 80,
+                                "minimumLevel": 73,
+                                "name": "Trailblazer"
+                            }
+                        },
+                        {
+                            "xp": 202517,
+                            "currentLevel": {
+                                "level": 76,
+                                "xpStart": 200500
+                            },
+                            "nextLevel": {
+                                "level": 77,
+                                "xpStart": 207670
+                            },
+                            "currentTitle": {
+                                "id": 230,
+                                "tierId": 80,
+                                "minimumLevel": 73,
+                                "name": "Trailblazer"
+                            }
+                        }
+                    ],
+                    "awardedXp": {
+                        "totalAwardedXp": 132,
+                        "xpAwards": [
+                            {
+                                "xp": 107,
+                                "reason": "Score",
+                                "count": 1
+                            },
+                            {
+                                "xp": 25,
+                                "reason": "SpeedBonus",
+                                "count": 1
+                            }
+                        ]
+                    },
+                    "medal": 0,
+                    "competitiveProgress": null,
+                    "rankedSystemProgress": null,
+                    "rankedTeamDuelsProgress": null
+                }
+            }
+        }
+    ],
+    "paginationToken": null
+}

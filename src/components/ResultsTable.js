@@ -400,7 +400,7 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll }) {
                           </ScoreCell>
                           <TableCell>{formatTime(participant.totalTime)}</TableCell>
                           <TableCell>
-                            {participant.created ? new Date(participant.created).toLocaleDateString() : 'N/A'}
+                            {participant.playedAt ? new Date(participant.playedAt).toLocaleDateString() : 'N/A'}
                           </TableCell>
                           <TableCell>
                             <span style={{ cursor: 'pointer', color: '#667eea' }}>

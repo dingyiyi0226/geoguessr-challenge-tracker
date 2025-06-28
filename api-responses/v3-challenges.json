@@ -1,0 +1,143 @@
+{
+    "challenge": {
+        "token": "feUGFXy80M7eg69Z",
+        "mapSlug": "62a44b22040f04bd36e8a914",
+        "roundCount": 5,
+        "timeLimit": 120,
+        "forbidMoving": true,
+        "forbidZooming": false,
+        "forbidRotating": false,
+        "numberOfParticipants": 5,
+        "gameMode": "standard",
+        "challengeType": 0,
+        "streakType": "countrystreak",
+        "accessLevel": 1
+    },
+    "map": {
+        "id": "62a44b22040f04bd36e8a914",
+        "name": "A Community World",
+        "slug": "62a44b22040f04bd36e8a914",
+        "description": "A world map with 100k+ handpicked locations put together by over a hundred experienced players and map makers from the GeoGuessr community || More about ACW: https://bit.ly/acwmap || ACW discord: https://discord.gg/zausPpkFPM || The map contains only official Google Street View locations, meaning there should be no blurry images, photospheres or black screens in game",
+        "url": "/maps/62a44b22040f04bd36e8a914",
+        "playUrl": "/62a44b22040f04bd36e8a914/play",
+        "published": true,
+        "banned": false,
+        "images": {
+            "backgroundLarge": null,
+            "incomplete": true
+        },
+        "bounds": {
+            "min": {
+                "lat": -84.99784921796194,
+                "lng": -177.3921240186748
+            },
+            "max": {
+                "lat": 81.6812215033565,
+                "lng": 178.4581818407309
+            }
+        },
+        "customCoordinates": null,
+        "coordinateCount": null,
+        "regions": null,
+        "creator": null,
+        "createdAt": "2022-06-11T07:58:26.5470000Z",
+        "updatedAt": "2025-05-22T13:57:38.9320000Z",
+        "numFinishedGames": 0,
+        "likedByUser": null,
+        "averageScore": 0,
+        "avatar": {
+            "background": "night",
+            "decoration": "oaktrees",
+            "ground": "water",
+            "landscape": "fuji"
+        },
+        "difficulty": null,
+        "difficultyLevel": 3,
+        "highscore": null,
+        "isUserMap": true,
+        "highlighted": false,
+        "free": false,
+        "panoramaProvider": "StreetView",
+        "inExplorerMode": false,
+        "maxErrorDistance": 18534781,
+        "likes": 51883,
+        "locationSelectionMode": 0,
+        "tags": [
+            "Global",
+            "Hand-picked"
+        ],
+        "collaborators": [
+            "59b3c74a17631e74145ea149",
+            "5f9558fdadbe1600015fda48"
+        ],
+        "flair": 2,
+        "mapSize": null
+    },
+    "creator": {
+        "nick": "PK",
+        "created": "2022-08-26T18:25:08.0860000Z",
+        "isProUser": true,
+        "type": "Elite",
+        "consumedTrial": false,
+        "isVerified": false,
+        "pin": {
+            "url": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
+            "anchor": "center-center",
+            "isDefault": false
+        },
+        "fullBodyPin": "pin/6d1ccdf87b3ba0275447876c64c7c65a.png",
+        "color": 0,
+        "url": "/user/63091004ec3ddbb1d5f031d1",
+        "id": "63091004ec3ddbb1d5f031d1",
+        "countryCode": "tt",
+        "br": {
+            "level": 78,
+            "division": 50
+        },
+        "streakProgress": null,
+        "explorerProgress": null,
+        "dailyChallengeProgress": 0,
+        "progress": {
+            "xp": 217167,
+            "level": 78,
+            "levelXp": 215010,
+            "nextLevel": 79,
+            "nextLevelXp": 222520,
+            "title": {
+                "id": 240,
+                "tierId": 80
+            },
+            "competitionMedals": {
+                "bronze": 0,
+                "silver": 0,
+                "gold": 0,
+                "platinum": 0
+            }
+        },
+        "competitive": {
+            "elo": -2,
+            "rating": 499,
+            "lastRatingChange": -15,
+            "division": {
+                "type": 20,
+                "startRating": 450,
+                "endRating": 675
+            },
+            "onLeaderboard": true
+        },
+        "lastNameChange": "2025-05-29T08:45:59.8660000Z",
+        "lastNickOrCountryChange": "2025-05-29T08:45:59.8660000Z",
+        "isBanned": false,
+        "chatBan": false,
+        "nameChangeAvailableAt": "2025-06-28T08:45:59.8660000Z",
+        "avatar": {
+            "fullBodyPath": "pin/6d1ccdf87b3ba0275447876c64c7c65a.png"
+        },
+        "isBotUser": false,
+        "suspendedUntil": null,
+        "wallet": null,
+        "flair": 1,
+        "isCreator": false,
+        "isAppAnonymous": false
+    }
+}
