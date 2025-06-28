@@ -132,6 +132,27 @@ const CancelButton = styled(EditButton)`
   }
 `;
 
+const LinkButton = styled.a`
+  background:rgb(221, 221, 221);
+  border: none;
+  border-radius: 3px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: all 0.2s ease;
+  color: white;
+  text-decoration: none;
+  
+  &:hover {
+    background:rgb(188, 188, 188);
+    color: white;
+  }
+`;
+
 const ChallengeDetails = styled.div`
   color: #666;
   font-size: 0.9rem;
@@ -477,6 +498,15 @@ function ResultsTable({ challenges, onRemoveChallenge, onClearAll, onUpdateChall
                     >
                       ✎
                     </EditButton>
+                    <LinkButton 
+                      href={`https://www.geoguessr.com/challenge/${challenge.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      title="View original challenge"
+                    >
+                      🔗
+                    </LinkButton>
                   </>
                 )}
                 {challenge.isSimulated && <SimulatedBadge>DEMO</SimulatedBadge>}
