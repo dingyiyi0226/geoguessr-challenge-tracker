@@ -1,13 +1,17 @@
 import axios from 'axios';
 
 // Geoguessr API configuration
-const GEOGUESSR_BASE_URL = 'https://www.geoguessr.com/api';
+const GEOGUESSR_BASE_URL = '/api'; // Using proxy, so relative URL
 const GEOGUESSR_GAME_SERVER = 'https://game-server.geoguessr.com/api';
 
 // Create axios instance with default config
 const apiClient = axios.create({
   timeout: 10000,
   withCredentials: true,
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  }
 });
 
 // Extract challenge ID from various Geoguessr URL formats
@@ -67,10 +71,9 @@ export const hasAuthToken = () => {
 const fetchChallengeResultsFromAPI = async (challengeId, authToken) => {
   try {
     const headers = {
-      'User-Agent': getUserAgent(),
       'Accept': 'application/json',
-      'Referer': 'https://www.geoguessr.com/',
-      'Cookie': `_ncfa=${authToken}`,
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-Auth-Token': authToken, // Pass token through custom header for proxy
     };
 
     // First, get the challenge with highscores data
@@ -429,10 +432,9 @@ export const getUserProfile = async () => {
 
   const authToken = getAuthToken();
   const headers = {
-    'User-Agent': getUserAgent(),
     'Accept': 'application/json',
-    'Referer': 'https://www.geoguessr.com/',
-    'Cookie': `_ncfa=${authToken}`,
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-Auth-Token': authToken,
   };
 
   try {
