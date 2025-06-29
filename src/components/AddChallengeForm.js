@@ -5,6 +5,7 @@ import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, u
 import { importChallenges } from '../utils/fileOperations';
 import { parseDiscordMessages } from '../utils/discord';
 import { FaQuestionCircle } from 'react-icons/fa';
+import AuthSection from './AuthSection';
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -41,40 +42,6 @@ const CorsNotice = styled.div`
     color: #0066cc;
     font-weight: 500;
   }
-`;
-
-const AuthSection = styled.div`
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-`;
-
-const AuthTitle = styled.h3`
-  color: #333;
-  margin-bottom: 15px;
-  font-size: 1.2rem;
-  font-weight: 600;
-`;
-
-const AuthStatus = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-`;
-
-const AuthIndicator = styled.div`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: ${props => props.$authenticated ? '#28a745' : '#dc3545'};
-`;
-
-const AuthText = styled.span`
-  color: ${props => props.$authenticated ? '#28a745' : '#dc3545'};
-  font-weight: 500;
 `;
 
 const InputGroup = styled.div`
@@ -618,64 +585,16 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
       </CorsNotice>
       
       {/* Authentication Section */}
-      <AuthSection>
-        <AuthTitle>🔐 API Authentication</AuthTitle>
-        <AuthStatus>
-          <AuthIndicator $authenticated={isAuthenticated} />
-          <AuthText $authenticated={isAuthenticated}>
-            {isAuthenticated ? 'Connected to Geoguessr API' : 'Not authenticated - try importing from file'}
-          </AuthText>
-        </AuthStatus>
-        
-        {!isAuthenticated && !showAuthInput && (
-          <>
-            <SmallButton onClick={() => setShowAuthInput(true)}>
-              Setup API Access
-            </SmallButton>
-            <InstructionsText>
-              <strong>To use real Geoguessr data:</strong>
-              <ol>
-                <li>Open Geoguessr in your browser and log in</li>
-                <li>Open browser Developer Tools (F12)</li>
-                <li>Go to Application/Storage → Cookies → geoguessr.com</li>
-                <li>Find the <strong>_ncfa</strong> cookie and copy its value</li>
-                <li>Paste it above to connect to the real API</li>
-              </ol>
-              Without authentication, the app cannot fetch real data. But you can import challenges from an existing file.
-            </InstructionsText>
-          </>
-        )}
-
-        {showAuthInput && (
-          <form onSubmit={handleAuthSubmit}>
-            <InputGroup>
-              <Input
-                type="password"
-                value={authToken}
-                onChange={(e) => setAuthTokenInput(e.target.value)}
-                placeholder="Paste your _ncfa cookie value here"
-              />
-              <SmallButton type="submit">Connect</SmallButton>
-              <SmallButton 
-                type="button" 
-                onClick={() => setShowAuthInput(false)}
-                style={{ background: '#6c757d' }}
-              >
-                Cancel
-              </SmallButton>
-            </InputGroup>
-          </form>
-        )}
-
-        {isAuthenticated && (
-          <SmallButton 
-            onClick={handleAuthClear}
-            style={{ background: '#dc3545' }}
-          >
-            Disconnect
-          </SmallButton>
-        )}
-      </AuthSection>
+      <AuthSection
+        isAuthenticated={isAuthenticated}
+        showAuthInput={showAuthInput}
+        authToken={authToken}
+        setAuthTokenInput={setAuthTokenInput}
+        handleAuthSubmit={handleAuthSubmit}
+        handleAuthClear={handleAuthClear}
+        setShowAuthInput={setShowAuthInput}
+        loading={loading}
+      />
 
       {/* Challenge URL Input */}
       <form onSubmit={handleSubmit}>
