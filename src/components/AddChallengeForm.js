@@ -396,7 +396,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
   const [showCustomNameInput, setShowCustomNameInput] = useState(false);
   const [customName, setCustomName] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [hint, setHint] = useState({ type: '', content: '' });
   const fileInputRef = React.useRef(null);
 
   const handleAuthSubmit = (e) => {
@@ -406,20 +406,20 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
       setIsAuthenticated(true);
       setAuthTokenInput('');
       setShowAuthInput(false);
-      setError('');
+      setHint({ type: '', content: '' });
     }
   };
 
   const handleAuthClear = () => {
     clearAuthToken();
     setIsAuthenticated(false);
-    setError('');
+    setHint({ type: '', content: '' });
   };
 
   const handleImportFromFile = async () => {
     try {
       setLoading(true);
-      setError('');
+      setHint({ type: '', content: '' });
       
       // Use the utility function to import
       const importedChallenges = await importChallenges();
@@ -439,15 +439,15 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
       }
       
       if (addedCount > 0) {
-        setError(`Successfully imported ${addedCount} challenges!`);
+        setHint({ type: 'info', content: `Successfully imported ${addedCount} challenges!` });
       } else {
-        setError('All challenges from the file already exist.');
+        setHint({ type: 'info', content: 'All challenges from the file already exist.' });
       }
       
       console.log(`Imported ${addedCount} out of ${importedChallenges.length} challenges`);
     } catch (err) {
       console.error('Error importing challenges:', err);
-      setError(err.message || 'Failed to import challenges. Please try again.');
+      setHint({ type: 'error', content: err.message || 'Failed to import challenges. Please try again.' });
     } finally {
       setLoading(false);
     }
@@ -456,20 +456,20 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
   const handleLoadDemoData = async () => {
     try {
       setLoading(true);
-      setError('');
+      setHint({ type: '', content: '' });
       
       const addedCount = onLoadDemoData();
       
       if (addedCount > 0) {
-        setError(`Successfully loaded ${addedCount} demo challenges!`);
+        setHint({ type: 'info', content: `Successfully loaded ${addedCount} demo challenges!` });
       } else {
-        setError('All demo challenges already exist.');
+        setHint({ type: 'warning', content: 'All demo challenges already exist.' });
       }
       
       console.log(`Loaded ${addedCount} demo challenges`);
     } catch (err) {
       console.error('Error loading demo data:', err);
-      setError(err.message || 'Failed to load demo data. Please try again.');
+      setHint({ type: 'error', content: err.message || 'Failed to load demo data. Please try again.' });
     } finally {
       setLoading(false);
     }
@@ -480,7 +480,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
     if (!challengeUrl.trim()) return;
 
     setLoading(true);
-    setError('');
+    setHint({ type: '', content: '' });
 
     try {
       const challengeData = await fetchChallengeData(challengeUrl, forceRefreshParam || forceRefresh);
@@ -509,15 +509,15 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
       // Show cache status info
       if (challengeData.cachedAt && !forceRefreshParam && !forceRefresh) {
         const cacheAge = Math.round((Date.now() - challengeData.cachedAt) / 60000);
-        setError(`Note: Loaded from cache (${cacheAge} minute${cacheAge !== 1 ? 's' : ''} old). Use "Refresh" for latest data.`);
+        setHint({ type: 'info', content: `Note: Loaded from cache (${cacheAge} minute${cacheAge !== 1 ? 's' : ''} old). Use "Refresh" for latest data.` });
       }
       
       // Show info if using simulated data
       if (challengeData.isSimulated) {
-        setError(`Note: ${challengeData.simulationReason} Displaying simulated data for demonstration.`);
+        setHint({ type: 'warning', content: `Note: ${challengeData.simulationReason} Displaying simulated data for demonstration.` });
       }
     } catch (err) {
-      setError(err.message || 'Failed to fetch challenge data. Please check the URL and try again.');
+      setHint({ type: 'error', content: err.message || 'Failed to fetch challenge data. Please check the URL and try again.' });
     } finally {
       setLoading(false);
     }
@@ -582,9 +582,9 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
             console.error(`Failed to fetch challenge for ${date}:`, err);
           }
         }
-        setError(`Successfully imported ${addedCount} challenge${addedCount !== 1 ? 's' : ''} from Discord message!`);
+        setHint({ type: 'info', content: `Successfully imported ${addedCount} challenge${addedCount !== 1 ? 's' : ''} from Discord message!` });
       } catch (err) {
-        setError('Failed to parse Discord message JSON.');
+        setHint({ type: 'error', content: 'Failed to parse Discord message JSON.' });
       }
     };
     reader.readAsText(file);
@@ -735,7 +735,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
             <QuestionMarkButton
               type="button"
               aria-label="Show hint for Discord import"
-              onClick={() => setError('Export the Discord message as JSON by DiscordChatExporter. We fetch the first challenge link from each message.')}
+              onClick={() => setHint({ type: 'info', content: 'Export the Discord message as JSON by DiscordChatExporter. We fetch the first challenge link from each message.' })}
             >
               <FaQuestionCircle />
             </QuestionMarkButton>
@@ -774,16 +774,10 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
         )}
       </form>
 
-      {error && (
-        error.includes('Successfully') ? (
-          <InfoMessage>{error}</InfoMessage>
-        ) : error.includes('Note:') ? (
-          <InfoMessage>{error}</InfoMessage>
-        ) : error.includes('simulated') ? (
-          <WarningMessage>{error}</WarningMessage>
-        ) : (
-          <ErrorMessage>{error}</ErrorMessage>
-        )
+      {hint.content && (
+        hint.type === 'info' ? <InfoMessage>{hint.content}</InfoMessage> :
+        hint.type === 'warning' ? <WarningMessage>{hint.content}</WarningMessage> :
+        <ErrorMessage>{hint.content}</ErrorMessage>
       )}
 
       {/* Storage Info */}
