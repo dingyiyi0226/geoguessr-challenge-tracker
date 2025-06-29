@@ -50,5 +50,5 @@
    - Use [DiscordChatExporter](https://github.com/Tyrrrz/DiscordChatExporter/releases) to export the messages in the channel. Set the filter be "www.geoguessr.com/challenge".
 
 2. **Import into the App**
-   - We will parse the first challenge links from each message.
+   - We will parse every challenge links from each message.
    - The name of the challenge will be the date of the message.

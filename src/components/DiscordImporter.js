@@ -73,10 +73,19 @@ function DiscordImporter({ onAddChallenge, onStatusUpdate, disabled = false }) {
         const result = parseDiscordMessages(json);
         console.log('Discord message import:', result);
 
-        // Prepare data for parallel fetching
-        const challengeEntries = Object.entries(result);
-        const challengeUrls = challengeEntries.map(([date, link]) => link);
-        const challengeNames = challengeEntries.map(([date, link]) => date);
+        const challengeUrls = [];
+        const challengeNames = [];
+        
+        Object.entries(result).forEach(([date, links]) => {
+          if (Array.isArray(links)) {
+            links.forEach((link, index) => {
+              challengeUrls.push(link);
+              // If multiple challenges on same date, add index suffix
+              const challengeName = links.length > 1 ? `${date} (#${index + 1})` : date;
+              challengeNames.push(challengeName);
+            });
+          }
+        });
         
         // Set initial progress
         onStatusUpdate?.({ 
@@ -128,7 +137,7 @@ function DiscordImporter({ onAddChallenge, onStatusUpdate, disabled = false }) {
   const handleShowHint = () => {
     onStatusUpdate?.({ 
       type: 'info', 
-      content: 'Export the Discord message as JSON by DiscordChatExporter. We fetch the first challenge link from each message.' 
+      content: 'Export the Discord message as JSON by DiscordChatExporter. We fetch all challenge links from each message.' 
     });
   };
 

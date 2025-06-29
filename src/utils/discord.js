@@ -1,7 +1,7 @@
 /**
- * Parses Discord message JSON and extracts the first Geoguessr challenge link from each message.
+ * Parses Discord message JSON and extracts all Geoguessr challenge links from each message.
  * @param {Object} discordJson - The Discord message JSON object
- * @returns {Object} An object with key as yyyy-mm-dd and value as the first challenge link
+ * @returns {Object} An object with key as yyyy-mm-dd and value as array of challenge links
  */
 export const parseDiscordMessages = (discordJson) => {
     if (!discordJson.messages || !Array.isArray(discordJson.messages)) {
@@ -13,7 +13,11 @@ export const parseDiscordMessages = (discordJson) => {
             const match = msg.content.match(/https:\/\/www\.geoguessr\.com\/challenge\/[a-zA-Z0-9-_]+/g);
             if (match && match.length > 0) {
                 const date = msg.timestamp.slice(0, 10); // yyyy-mm-dd
-                result[date] = match[0];
+                if (result[date]) {
+                    result[date].push(...match);
+                } else {
+                    result[date] = [...match];
+                }
             }
         }
     });
