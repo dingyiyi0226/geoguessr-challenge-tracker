@@ -463,8 +463,8 @@ function ChallengeCard({
               <span>👥 {challenge.totalParticipants || 0} players</span>
               <span>📍 {challenge.mapName || 'Unknown Map'}</span>
               <span>👤 Creator: {challenge.creator || 'Unknown'}</span>
-              {challenge.mode && <span>🎮 {challenge.mode}</span>}
-              {challenge.timeLimit && <span>⏱️ {challenge.timeLimit}s</span>}
+              <span>🎮 {challenge.mode}</span>
+              <span>⏱️ {challenge.timeLimit == 0 ? 'No time limit' : `${challenge.timeLimit}s`}</span>
             </ChallengeDetails>
           </ChallengeInfo>
         </ChallengeHeaderContent>
