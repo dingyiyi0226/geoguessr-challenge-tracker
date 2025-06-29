@@ -2,7 +2,8 @@ import axios from 'axios';
 import { 
   saveChallenge, 
   loadChallenge, 
-  hasChallenge 
+  hasChallenge,
+  appendChallengeList
 } from './sessionStorage';
 
 // Geoguessr API configuration
@@ -209,6 +210,7 @@ export const fetchChallengeData = async (challengeUrl, forceRefresh = false) => 
     
     // Save to session storage after successful fetch
     saveChallenge(challengeData);
+    appendChallengeList(challengeId);
     
     return challengeData;
   } catch (error) {

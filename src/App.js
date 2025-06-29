@@ -10,7 +10,8 @@ import {
   removeChallenge,
   updateChallengeName,
   updateChallengeOrder,
-  saveChallenge 
+  saveChallenge,
+  appendChallengeList
 } from './utils/sessionStorage';
 import demoChallenges from './data/demoChallenges.json';
 
@@ -118,6 +119,7 @@ function App() {
       for (const challenge of importedChallenges) {
         if (!existingIds.has(challenge.id)) {
           saveChallenge(challenge);
+          appendChallengeList(challenge.id);
           updatedChallenges.push(challenge);
           addedCount++;
         }
@@ -141,6 +143,7 @@ function App() {
         for (const challenge of demoChallenges.challenges) {
           if (!existingIds.has(challenge.id)) {
             saveChallenge(challenge);
+            appendChallengeList(challenge.id);
             updatedChallenges.push(challenge);
             addedCount++;
           }

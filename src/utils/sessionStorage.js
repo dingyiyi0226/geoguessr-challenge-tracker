@@ -13,15 +13,7 @@ export const saveChallenge = (challengeData) => {
       version: '1.0' // For future compatibility
     };
     
-    sessionStorage.setItem(storageKey, JSON.stringify(dataToStore));
-    
-    // Update the challenges list
-    const challengesList = getChallengesList();
-    if (!challengesList.includes(challengeData.id)) {
-      challengesList.push(challengeData.id);
-      sessionStorage.setItem(CHALLENGES_LIST_KEY, JSON.stringify(challengesList));
-    }
-    
+    sessionStorage.setItem(storageKey, JSON.stringify(dataToStore));    
     console.log(`Challenge ${challengeData.id} saved to session storage`);
     return true;
   } catch (error) {
@@ -194,4 +186,12 @@ export const getStorageInfo = () => {
     console.error('Error getting storage info:', error);
     return { challengeCount: 0, challengeIds: [], approximateSize: '0 KB' };
   }
-}; 
+};
+
+export const appendChallengeList = (challengeId) => {
+  const challengesList = getChallengesList();
+  if (!challengesList.includes(challengeId)) {
+    challengesList.push(challengeId);
+    sessionStorage.setItem(CHALLENGES_LIST_KEY, JSON.stringify(challengesList));
+  }
+};

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken } from '../utils/geoguessrApi';
-import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge } from '../utils/sessionStorage';
+import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList } from '../utils/sessionStorage';
 import { importChallenges } from '../utils/fileOperations';
 import { parseDiscordMessages } from '../utils/discord';
 import { FaQuestionCircle } from 'react-icons/fa';
@@ -400,6 +400,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
         // Check if challenge already exists to avoid duplicates
         if (!hasChallenge(challenge.id)) {
           saveChallenge(challenge);
+          appendChallengeList(challenge.id);
           onAddChallenge(challenge, false); // Add to back by default
           addedCount++;
         }
