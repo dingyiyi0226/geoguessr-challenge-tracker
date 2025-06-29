@@ -100,7 +100,7 @@ const NoDataMessage = styled.div`
   font-size: 1.1rem;
 `;
 
-function ChallengeTrends({ challenges }) {
+function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, totalPages = 1, totalChallenges = 0 }) {
   const [selectedMetric, setSelectedMetric] = useState('totalScore');
   const [selectedPlayers, setSelectedPlayers] = useState('all');
 
@@ -374,7 +374,14 @@ function ChallengeTrends({ challenges }) {
   return (
     <TrendsContainer>
       <TrendsHeader>
-        <TrendsTitle>Performance Trends</TrendsTitle>
+        <TrendsTitle>
+          Performance Trends
+          {isPagedView && totalPages > 1 && (
+            <span style={{ fontSize: '0.8rem', fontWeight: 'normal', color: '#666', marginLeft: '10px' }}>
+              (Page {currentPage} of {totalPages} - {challenges.length} of {totalChallenges} challenges)
+            </span>
+          )}
+        </TrendsTitle>
         <ControlsContainer>
           <MetricSelector
             value={selectedMetric}

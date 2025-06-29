@@ -35,6 +35,8 @@ const ContentBody = styled.div`
 
 function App() {
   const [challenges, setChallenges] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const CHALLENGES_PER_PAGE = 20;
 
   // Load challenges from session storage on component mount
   useEffect(() => {
@@ -44,6 +46,22 @@ function App() {
       console.log(`Restored ${storedChallenges.length} challenges from session storage`);
     }
   }, []);
+
+  // Reset to valid page when challenges change
+  useEffect(() => {
+    const totalPages = Math.ceil(challenges.length / CHALLENGES_PER_PAGE);
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    } else if (currentPage < 1 && challenges.length > 0) {
+      setCurrentPage(1);
+    }
+  }, [challenges.length, currentPage, CHALLENGES_PER_PAGE]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(challenges.length / CHALLENGES_PER_PAGE);
+  const startIndex = (currentPage - 1) * CHALLENGES_PER_PAGE;
+  const endIndex = startIndex + CHALLENGES_PER_PAGE;
+  const currentPageChallenges = challenges.slice(startIndex, endIndex);
 
   const addChallenge = (challengeData, addAtStart = false) => {
     setChallenges(prev => {
@@ -172,13 +190,26 @@ function App() {
             <>
               <ChallengeResults 
                 challenges={challenges}
+                currentPageChallenges={currentPageChallenges}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                challengesPerPage={CHALLENGES_PER_PAGE}
+                startIndex={startIndex}
+                endIndex={endIndex}
                 onRemoveChallenge={removeChallengeFromList}
                 onClearAll={clearAll}
                 onUpdateChallengeName={handleUpdateChallengeName}
                 onReorderChallenges={handleReorderChallenges}
                 onImportChallenges={handleImportChallenges}
               />
-              <ChallengeTrends challenges={challenges} />
+              <ChallengeTrends 
+                challenges={currentPageChallenges} 
+                isPagedView={totalPages > 1}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalChallenges={challenges.length}
+              />
             </>
           )}
         </ContentBody>

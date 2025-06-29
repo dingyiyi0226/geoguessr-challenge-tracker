@@ -110,7 +110,64 @@ const ButtonGroup = styled.div`
   gap: 10px;
 `;
 
-function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateChallengeName, onReorderChallenges, onImportChallenges }) {
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+`;
+
+const PaginationInfo = styled.div`
+  color: #666;
+  font-size: 0.9rem;
+`;
+
+const PaginationControls = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const PaginationButton = styled.button`
+  padding: 8px 12px;
+  background: ${props => props.$active ? '#667eea' : '#fff'};
+  color: ${props => props.$active ? '#fff' : '#333'};
+  border: 1px solid ${props => props.$active ? '#667eea' : '#dee2e6'};
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  opacity: ${props => props.disabled ? 0.5 : 1};
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: ${props => props.$active ? '#5a67d8' : '#e9ecef'};
+    border-color: ${props => props.$active ? '#5a67d8' : '#adb5bd'};
+  }
+`;
+
+const PageNumber = styled.span`
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 5px;
+`;
+
+function ChallengeResults({ 
+  challenges, 
+  currentPageChallenges, 
+  currentPage, 
+  setCurrentPage, 
+  totalPages, 
+  challengesPerPage, 
+  startIndex, 
+  endIndex,
+  onRemoveChallenge, 
+  onClearAll, 
+  onUpdateChallengeName, 
+  onReorderChallenges, 
+  onImportChallenges 
+}) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
   const [editingChallenge, setEditingChallenge] = useState(null);
@@ -197,6 +254,51 @@ function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateC
     ).size;
   };
 
+  const goToPage = (page) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+    // Clear expanded states when changing pages
+    setExpandedChallenges(new Set());
+    setExpandedPlayers(new Set());
+  };
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      goToPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      goToPage(currentPage - 1);
+    }
+  };
+
+  const getVisiblePageNumbers = () => {
+    const delta = 2; // Show 2 pages before and after current page
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
+      range.push(i);
+    }
+
+    if (currentPage - delta > 2) {
+      rangeWithDots.push(1, '...');
+    } else {
+      rangeWithDots.push(1);
+    }
+
+    rangeWithDots.push(...range);
+
+    if (currentPage + delta < totalPages - 1) {
+      rangeWithDots.push('...', totalPages);
+    } else {
+      if (totalPages > 1) rangeWithDots.push(totalPages);
+    }
+
+    return rangeWithDots;
+  };
+
   const collapseAll = () => {
     setExpandedChallenges(new Set());
     setExpandedPlayers(new Set());
@@ -263,20 +365,34 @@ function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateC
     const { active, over } = event;
 
     if (active.id !== over?.id) {
+      // Find the indices in the original challenges array
       const oldIndex = challenges.findIndex((challenge) => challenge.id === active.id);
       const newIndex = challenges.findIndex((challenge) => challenge.id === over.id);
 
       onReorderChallenges(oldIndex, newIndex);
+      
+      // After reordering, we might need to adjust the current page
+      // to keep the dragged item visible
+      const newGlobalIndex = newIndex;
+      const newPage = Math.floor(newGlobalIndex / challengesPerPage) + 1;
+      if (newPage !== currentPage) {
+        setCurrentPage(newPage);
+      }
     }
   }
 
-  const challengeIds = challenges.map(challenge => challenge.id);
+  const currentChallengeIds = currentPageChallenges.map(challenge => challenge.id);
 
   return (
     <TableContainer>
       <TableHeader>
         <TableTitle>
           Challenge Results ({challenges.length} challenges, {getTotalParticipants()} players)
+          {totalPages > 1 && (
+            <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#666', marginLeft: '10px' }}>
+              - Page {currentPage} of {totalPages}
+            </span>
+          )}
         </TableTitle>
         <ButtonGroup>
           <ImportButton onClick={handleImportChallenges}>Import</ImportButton>
@@ -292,33 +408,67 @@ function ChallengeResults({ challenges, onRemoveChallenge, onClearAll, onUpdateC
         onDragEnd={handleDragEnd}
         modifiers={[restrictToVerticalAxis, restrictToParentElement]}
       >
-        <SortableContext items={challengeIds} strategy={verticalListSortingStrategy}>
-          {challenges.map((challenge, challengeIndex) => (
-            <ChallengeCard
-              key={challenge.id}
-              challenge={challenge}
-              challengeIndex={challengeIndex}
-              expandedChallenges={expandedChallenges}
-              expandedPlayers={expandedPlayers}
-              editingChallenge={editingChallenge}
-              editName={editName}
-              setEditName={setEditName}
-              toggleChallenge={toggleChallenge}
-              togglePlayer={togglePlayer}
-              onRemoveChallenge={onRemoveChallenge}
-              formatScore={formatScore}
-              formatTime={formatTime}
-              formatDistance={formatDistance}
-              getCountryFlag={getCountryFlag}
-              getRankDisplay={getRankDisplay}
-              startEditingName={startEditingName}
-              saveEditingName={saveEditingName}
-              cancelEditingName={cancelEditingName}
-              handleNameInputKeyDown={handleNameInputKeyDown}
-            />
-          ))}
+        <SortableContext items={currentChallengeIds} strategy={verticalListSortingStrategy}>
+          {currentPageChallenges.map((challenge, pageIndex) => {
+            const globalIndex = startIndex + pageIndex; // Calculate global index for proper functionality
+            return (
+              <ChallengeCard
+                key={challenge.id}
+                challenge={challenge}
+                challengeIndex={globalIndex}
+                expandedChallenges={expandedChallenges}
+                expandedPlayers={expandedPlayers}
+                editingChallenge={editingChallenge}
+                editName={editName}
+                setEditName={setEditName}
+                toggleChallenge={toggleChallenge}
+                togglePlayer={togglePlayer}
+                onRemoveChallenge={onRemoveChallenge}
+                formatScore={formatScore}
+                formatTime={formatTime}
+                formatDistance={formatDistance}
+                getCountryFlag={getCountryFlag}
+                getRankDisplay={getRankDisplay}
+                startEditingName={startEditingName}
+                saveEditingName={saveEditingName}
+                cancelEditingName={cancelEditingName}
+                handleNameInputKeyDown={handleNameInputKeyDown}
+              />
+            );
+          })}
         </SortableContext>
       </DndContext>
+      
+      {totalPages > 1 && (
+        <PaginationContainer>
+          <PaginationInfo>
+            Showing {startIndex + 1}-{Math.min(endIndex, challenges.length)} of {challenges.length} challenges
+          </PaginationInfo>
+          <PaginationControls>
+            <PaginationButton onClick={prevPage} disabled={currentPage === 1}>
+              Previous
+            </PaginationButton>
+            
+            {getVisiblePageNumbers().map((page, index) => (
+              page === '...' ? (
+                <PageNumber key={`dots-${index}`}>...</PageNumber>
+              ) : (
+                <PaginationButton
+                  key={page}
+                  $active={page === currentPage}
+                  onClick={() => goToPage(page)}
+                >
+                  {page}
+                </PaginationButton>
+              )
+            ))}
+            
+            <PaginationButton onClick={nextPage} disabled={currentPage === totalPages}>
+              Next
+            </PaginationButton>
+          </PaginationControls>
+        </PaginationContainer>
+      )}
     </TableContainer>
   );
 }
