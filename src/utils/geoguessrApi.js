@@ -230,7 +230,7 @@ export const isValidChallengeUrl = (url) => {
 };
 
 // Helper function to process challenges in batches with rate limiting
-const processBatch = async (batch, startIndex, updateProgress, forceRefresh = false) => {
+const processBatch = async (batch, startIndex, updateProgress, forceRefresh = false, names = null) => {
   const batchPromises = batch.map(async ({ url, index }, batchIndex) => {
     try {
       const challengeId = extractChallengeId(url);
@@ -239,6 +239,11 @@ const processBatch = async (batch, startIndex, updateProgress, forceRefresh = fa
       if (!forceRefresh && hasChallenge(challengeId)) {
         const cachedData = loadChallenge(challengeId);
         if (cachedData) {
+          // Apply custom name if provided, even for cached data
+          if (names && names[index]) {
+            cachedData.name = names[index];
+            saveChallenge(cachedData); // Re-save with updated name
+          }
           return { success: true, data: cachedData, url, index, challengeId };
         }
       }
@@ -256,6 +261,11 @@ const processBatch = async (batch, startIndex, updateProgress, forceRefresh = fa
       
       const challengeData = await fetchChallengeResultsFromAPI(challengeId, authToken);
       
+      // Apply custom name if provided
+      if (names && names[index]) {
+        challengeData.name = names[index];
+      }
+      
       // Save to session storage but DON'T append to challenge list yet
       saveChallenge(challengeData);
       
@@ -271,9 +281,14 @@ const processBatch = async (batch, startIndex, updateProgress, forceRefresh = fa
 };
 
 // Parallel fetch multiple challenges data with progress tracking and rate limiting
-export const fetchChallengesData = async (challengeUrls, onProgress = null, forceRefresh = false) => {
+export const fetchChallengesData = async (challengeUrls, onProgress = null, forceRefresh = false, names = null) => {
   if (!Array.isArray(challengeUrls) || challengeUrls.length === 0) {
     throw new Error('challengeUrls must be a non-empty array');
+  }
+
+  // Validate names array if provided
+  if (names && (!Array.isArray(names) || names.length !== challengeUrls.length)) {
+    throw new Error('names array must have the same length as challengeUrls array');
   }
 
   let addedCount = 0;
@@ -313,7 +328,7 @@ export const fetchChallengesData = async (challengeUrls, onProgress = null, forc
       await new Promise(resolve => setTimeout(resolve, 800));
     }
     
-    const batchResults = await processBatch(batch, batchIndex * BATCH_SIZE, updateProgress, forceRefresh);
+    const batchResults = await processBatch(batch, batchIndex * BATCH_SIZE, updateProgress, forceRefresh, names);
     
     // Process batch results and update counters
     batchResults.forEach((result) => {

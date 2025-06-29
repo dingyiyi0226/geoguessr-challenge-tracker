@@ -540,6 +540,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
         // Prepare data for parallel fetching
         const challengeEntries = Object.entries(result);
         const challengeUrls = challengeEntries.map(([date, link]) => link);
+        const challengeNames = challengeEntries.map(([date, link]) => date);
         
         // Set initial progress
         setHint({ 
@@ -547,7 +548,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
           content: `Starting import of ${challengeUrls.length} challenges...`
         });
 
-        // Parallel fetch with progress tracking
+        // Parallel fetch with progress tracking and names
         const fetchResult = await fetchChallengesData(
           challengeUrls,
           (progress) => {
@@ -557,18 +558,14 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
                 `Failed: ${progress.failedCount}, ` +
                 `Remaining: ${progress.remainingCount}`
             });
-          }
+          },
+          false, // forceRefresh
+          challengeNames // names array
         );
 
-        // Process successful results
-        fetchResult.results.forEach((challengeData, index) => {
-          const [date] = challengeEntries[index];
-          const finalChallengeData = {
-            ...challengeData,
-            name: date
-          };
-          updateChallengeName(finalChallengeData.id, date);
-          onAddChallenge(finalChallengeData, false);
+        // Process successful results - names are already set!
+        fetchResult.results.forEach((challengeData) => {
+          onAddChallenge(challengeData, false);
         });
 
         // Final status message
