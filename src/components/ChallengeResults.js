@@ -152,7 +152,8 @@ const PageNumber = styled.span`
 `;
 
 function ChallengeResults({ 
-  challenges, 
+  allChallenges,
+  challenges,
   pagination,
   onRemoveChallenge, 
   onClearAll, 
@@ -175,8 +176,6 @@ function ChallengeResults({
   if (challenges.length === 0) {
     return null;
   }
-
-
 
   const toggleChallenge = (challengeIndex) => {
     setExpandedChallenges(prev => {
@@ -204,7 +203,7 @@ function ChallengeResults({
 
   const getTotalParticipants = () => {
     return new Set(
-      challenges
+      allChallenges
         .flatMap(challenge => challenge.participants || [])
         .map(participant => participant.userId)
         .filter(Boolean)
@@ -232,8 +231,6 @@ function ChallengeResults({
     setExpandedPlayers(new Set());
   };
 
-
-
   const collapseAll = () => {
     setExpandedChallenges(new Set());
     setExpandedPlayers(new Set());
@@ -241,10 +238,10 @@ function ChallengeResults({
 
   const handleExportChallenges = () => {
     try {
-      // Use the challenges from the hook (via props)
-      exportChallenges(challenges);
+      // Use the full challenges array for export
+      exportChallenges(allChallenges);
       
-      console.log(`Exported ${challenges.length} challenges`);
+      console.log(`Exported ${allChallenges.length} challenges`);
     } catch (error) {
       console.error('Error exporting challenges:', error);
       alert(error.message || 'Failed to export challenges. Please try again.');
@@ -279,7 +276,10 @@ function ChallengeResults({
 
   const saveEditingName = () => {
     if (editingChallenge !== null && editName.trim() !== '') {
-      onUpdateChallengeName(editingChallenge, editName.trim());
+      // Find the challenge in the full challenges array to get the correct index
+      const challenge = challenges[editingChallenge];
+      const fullArrayIndex = allChallenges.findIndex(c => c.id === challenge.id);
+      onUpdateChallengeName(fullArrayIndex, editName.trim());
     }
     setEditingChallenge(null);
     setEditName('');
@@ -297,28 +297,39 @@ function ChallengeResults({
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      // Find the indices in the original challenges array
-      const oldIndex = challenges.findIndex((challenge) => challenge.id === active.id);
-      const newIndex = challenges.findIndex((challenge) => challenge.id === over.id);
+      // Find the indices in the original full challenges array
+      const oldIndex = allChallenges.findIndex((challenge) => challenge.id === active.id);
+      const newIndex = allChallenges.findIndex((challenge) => challenge.id === over.id);
 
       onReorderChallenges(oldIndex, newIndex);
       
       // After reordering, we might need to adjust the current page
-      // to keep the dragged item visible
-      const newPage = pagination.getPageFromIndex(newIndex);
-      if (newPage !== pagination.currentPage) {
-        pagination.goToPage(newPage);
+      // to keep the dragged item visible in the filtered view
+      const newFilteredIndex = challenges.findIndex((challenge) => challenge.id === active.id);
+      if (newFilteredIndex >= 0) {
+        const newPage = pagination.getPageFromIndex(newFilteredIndex);
+        if (newPage !== pagination.currentPage) {
+          pagination.goToPage(newPage);
+        }
       }
     }
   }
 
   const currentChallengeIds = pagination.currentPageItems.map(challenge => challenge.id);
 
+  // Check if we're showing filtered results
+  const isFiltered = allChallenges.length !== challenges.length;
+
   return (
     <TableContainer>
       <TableHeader>
         <TableTitle>
-          Challenge Results ({challenges.length} challenges, {getTotalParticipants()} players)
+          Challenge Results ({allChallenges.length} challenges, {getTotalParticipants()} players)
+          {isFiltered && (
+            <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#667eea', marginLeft: '10px' }}>
+              - Filtered: {challenges.length} shown
+            </span>
+          )}
           {pagination.isPagedView && (
             <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#666', marginLeft: '10px' }}>
               - Page {pagination.currentPage} of {pagination.totalPages}
@@ -354,7 +365,12 @@ function ChallengeResults({
                 setEditName={setEditName}
                 toggleChallenge={toggleChallenge}
                 togglePlayer={togglePlayer}
-                onRemoveChallenge={onRemoveChallenge}
+                onRemoveChallenge={(index) => {
+                  // Find the challenge in the full array and remove it
+                  const challenge = challenges[index];
+                  const fullArrayIndex = allChallenges.findIndex(c => c.id === challenge.id);
+                  onRemoveChallenge(fullArrayIndex);
+                }}
                 startEditingName={startEditingName}
                 saveEditingName={saveEditingName}
                 cancelEditingName={cancelEditingName}
@@ -369,6 +385,11 @@ function ChallengeResults({
         <PaginationContainer>
           <PaginationInfo>
             Showing {pagination.startIndex + 1}-{Math.min(pagination.endIndex, challenges.length)} of {challenges.length} challenges
+            {isFiltered && (
+              <span style={{ color: '#667eea', marginLeft: '8px' }}>
+                (filtered from {allChallenges.length} total)
+              </span>
+            )}
           </PaginationInfo>
           <PaginationControls>
             <PaginationButton onClick={handlePrevPage} disabled={!pagination.hasPrevPage}>

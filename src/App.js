@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import ChallengeImportForm from './components/ChallengeImportForm';
 import ChallengeResults from './components/ChallengeResults';
 import ChallengeTrends from './components/ChallengeTrends';
+import ChallengeFilter from './components/ChallengeFilter';
 import Header from './components/Header';
 import { useChallengeData } from './hooks/useChallengeData';
 import { usePagination } from './hooks/usePagination';
@@ -38,7 +39,18 @@ function App() {
   } = useChallengeData();
 
   const CHALLENGES_PER_PAGE = 20;
-  const pagination = usePagination(challenges, CHALLENGES_PER_PAGE);
+
+  const [filteredChallenges, setFilteredChallenges] = useState(challenges);
+  const pagination = usePagination(filteredChallenges, CHALLENGES_PER_PAGE);
+
+  // Handle filter changes
+  const handleFilterChange = useCallback((filtered) => {
+    setFilteredChallenges(filtered);
+  }, []);
+
+  React.useEffect(() => {
+    setFilteredChallenges(challenges);
+  }, [challenges]);
 
   return (
     <AppContainer>
@@ -52,8 +64,14 @@ function App() {
           />
           {challenges.length > 0 && (
             <>
-              <ChallengeResults 
+              <ChallengeFilter
                 challenges={challenges}
+                onFilterChange={handleFilterChange}
+                filteredCount={filteredChallenges.length}
+              />
+              <ChallengeResults 
+                allChallenges={challenges}
+                challenges={filteredChallenges}
                 pagination={pagination}
                 onRemoveChallenge={removeChallengeFromList}
                 onClearAll={clearAll}
@@ -66,7 +84,7 @@ function App() {
                 isPagedView={pagination.isPagedView}
                 currentPage={pagination.currentPage}
                 totalPages={pagination.totalPages}
-                totalChallenges={challenges.length}
+                totalChallenges={filteredChallenges.length}
               />
             </>
           )}
