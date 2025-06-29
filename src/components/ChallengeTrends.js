@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import Chart from 'react-apexcharts';
+import _ from 'lodash';
 import { formatScore } from '../utils/formatters';
 
 const TrendsContainer = styled.div`
@@ -106,7 +107,7 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
   const [selectedPlayers, setSelectedPlayers] = useState('all');
 
   // Process data to extract trends
-  const processedData = useMemo(() => {
+  const allPlayers = useMemo(() => {
     if (!challenges || challenges.length === 0) return null;
 
     // Get all unique players across all challenges
@@ -117,7 +118,7 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
           allPlayers.set(participant.userId, {
             userId: participant.userId,
             nick: participant.nick,
-            performances: [],
+            challenges: [],
             participations: 0,
             totalChallengeScore: 0,
             averageChallengeScore: 0,
@@ -131,23 +132,20 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
       challenge.participants?.forEach(participant => {
         const player = allPlayers.get(participant.userId);
         if (player) {
-          player.performances[challengeIndex] = {
+          player.challenges[challengeIndex] = {
             challengeName: challenge.name || `Challenge ${challengeIndex + 1}`,
             challengeIndex,
             totalScore: participant.totalScore || 0,
-            averageScore: participant.rounds ? 
-              participant.rounds.reduce((sum, round) => sum + (round.score || 0), 0) / participant.rounds.length : 0,
             totalTime: participant.totalTime || 0,
-            averageTime: participant.rounds ? 
-              participant.rounds.reduce((sum, round) => sum + (round.time || 0), 0) / participant.rounds.length : 0,
             totalDistance: participant.totalDistance || 0,
-            averageDistance: participant.rounds ? 
-              participant.rounds.reduce((sum, round) => sum + (round.distance || 0), 0) / participant.rounds.length : 0,
+            averageScore: participant.totalScore / participant.rounds?.length || 0,
+            averageTime: participant.totalTime / participant.rounds?.length || 0,
+            averageDistance: participant.totalDistance / participant.rounds?.length || 0,
             rank: participant.rank || 0,
             scorePercentage: participant.scorePercentage || 0
           };
           player.participations++;
-          player.totalChallengeScore += player.performances[challengeIndex].totalScore;
+          player.totalChallengeScore += player.challenges[challengeIndex].totalScore;
         }
       });
     });
@@ -155,15 +153,15 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
     // Fill missing data points with null for players who didn't participate in all challenges
     allPlayers.forEach(player => {
       for (let i = 0; i < challenges.length; i++) {
-        if (!player.performances[i]) {
-          player.performances[i] = {
+        if (!player.challenges[i]) {
+          player.challenges[i] = {
             challengeName: challenges[i]?.name || `Challenge ${i + 1}`,
             challengeIndex: i,
             totalScore: null,
-            averageScore: null,
             totalTime: null,
-            averageTime: null,
             totalDistance: null,
+            averageScore: null,
+            averageTime: null,
             averageDistance: null,
             rank: null,
             scorePercentage: null
@@ -172,9 +170,9 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
       }
     });
 
-    // Post processing
     allPlayers.forEach(player => {
       player.averageChallengeScore = player.totalChallengeScore / player.participations;
+      player.qualified = player.participations > challenges.length / 4;
     })
 
     return Array.from(allPlayers.values());
@@ -182,14 +180,14 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
 
   // Filter players based on selection
   const filteredPlayers = useMemo(() => {
-    if (!processedData) return [];
+    if (!allPlayers) return [];
     
     if (selectedPlayers === 'all') {
-      return processedData;
+      return allPlayers;
     }
     
-    return processedData.filter(player => player.userId === selectedPlayers);
-  }, [processedData, selectedPlayers]);
+    return allPlayers.filter(player => player.userId === selectedPlayers);
+  }, [allPlayers, selectedPlayers]);
 
   // Prepare chart data
   const chartData = useMemo(() => {
@@ -201,24 +199,24 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
 
     const series = filteredPlayers.map(player => ({
       name: player.nick,
-      data: player.performances.map(performance => {
+      data: player.challenges.map(challenge => {
         switch (selectedMetric) {
           case 'totalScore':
-            return performance.totalScore;
+            return challenge.totalScore;
           case 'averageScore':
-            return Math.round(performance.averageScore || 0);
+            return Math.round(challenge.averageScore || 0);
           case 'totalTime':
-            return performance.totalTime;
+            return challenge.totalTime;
           case 'averageTime':
-            return Math.round(performance.averageTime || 0);
+            return Math.round(challenge.averageTime || 0);
           case 'averageDistance':
-            return Math.round((performance.averageDistance || 0) / 1000); // Convert to km
+            return Math.round((challenge.averageDistance || 0) / 1000); // Convert to km
           case 'rank':
-            return performance.rank;
+            return challenge.rank;
           case 'scorePercentage':
-            return Math.round(performance.scorePercentage || 0);
+            return Math.round(challenge.scorePercentage || 0);
           default:
-            return performance.totalScore;
+            return challenge.totalScore;
         }
       })
     }));
@@ -228,44 +226,28 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
 
   // Calculate overall stats
   const overallStats = useMemo(() => {
-    if (!processedData || !challenges.length) return null;
-
-    const totalChallenges = challenges.length;
-    const totalPlayers = processedData.length;
+    if (!allPlayers || !challenges.length) return null;
     
     // Calculate average scores across all challenges and players
     let totalScoreSum = 0;
     let totalParticipations = 0;
     
-    processedData.forEach(player => {
-      player.performances.forEach(performance => {
-        if (performance.totalScore !== null) {
-          totalScoreSum += performance.totalScore;
-          totalParticipations++;
-        }
-      });
+    allPlayers.forEach(player => {
+      totalScoreSum += player.totalChallengeScore;
+      totalParticipations += player.participations;
     });
 
     const averageScore = totalParticipations > 0 ? Math.round(totalScoreSum / totalParticipations) : 0;
-
-    // Find best performing player
-    const bestPlayer = processedData
-      .filter(player => player.participations > totalChallenges/4)
-      .reduce((best, player) => {
-      const playerAvg = player.averageChallengeScore;
-      const bestAvg = best ? best.averageChallengeScore : 0;
-      
-      return playerAvg > bestAvg ? player : best;
-    }, null);
+    const bestPlayer = _.maxBy(allPlayers.filter(player => player.qualified), 'averageChallengeScore');
 
     return {
-      totalChallenges,
-      totalPlayers,
+      totalChallenges: challenges.length,
+      totalPlayers: allPlayers.length,
       averageScore,
       bestPlayer: bestPlayer?.nick || 'N/A',
       bestScore: Math.round(bestPlayer?.averageChallengeScore) || 0
     };
-  }, [processedData, challenges]);
+  }, [allPlayers, challenges]);
 
   const getMetricLabel = (metric) => {
     const labels = {
@@ -367,7 +349,7 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
     );
   }
 
-  if (!processedData || processedData.length === 0) {
+  if (!allPlayers || allPlayers.length === 0) {
     return (
       <TrendsContainer>
         <TrendsHeader>
@@ -410,7 +392,7 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
             onChange={(e) => setSelectedPlayers(e.target.value)}
           >
             <option value="all">All Players</option>
-            {processedData.map(player => (
+            {allPlayers.map(player => (
               <option key={player.userId} value={player.userId}>
                 {player.nick}
               </option>
