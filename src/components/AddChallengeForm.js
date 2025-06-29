@@ -4,6 +4,7 @@ import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken } from '
 import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge } from '../utils/sessionStorage';
 import { importChallenges } from '../utils/fileOperations';
 import { parseDiscordMessages } from '../utils/discord';
+import { FaQuestionCircle } from 'react-icons/fa';
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -355,6 +356,36 @@ const ImportFromDiscordButton = styled.button`
   }
 `;
 
+const HintPopover = styled.div`
+  position: absolute;
+  background: #fffbe6;
+  color: #856404;
+  border: 1px solid #ffe58f;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 10;
+  margin-top: 8px;
+  min-width: 220px;
+`;
+
+const QuestionMarkButton = styled.button`
+  background: none;
+  border: none;
+  padding: 0 4px;
+  margin-left: -6px;
+  color: #8e44ad;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+  &:hover {
+    color: #5e3370;
+  }
+`;
+
 function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
@@ -701,6 +732,13 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
             >
               💬 Import from Discord message
             </ImportFromDiscordButton>
+            <QuestionMarkButton
+              type="button"
+              aria-label="Show hint for Discord import"
+              onClick={() => setError('Export the Discord message as JSON by DiscordChatExporter. We fetch the first challenge link from each message.')}
+            >
+              <FaQuestionCircle />
+            </QuestionMarkButton>
             <input
               type="file"
               accept="application/json"
