@@ -154,13 +154,7 @@ const PageNumber = styled.span`
 
 function ChallengeResults({ 
   challenges, 
-  currentPageChallenges, 
-  currentPage, 
-  setCurrentPage, 
-  totalPages, 
-  challengesPerPage, 
-  startIndex, 
-  endIndex,
+  pagination,
   onRemoveChallenge, 
   onClearAll, 
   onUpdateChallengeName, 
@@ -253,50 +247,28 @@ function ChallengeResults({
     ).size;
   };
 
-  const goToPage = (page) => {
-    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+  const handlePageChange = (page) => {
+    pagination.goToPage(page);
     // Clear expanded states when changing pages
     setExpandedChallenges(new Set());
     setExpandedPlayers(new Set());
   };
 
-  const nextPage = () => {
-    if (currentPage < totalPages) {
-      goToPage(currentPage + 1);
-    }
+  const handleNextPage = () => {
+    pagination.nextPage();
+    // Clear expanded states when changing pages
+    setExpandedChallenges(new Set());
+    setExpandedPlayers(new Set());
   };
 
-  const prevPage = () => {
-    if (currentPage > 1) {
-      goToPage(currentPage - 1);
-    }
+  const handlePrevPage = () => {
+    pagination.prevPage();
+    // Clear expanded states when changing pages
+    setExpandedChallenges(new Set());
+    setExpandedPlayers(new Set());
   };
 
-  const getVisiblePageNumbers = () => {
-    const delta = 2; // Show 2 pages before and after current page
-    const range = [];
-    const rangeWithDots = [];
 
-    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
-      range.push(i);
-    }
-
-    if (currentPage - delta > 2) {
-      rangeWithDots.push(1, '...');
-    } else {
-      rangeWithDots.push(1);
-    }
-
-    rangeWithDots.push(...range);
-
-    if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push('...', totalPages);
-    } else {
-      if (totalPages > 1) rangeWithDots.push(totalPages);
-    }
-
-    return rangeWithDots;
-  };
 
   const collapseAll = () => {
     setExpandedChallenges(new Set());
@@ -369,24 +341,23 @@ function ChallengeResults({
       
       // After reordering, we might need to adjust the current page
       // to keep the dragged item visible
-      const newGlobalIndex = newIndex;
-      const newPage = Math.floor(newGlobalIndex / challengesPerPage) + 1;
-      if (newPage !== currentPage) {
-        setCurrentPage(newPage);
+      const newPage = pagination.getPageFromIndex(newIndex);
+      if (newPage !== pagination.currentPage) {
+        pagination.goToPage(newPage);
       }
     }
   }
 
-  const currentChallengeIds = currentPageChallenges.map(challenge => challenge.id);
+  const currentChallengeIds = pagination.currentPageItems.map(challenge => challenge.id);
 
   return (
     <TableContainer>
       <TableHeader>
         <TableTitle>
           Challenge Results ({challenges.length} challenges, {getTotalParticipants()} players)
-          {totalPages > 1 && (
+          {pagination.isPagedView && (
             <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#666', marginLeft: '10px' }}>
-              - Page {currentPage} of {totalPages}
+              - Page {pagination.currentPage} of {pagination.totalPages}
             </span>
           )}
         </TableTitle>
@@ -405,8 +376,8 @@ function ChallengeResults({
         modifiers={[restrictToVerticalAxis, restrictToParentElement]}
       >
         <SortableContext items={currentChallengeIds} strategy={verticalListSortingStrategy}>
-          {currentPageChallenges.map((challenge, pageIndex) => {
-            const globalIndex = startIndex + pageIndex; // Calculate global index for proper functionality
+          {pagination.currentPageItems.map((challenge, pageIndex) => {
+            const globalIndex = pagination.startIndex + pageIndex; // Calculate global index for proper functionality
             return (
               <ChallengeCard
                 key={challenge.id}
@@ -435,31 +406,31 @@ function ChallengeResults({
         </SortableContext>
       </DndContext>
       
-      {totalPages > 1 && (
+      {pagination.isPagedView && (
         <PaginationContainer>
           <PaginationInfo>
-            Showing {startIndex + 1}-{Math.min(endIndex, challenges.length)} of {challenges.length} challenges
+            Showing {pagination.startIndex + 1}-{Math.min(pagination.endIndex, challenges.length)} of {challenges.length} challenges
           </PaginationInfo>
           <PaginationControls>
-            <PaginationButton onClick={prevPage} disabled={currentPage === 1}>
+            <PaginationButton onClick={handlePrevPage} disabled={!pagination.hasPrevPage}>
               Previous
             </PaginationButton>
             
-            {getVisiblePageNumbers().map((page, index) => (
+            {pagination.getVisiblePageNumbers().map((page, index) => (
               page === '...' ? (
                 <PageNumber key={`dots-${index}`}>...</PageNumber>
               ) : (
                 <PaginationButton
                   key={page}
-                  $active={page === currentPage}
-                  onClick={() => goToPage(page)}
+                  $active={page === pagination.currentPage}
+                  onClick={() => handlePageChange(page)}
                 >
                   {page}
                 </PaginationButton>
               )
             ))}
             
-            <PaginationButton onClick={nextPage} disabled={currentPage === totalPages}>
+            <PaginationButton onClick={handleNextPage} disabled={!pagination.hasNextPage}>
               Next
             </PaginationButton>
           </PaginationControls>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import ChallengeImportForm from './components/ChallengeImportForm';
 import ChallengeResults from './components/ChallengeResults';
 import ChallengeTrends from './components/ChallengeTrends';
 import Header from './components/Header';
 import { useChallengeData } from './hooks/useChallengeData';
+import { usePagination } from './hooks/usePagination';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -36,24 +37,8 @@ function App() {
     loadDemoData,
   } = useChallengeData();
 
-  const [currentPage, setCurrentPage] = useState(1);
   const CHALLENGES_PER_PAGE = 20;
-
-  // Reset to valid page when challenges change
-  useEffect(() => {
-    const totalPages = Math.ceil(challenges.length / CHALLENGES_PER_PAGE);
-    if (currentPage > totalPages && totalPages > 0) {
-      setCurrentPage(totalPages);
-    } else if (currentPage < 1 && challenges.length > 0) {
-      setCurrentPage(1);
-    }
-  }, [challenges.length, currentPage, CHALLENGES_PER_PAGE]);
-
-  // Calculate pagination
-  const totalPages = Math.ceil(challenges.length / CHALLENGES_PER_PAGE);
-  const startIndex = (currentPage - 1) * CHALLENGES_PER_PAGE;
-  const endIndex = startIndex + CHALLENGES_PER_PAGE;
-  const currentPageChallenges = challenges.slice(startIndex, endIndex);
+  const pagination = usePagination(challenges, CHALLENGES_PER_PAGE);
 
   return (
     <AppContainer>
@@ -69,13 +54,7 @@ function App() {
             <>
               <ChallengeResults 
                 challenges={challenges}
-                currentPageChallenges={currentPageChallenges}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalPages={totalPages}
-                challengesPerPage={CHALLENGES_PER_PAGE}
-                startIndex={startIndex}
-                endIndex={endIndex}
+                pagination={pagination}
                 onRemoveChallenge={removeChallengeFromList}
                 onClearAll={clearAll}
                 onUpdateChallengeName={handleUpdateChallengeName}
@@ -83,10 +62,10 @@ function App() {
                 onImportChallenges={handleImportChallenges}
               />
               <ChallengeTrends 
-                challenges={currentPageChallenges} 
-                isPagedView={totalPages > 1}
-                currentPage={currentPage}
-                totalPages={totalPages}
+                challenges={pagination.currentPageItems} 
+                isPagedView={pagination.isPagedView}
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
                 totalChallenges={challenges.length}
               />
             </>
