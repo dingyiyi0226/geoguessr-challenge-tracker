@@ -10,7 +10,7 @@
 
 1. **Clone or download the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/dingyiyi0226/geoguessr-challenge-tracker.git
    cd geoguessr-challenge-tracker
    ```
 
@@ -43,3 +43,12 @@
    - Or just the challenge ID: `ABC123`
 
 3. **Click "Add Challenge"**: The application will fetch the challenge data automatically
+
+### Importing Challenges from Discord
+
+1. **Export from Discord**:
+   - Use [DiscordChatExporter](https://github.com/Tyrrrz/DiscordChatExporter/releases) to export the messages in the channel. Set the filter be "www.geoguessr.com/challenge".
+
+2. **Import into the App**
+   - We will parse the first challenge links from each message.
+   - The name of the challenge will be the date of the message.
