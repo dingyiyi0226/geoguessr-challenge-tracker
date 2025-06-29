@@ -166,7 +166,7 @@ const InstructionsText = styled.div`
   }
 `;
 
-const AddChallengeOptionsContainer = styled.div`
+const ChallengeImportOptionsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -303,7 +303,7 @@ const LoadDemoButton = styled.button`
   }
 `;
 
-function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData }) {
+function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
@@ -450,7 +450,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
 
   return (
     <FormContainer>
-      <FormTitle>Add Challenge</FormTitle>
+      <FormTitle>Import Challenge</FormTitle>
       
       <CorsNotice>
         ⚠️ <strong>API Access Limitation:</strong> Due to CORS restrictions, direct Geoguessr API access only works in local development. 
@@ -498,7 +498,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
         </InputGroup>
         
         {/* Challenge Options */}
-        <AddChallengeOptionsContainer>
+        <ChallengeImportOptionsContainer>
           <OptionsRow>
             <ToggleLabel onClick={() => setAddAtStart(!addAtStart)}>
               <ToggleSwitch $checked={addAtStart} />
@@ -550,7 +550,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
             />
             
           </OptionsRow>
-        </AddChallengeOptionsContainer>
+        </ChallengeImportOptionsContainer>
         
         {/* Cache Status */}
         {challengeUrl.trim() && (
@@ -582,4 +582,4 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
   );
 }
 
-export default AddChallengeForm; 
+export default ChallengeImportForm; 

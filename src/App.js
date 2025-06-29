@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import AddChallengeForm from './components/AddChallengeForm';
+import ChallengeImportForm from './components/ChallengeImportForm';
 import ChallengeResults from './components/ChallengeResults';
 import ChallengeTrends from './components/ChallengeTrends';
 import Header from './components/Header';
@@ -181,7 +181,7 @@ function App() {
       <MainContent>
         <Header />
         <ContentBody>
-          <AddChallengeForm 
+          <ChallengeImportForm 
             onAddChallenge={addChallenge}
             hasExistingChallenges={challenges.length > 0}
             onLoadDemoData={loadDemoData}
