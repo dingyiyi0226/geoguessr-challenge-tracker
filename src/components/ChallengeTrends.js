@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import Chart from 'react-apexcharts';
+import { formatScore } from '../utils/formatters';
 
 const TrendsContainer = styled.div`
   background: white;
@@ -430,12 +431,12 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
               <StatLabel>Unique Players</StatLabel>
             </StatCard>
             <StatCard>
-              <StatValue>{overallStats.averageScore.toLocaleString()}</StatValue>
+              <StatValue>{formatScore(overallStats.averageScore)}</StatValue>
               <StatLabel>Average Score</StatLabel>
             </StatCard>
             <StatCard>
               <StatValue>{overallStats.bestPlayer}</StatValue>
-              <StatLabel>Top Performer - {overallStats.bestScore.toLocaleString()}</StatLabel>
+              <StatLabel>Top Performer - {formatScore(overallStats.bestScore)}</StatLabel>
             </StatCard>
           </StatsGrid>
         )}
