@@ -21,7 +21,13 @@ const apiClient = axios.create({
 });
 
 // Extract challenge ID from various Geoguessr URL formats
-const extractChallengeId = (url) => {
+export const getChallengeIDFromUrl = (url) => {
+  // Handle null, undefined, or empty input
+  if (!url || typeof url !== 'string' || !url.trim()) {
+    return null;
+  }
+
+  const trimmedUrl = url.trim();
   const patterns = [
     /\/challenge\/([a-zA-Z0-9-_]+)/,
     /\/results\/([a-zA-Z0-9-_]+)/,
@@ -30,18 +36,19 @@ const extractChallengeId = (url) => {
   ];
 
   for (const pattern of patterns) {
-    const match = url.match(pattern);
+    const match = trimmedUrl.match(pattern);
     if (match) {
       return match[1];
     }
   }
 
   // If it's just an ID
-  if (/^[a-zA-Z0-9-_]+$/.test(url.trim())) {
-    return url.trim();
+  if (/^[a-zA-Z0-9-_]+$/.test(trimmedUrl)) {
+    return trimmedUrl;
   }
 
-  throw new Error('Invalid Geoguessr challenge URL format');
+  // Return null for invalid format instead of throwing
+  return null;
 };
 
 // Get authentication token from localStorage or prompt user
@@ -189,7 +196,10 @@ const fetchChallengeResultsFromAPI = async (challengeId, authToken) => {
 // Main function to fetch challenge data with session storage caching
 export const fetchChallengeData = async (challengeUrl, forceRefresh = false) => {
   try {
-    const challengeId = extractChallengeId(challengeUrl);
+    const challengeId = getChallengeIDFromUrl(challengeUrl);
+    if (!challengeId) {
+      throw new Error('Invalid Geoguessr challenge URL format');
+    }
     
     // Check session storage first (unless force refresh)
     if (!forceRefresh && hasChallenge(challengeId)) {
@@ -219,21 +229,15 @@ export const fetchChallengeData = async (challengeUrl, forceRefresh = false) => 
   }
 };
 
-// Helper function to validate if a URL looks like a Geoguessr challenge URL
-export const isValidChallengeUrl = (url) => {
-  try {
-    extractChallengeId(url);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
 // Helper function to process challenges in batches with rate limiting
 const processBatch = async (batch, startIndex, updateProgress, forceRefresh = false, names = null) => {
   const batchPromises = batch.map(async ({ url, index }, batchIndex) => {
     try {
-      const challengeId = extractChallengeId(url);
+      const challengeId = getChallengeIDFromUrl(url);
+      
+      if (!challengeId) {
+        throw new Error('Invalid Geoguessr challenge URL format');
+      }
       
       // Check session storage first (unless force refresh)
       if (!forceRefresh && hasChallenge(challengeId)) {

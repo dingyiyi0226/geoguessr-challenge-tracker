@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { fetchChallengeData, fetchChallengesData, hasAuthToken, setAuthToken, clearAuthToken } from '../utils/geoguessrApi';
+import { fetchChallengeData, fetchChallengesData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../utils/geoguessrApi';
 import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList } from '../utils/sessionStorage';
 import { importChallenges } from '../utils/fileOperations';
 import { parseDiscordMessages } from '../utils/discord';
@@ -491,33 +491,8 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
     }
   };
 
-  // Check if current URL is cached
-  const getCurrentChallengeId = () => {
-    try {
-      if (!challengeUrl.trim()) return null;
-      const patterns = [
-        /\/challenge\/([a-zA-Z0-9-_]+)/,
-        /\/results\/([a-zA-Z0-9-_]+)/,
-        /challenge=([a-zA-Z0-9-_]+)/,
-        /\/c\/([a-zA-Z0-9-_]+)/,
-      ];
-      
-      for (const pattern of patterns) {
-        const match = challengeUrl.match(pattern);
-        if (match) return match[1];
-      }
-      
-      if (/^[a-zA-Z0-9-_]+$/.test(challengeUrl.trim())) {
-        return challengeUrl.trim();
-      }
-      
-      return null;
-    } catch {
-      return null;
-    }
-  };
-
-  const currentChallengeId = getCurrentChallengeId();
+  
+  const currentChallengeId = getChallengeIDFromUrl(challengeUrl);
   const isCached = currentChallengeId ? hasChallenge(currentChallengeId) : false;
 
   const handleImportFromDiscord = () => {
