@@ -12,7 +12,7 @@ const GEOGUESSR_GAME_SERVER = 'https://game-server.geoguessr.com/api';
 
 // Create axios instance with default config
 const apiClient = axios.create({
-  timeout: 10000,
+  timeout: 20000,
   withCredentials: true,
   headers: {
     'Accept': 'application/json',
@@ -179,7 +179,7 @@ const fetchChallengeResultsFromAPI = async (challengeId, authToken) => {
       } else if (error.response.status === 403) {
         throw new Error('Access denied. This challenge may be private or you may not have permission.');
       } else if (error.response.status === 404) {
-        throw new Error('Challenge not found. Please check the challenge ID.');
+        throw new Error('This challenge is not played yet. Or the challenge ID is incorrect.');
       }
     }
     throw error;
@@ -229,7 +229,48 @@ export const isValidChallengeUrl = (url) => {
   }
 };
 
-// Parallel fetch multiple challenges data with progress tracking
+// Helper function to process challenges in batches with rate limiting
+const processBatch = async (batch, startIndex, updateProgress, forceRefresh = false) => {
+  const batchPromises = batch.map(async ({ url, index }, batchIndex) => {
+    try {
+      const challengeId = extractChallengeId(url);
+      
+      // Check session storage first (unless force refresh)
+      if (!forceRefresh && hasChallenge(challengeId)) {
+        const cachedData = loadChallenge(challengeId);
+        if (cachedData) {
+          return { success: true, data: cachedData, url, index, challengeId };
+        }
+      }
+      
+      if (!hasAuthToken()) {
+        throw new Error('Authentication required. Please set your _ncfa token in the settings.');
+      }
+
+      const authToken = getAuthToken();
+      
+      // Add small delay between requests in the same batch to avoid overwhelming the server
+      if (batchIndex > 0) {
+        await new Promise(resolve => setTimeout(resolve, 200 * batchIndex));
+      }
+      
+      const challengeData = await fetchChallengeResultsFromAPI(challengeId, authToken);
+      
+      // Save to session storage but DON'T append to challenge list yet
+      saveChallenge(challengeData);
+      
+      return { success: true, data: challengeData, url, index, challengeId };
+    } catch (error) {
+      console.error(`Failed to fetch challenge for ${url}:`, error);
+      const errorInfo = { success: false, error: error.message, url, index };
+      return errorInfo;
+    }
+  });
+
+  return await Promise.allSettled(batchPromises);
+};
+
+// Parallel fetch multiple challenges data with progress tracking and rate limiting
 export const fetchChallengesData = async (challengeUrls, onProgress = null, forceRefresh = false) => {
   if (!Array.isArray(challengeUrls) || challengeUrls.length === 0) {
     throw new Error('challengeUrls must be a non-empty array');
@@ -239,6 +280,7 @@ export const fetchChallengesData = async (challengeUrls, onProgress = null, forc
   let failedCount = 0;
   const results = [];
   const errors = [];
+  
   const updateProgress = () => {
     if (onProgress) {
       onProgress({
@@ -250,44 +292,51 @@ export const fetchChallengesData = async (challengeUrls, onProgress = null, forc
     }
   };
 
-  const fetchPromises = challengeUrls.map(async (url, index) => {
-    try {
-      const challengeId = extractChallengeId(url);
-      
-      // Check session storage first (unless force refresh)
-      if (!forceRefresh && hasChallenge(challengeId)) {
-        const cachedData = loadChallenge(challengeId);
-        if (cachedData) {
-          addedCount++;
-          updateProgress();
-          return { success: true, data: cachedData, url, index, challengeId };
-        }
-      }
-      
-      if (!hasAuthToken()) {
-        throw new Error('Authentication required. Please set your _ncfa token in the settings.');
-      }
+  const BATCH_SIZE = 8;
+  const batches = [];
+  
+  for (let i = 0; i < challengeUrls.length; i += BATCH_SIZE) {
+    const batch = challengeUrls.slice(i, i + BATCH_SIZE).map((url, batchIndex) => ({
+      url,
+      index: i + batchIndex
+    }));
+    batches.push(batch);
+  }
 
-      const authToken = getAuthToken();
-      const challengeData = await fetchChallengeResultsFromAPI(challengeId, authToken);
-      
-      // Save to session storage but DON'T append to challenge list yet
-      saveChallenge(challengeData);
-      
-      addedCount++;
-      updateProgress();
-      return { success: true, data: challengeData, url, index, challengeId };
-    } catch (error) {
-      failedCount++;
-      updateProgress();
-      const errorInfo = { success: false, error: error.message, url, index };
-      errors.push(errorInfo);
-      return errorInfo;
+  // Process batches sequentially, but items within each batch in parallel
+  const allResults = [];
+  for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
+    const batch = batches[batchIndex];
+    
+    // Add delay between batches to be respectful to the API
+    if (batchIndex > 0) {
+      await new Promise(resolve => setTimeout(resolve, 800));
     }
-  });
+    
+    const batchResults = await processBatch(batch, batchIndex * BATCH_SIZE, updateProgress, forceRefresh);
+    
+    // Process batch results and update counters
+    batchResults.forEach((result) => {
+      if (result.status === 'fulfilled') {
+        const resultValue = result.value;
+        if (resultValue.success) {
+          addedCount++;
+        } else {
+          failedCount++;
+          errors.push(resultValue);
+        }
+        updateProgress();
+      } else {
+        failedCount++;
+        updateProgress();
+      }
+    });
+    
+    allResults.push(...batchResults);
+  }
 
-  // Execute all fetches in parallel
-  const promiseResults = await Promise.allSettled(fetchPromises);
+  // Now process all results to maintain order
+  const promiseResults = allResults;
 
   // Create ordered results array to maintain original order
   const orderedResults = new Array(challengeUrls.length);
