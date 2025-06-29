@@ -24,7 +24,7 @@ const TrendsHeader = styled.div`
   gap: 15px;
 `;
 
-const TrendsTitle = styled.h3`
+const TrendsTitle = styled.h2`
   color: #333;
   font-size: 1.3rem;
   font-weight: 600;

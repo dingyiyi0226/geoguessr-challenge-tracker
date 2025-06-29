@@ -2,13 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { exportChallenges, importChallenges } from '../utils/fileOperations';
 import {
-  formatScore,
-  formatTime,
-  formatDistance,
-  getCountryFlag,
-  getRankDisplay,
-} from '../utils/formatters';
-import {
   DndContext,
   closestCenter,
   KeyboardSensor,
@@ -17,7 +10,6 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
@@ -45,7 +37,7 @@ const TableHeader = styled.div`
   border-bottom: 1px solid #e9ecef;
 `;
 
-const TableTitle = styled.h3`
+const TableTitle = styled.h2`
   color: #333;
   font-size: 1.3rem;
   font-weight: 600;

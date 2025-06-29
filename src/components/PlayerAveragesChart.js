@@ -17,7 +17,7 @@ const SectionHeader = styled.div`
   border-bottom: 2px solid #e9ecef;
 `;
 
-const SectionTitleWithControls = styled.h4`
+const SectionTitleWithControls = styled.h3`
   color: #333;
   font-size: 1.1rem;
   font-weight: 600;
