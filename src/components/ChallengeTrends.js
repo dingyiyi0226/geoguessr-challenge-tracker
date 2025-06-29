@@ -116,7 +116,10 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
           allPlayers.set(participant.userId, {
             userId: participant.userId,
             nick: participant.nick,
-            performances: []
+            performances: [],
+            participations: 0,
+            totalChallengeScore: 0,
+            averageChallengeScore: 0,
           });
         }
       });
@@ -142,6 +145,8 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
             rank: participant.rank || 0,
             scorePercentage: participant.scorePercentage || 0
           };
+          player.participations++;
+          player.totalChallengeScore += player.performances[challengeIndex].totalScore;
         }
       });
     });
@@ -165,6 +170,11 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
         }
       }
     });
+
+    // Post processing
+    allPlayers.forEach(player => {
+      player.averageChallengeScore = player.totalChallengeScore / player.participations;
+    })
 
     return Array.from(allPlayers.values());
   }, [challenges]);
@@ -238,14 +248,11 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
     const averageScore = totalParticipations > 0 ? Math.round(totalScoreSum / totalParticipations) : 0;
 
     // Find best performing player
-    const bestPlayer = processedData.reduce((best, player) => {
-      const playerAvg = player.performances
-        .filter(p => p.totalScore !== null)
-        .reduce((sum, p, _, arr) => sum + p.totalScore / arr.length, 0);
-      
-      const bestAvg = best ? best.performances
-        .filter(p => p.totalScore !== null)
-        .reduce((sum, p, _, arr) => sum + p.totalScore / arr.length, 0) : 0;
+    const bestPlayer = processedData
+      .filter(player => player.participations > totalChallenges/4)
+      .reduce((best, player) => {
+      const playerAvg = player.averageChallengeScore;
+      const bestAvg = best ? best.averageChallengeScore : 0;
       
       return playerAvg > bestAvg ? player : best;
     }, null);
@@ -254,7 +261,8 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
       totalChallenges,
       totalPlayers,
       averageScore,
-      bestPlayer: bestPlayer?.nick || 'N/A'
+      bestPlayer: bestPlayer?.nick || 'N/A',
+      bestScore: Math.round(bestPlayer?.averageChallengeScore) || 0
     };
   }, [processedData, challenges]);
 
@@ -427,7 +435,7 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
             </StatCard>
             <StatCard>
               <StatValue>{overallStats.bestPlayer}</StatValue>
-              <StatLabel>Top Performer</StatLabel>
+              <StatLabel>Top Performer - {overallStats.bestScore.toLocaleString()}</StatLabel>
             </StatCard>
           </StatsGrid>
         )}
