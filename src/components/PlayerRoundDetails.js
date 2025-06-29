@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {formatScore, formatTime, formatDistance} from '../utils/formatters';
 
 const RoundsContainer = styled.tr`
   td {
@@ -150,7 +151,7 @@ const RoundNumber = styled.div`
   }
 `;
 
-function PlayerRoundDetails({ participant, isExpanded, formatScore, formatTime, formatDistance }) {
+function PlayerRoundDetails({ participant, isExpanded }) {
   if (!isExpanded || !participant.rounds || participant.rounds.length === 0) {
     return null;
   }

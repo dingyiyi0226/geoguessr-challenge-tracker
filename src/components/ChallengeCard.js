@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import {formatScore, formatTime, getCountryFlag, getRankDisplay} from '../utils/formatters';
 import PlayerRoundDetails from './PlayerRoundDetails';
 
 const ChallengeCardContainer = styled.div`
@@ -357,11 +358,6 @@ function ChallengeCard({
   toggleChallenge,
   togglePlayer,
   onRemoveChallenge,
-  formatScore,
-  formatTime,
-  formatDistance,
-  getCountryFlag,
-  getRankDisplay,
   startEditingName,
   saveEditingName,
   cancelEditingName,
@@ -545,9 +541,6 @@ function ChallengeCard({
                     <PlayerRoundDetails
                       participant={participant}
                       isExpanded={expandedPlayers.has(playerKey)}
-                      formatScore={formatScore}
-                      formatTime={formatTime}
-                      formatDistance={formatDistance}
                     />
                   </React.Fragment>
                 );

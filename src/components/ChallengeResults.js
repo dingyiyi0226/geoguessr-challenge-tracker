@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { exportChallenges, importChallenges } from '../utils/fileOperations';
 import {
+  formatScore,
+  formatTime,
+  formatDistance,
+  getCountryFlag,
+  getRankDisplay,
+} from '../utils/formatters';
+import {
   DndContext,
   closestCenter,
   KeyboardSensor,
@@ -177,42 +184,7 @@ function ChallengeResults({
     return null;
   }
 
-  const formatScore = (score) => {
-    return score ? score.toLocaleString() : '0';
-  };
 
-  const formatTime = (seconds) => {
-    if (!seconds) return '0s';
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return minutes > 0 ? `${minutes}m ${remainingSeconds}s` : `${remainingSeconds}s`;
-  };
-
-  const formatDistance = (distance) => {
-    if (distance === null || distance === undefined) return 'N/A';
-    if (distance < 1000) {
-      return `${Math.round(distance)}m`;
-    } else {
-      return `${(distance / 1000).toFixed(1)}km`;
-    }
-  };
-
-  const getCountryFlag = (countryCode) => {
-    if (!countryCode) return '🌍';
-    
-    const codePoints = countryCode
-      .toUpperCase()
-      .split('')
-      .map(char => 127397 + char.charCodeAt());
-    return String.fromCodePoint(...codePoints);
-  };
-
-  const getRankDisplay = (rank) => {
-    if (rank === 1) return '🥇';
-    if (rank === 2) return '🥈';
-    if (rank === 3) return '🥉';
-    return rank;
-  };
 
   const toggleChallenge = (challengeIndex) => {
     setExpandedChallenges(prev => {
@@ -391,11 +363,6 @@ function ChallengeResults({
                 toggleChallenge={toggleChallenge}
                 togglePlayer={togglePlayer}
                 onRemoveChallenge={onRemoveChallenge}
-                formatScore={formatScore}
-                formatTime={formatTime}
-                formatDistance={formatDistance}
-                getCountryFlag={getCountryFlag}
-                getRankDisplay={getRankDisplay}
                 startEditingName={startEditingName}
                 saveEditingName={saveEditingName}
                 cancelEditingName={cancelEditingName}
