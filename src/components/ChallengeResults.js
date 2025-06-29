@@ -29,12 +29,22 @@ const TableContainer = styled.div`
 `;
 
 const TableHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 20px 25px;
   background: #f8f9fa;
   border-bottom: 1px solid #e9ecef;
+`;
+
+const TitleRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const TableTitle = styled.h2`
@@ -339,26 +349,30 @@ function ChallengeResults({
   return (
     <TableContainer>
       <TableHeader>
-        <TableTitle>
-          Challenge Results ({allChallenges.length} challenges, {getTotalParticipants()} players)
-          {isFiltered && (
-            <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#667eea', marginLeft: '10px' }}>
-              - Filtered: {challenges.length} shown
-            </span>
-          )}
-          {pagination.isPagedView && (
-            <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#666', marginLeft: '10px' }}>
-              - Page {pagination.currentPage} of {pagination.totalPages}
-            </span>
-          )}
-        </TableTitle>
-        <ButtonGroup>
-          <ImportButton onClick={handleImportChallenges}>Import</ImportButton>
-          <ExportButton onClick={handleExportChallenges}>Export</ExportButton>
-          <SortButton onClick={onSortChallenges}>↑↓ Sort A-Z</SortButton>
-          <CollapseButton onClick={collapseAll}>Collapse All</CollapseButton>
-          <ClearButton onClick={onClearAll}>Clear All</ClearButton>
-        </ButtonGroup>
+        <TitleRow>
+          <TableTitle>
+            Challenge Results ({allChallenges.length} challenges, {getTotalParticipants()} players)
+            {isFiltered && (
+              <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#667eea', marginLeft: '10px' }}>
+                - Filtered: {challenges.length} shown
+              </span>
+            )}
+            {pagination.isPagedView && (
+              <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#666', marginLeft: '10px' }}>
+                - Page {pagination.currentPage} of {pagination.totalPages}
+              </span>
+            )}
+          </TableTitle>
+        </TitleRow>
+        <ButtonRow>
+          <ButtonGroup>
+            <ImportButton onClick={handleImportChallenges}>Import</ImportButton>
+            <ExportButton onClick={handleExportChallenges}>Export</ExportButton>
+            <SortButton onClick={onSortChallenges}>↑↓ Sort A-Z</SortButton>
+            <CollapseButton onClick={collapseAll}>Collapse All</CollapseButton>
+            <ClearButton onClick={onClearAll}>Clear All</ClearButton>
+          </ButtonGroup>
+        </ButtonRow>
       </TableHeader>
       
       <DndContext 
