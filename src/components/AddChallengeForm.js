@@ -707,6 +707,14 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
               >
               Challenge Name
             </OptionButton>
+            {showCustomNameInput && (
+              <CustomNameInput
+                type="text"
+                value={customName}
+                onChange={(e) => setCustomName(e.target.value)}
+                placeholder="Custom challenge name"
+              />
+            )}
             {!hasExistingChallenges && (
               <>
                 <LoadDemoButton
@@ -747,14 +755,6 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
               onChange={handleDiscordFileChange}
             />
             
-            {showCustomNameInput && (
-              <CustomNameInput
-                type="text"
-                value={customName}
-                onChange={(e) => setCustomName(e.target.value)}
-                placeholder="Custom challenge name"
-              />
-            )}
           </OptionsRow>
         </AddChallengeOptionsContainer>
         
