@@ -528,16 +528,30 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
     }
   };
 
-  const handleDiscordFileChange = (e) => {
+  const handleDiscordFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       try {
         const json = JSON.parse(event.target.result);
         const result = parseDiscordMessages(json);
         console.log('Discord message import:', result);
-        setError(`Successfully imported ${Object.keys(result).length} challenge${Object.keys(result).length !== 1 ? 's' : ''} from Discord message!`);
+        let addedCount = 0;
+        for (const [date, link] of Object.entries(result)) {
+          try {
+            const challengeData = await fetchChallengeData(link);
+            const finalChallengeData = {
+              ...challengeData,
+              name: date
+            };
+            onAddChallenge(finalChallengeData, false);
+            addedCount++;
+          } catch (err) {
+            console.error(`Failed to fetch challenge for ${date}:`, err);
+          }
+        }
+        setError(`Successfully imported ${addedCount} challenge${addedCount !== 1 ? 's' : ''} from Discord message!`);
       } catch (err) {
         setError('Failed to parse Discord message JSON.');
       }
