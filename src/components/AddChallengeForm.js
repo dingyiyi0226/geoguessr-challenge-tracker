@@ -569,6 +569,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
         const result = parseDiscordMessages(json);
         console.log('Discord message import:', result);
         let addedCount = 0;
+        let failedCount = 0;
         for (const [date, link] of Object.entries(result)) {
           try {
             const challengeData = await fetchChallengeData(link);
@@ -576,13 +577,29 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
               ...challengeData,
               name: date
             };
+            updateChallengeName(finalChallengeData.id, date);
             onAddChallenge(finalChallengeData, false);
             addedCount++;
           } catch (err) {
-            console.error(`Failed to fetch challenge for ${date}:`, err);
+            console.error(`Failed to fetch challenge for ${date}, ${link}:`, err);
+            failedCount++;
+          } finally {
+            setHint({ 
+              type: 'info', 
+              content: `Imported ${addedCount}.` +
+                `Failed ${failedCount}.` +
+                `Remaining ${Object.keys(result).length - addedCount}.`
+            });
           }
         }
-        setHint({ type: 'info', content: `Successfully imported ${addedCount} challenge${addedCount !== 1 ? 's' : ''} from Discord message!` });
+        setHint({
+          type: 'info',
+          content: `Successfully imported ${addedCount} challenge${addedCount !== 1 ? 's' : ''} from Discord message!${
+            failedCount > 0 
+              ? ` ${failedCount} challenge${failedCount !== 1 ? 's' : ''} failed. You cannot import challenges you have not played.`
+              : ''
+          }`
+        });
       } catch (err) {
         setHint({ type: 'error', content: 'Failed to parse Discord message JSON.' });
       }
