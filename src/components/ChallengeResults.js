@@ -103,6 +103,21 @@ const ImportButton = styled.button`
   }
 `;
 
+const SortButton = styled.button`
+  padding: 8px 16px;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #138496;
+  }
+`;
+
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
@@ -159,7 +174,8 @@ function ChallengeResults({
   onClearAll, 
   onUpdateChallengeName, 
   onReorderChallenges, 
-  onImportChallenges 
+  onImportChallenges,
+  onSortChallenges
 }) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
@@ -339,6 +355,7 @@ function ChallengeResults({
         <ButtonGroup>
           <ImportButton onClick={handleImportChallenges}>Import</ImportButton>
           <ExportButton onClick={handleExportChallenges}>Export</ExportButton>
+          <SortButton onClick={onSortChallenges}>↑↓ Sort A-Z</SortButton>
           <CollapseButton onClick={collapseAll}>Collapse All</CollapseButton>
           <ClearButton onClick={onClearAll}>Clear All</ClearButton>
         </ButtonGroup>

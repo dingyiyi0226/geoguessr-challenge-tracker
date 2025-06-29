@@ -36,6 +36,7 @@ function App() {
     handleReorderChallenges,
     handleImportChallenges,
     loadDemoData,
+    sortChallengesAscending,
   } = useChallengeData();
 
   const CHALLENGES_PER_PAGE = 20;
@@ -78,6 +79,7 @@ function App() {
                 onUpdateChallengeName={handleUpdateChallengeName}
                 onReorderChallenges={handleReorderChallenges}
                 onImportChallenges={handleImportChallenges}
+                onSortChallenges={sortChallengesAscending}
               />
               <ChallengeTrends 
                 challenges={pagination.currentPageItems} 

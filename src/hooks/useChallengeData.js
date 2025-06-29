@@ -137,6 +137,22 @@ export const useChallengeData = () => {
     return 0;
   }, []);
 
+  const sortChallengesAscending = useCallback(() => {
+    setChallenges(prev => {
+      const sortedChallenges = [...prev].sort((a, b) => {
+        const nameA = (a.name || '').toLowerCase();
+        const nameB = (b.name || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+      
+      // Update the order in session storage
+      const challengeIds = sortedChallenges.map(challenge => challenge.id);
+      updateChallengeOrder(challengeIds);
+      
+      return sortedChallenges;
+    });
+  }, []);
+
   return {
     challenges,
     addChallenge,
@@ -146,5 +162,6 @@ export const useChallengeData = () => {
     handleReorderChallenges,
     handleImportChallenges,
     loadDemoData,
+    sortChallengesAscending,
   };
 }; 
