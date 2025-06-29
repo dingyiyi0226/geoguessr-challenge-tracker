@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken } from '../utils/geoguessrApi';
+import { fetchChallengeData, fetchChallengesData, hasAuthToken, setAuthToken, clearAuthToken } from '../utils/geoguessrApi';
 import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList } from '../utils/sessionStorage';
 import { importChallenges } from '../utils/fileOperations';
 import { parseDiscordMessages } from '../utils/discord';
@@ -536,35 +536,47 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
         const json = JSON.parse(event.target.result);
         const result = parseDiscordMessages(json);
         console.log('Discord message import:', result);
-        let addedCount = 0;
-        let failedCount = 0;
-        for (const [date, link] of Object.entries(result)) {
-          try {
-            const challengeData = await fetchChallengeData(link);
-            const finalChallengeData = {
-              ...challengeData,
-              name: date
-            };
-            updateChallengeName(finalChallengeData.id, date);
-            onAddChallenge(finalChallengeData, false);
-            addedCount++;
-          } catch (err) {
-            console.error(`Failed to fetch challenge for ${date}, ${link}:`, err);
-            failedCount++;
-          } finally {
+
+        // Prepare data for parallel fetching
+        const challengeEntries = Object.entries(result);
+        const challengeUrls = challengeEntries.map(([date, link]) => link);
+        
+        // Set initial progress
+        setHint({ 
+          type: 'info', 
+          content: `Starting import of ${challengeUrls.length} challenges...`
+        });
+
+        // Parallel fetch with progress tracking
+        const fetchResult = await fetchChallengesData(
+          challengeUrls,
+          (progress) => {
             setHint({ 
               type: 'info', 
-              content: `Imported ${addedCount}.` +
-                `Failed ${failedCount}.` +
-                `Remaining ${Object.keys(result).length - addedCount}.`
+              content: `Imported: ${progress.addedCount}, ` +
+                `Failed: ${progress.failedCount}, ` +
+                `Remaining: ${progress.remainingCount}`
             });
           }
-        }
+        );
+
+        // Process successful results
+        fetchResult.results.forEach((challengeData, index) => {
+          const [date] = challengeEntries[index];
+          const finalChallengeData = {
+            ...challengeData,
+            name: date
+          };
+          updateChallengeName(finalChallengeData.id, date);
+          onAddChallenge(finalChallengeData, false);
+        });
+
+        // Final status message
         setHint({
           type: 'info',
-          content: `Successfully imported ${addedCount} challenge${addedCount !== 1 ? 's' : ''} from Discord message!${
-            failedCount > 0 
-              ? ` ${failedCount} challenge${failedCount !== 1 ? 's' : ''} failed. You cannot import challenges you have not played.`
+          content: `Successfully imported ${fetchResult.addedCount} challenge${fetchResult.addedCount !== 1 ? 's' : ''} from Discord message!${
+            fetchResult.failedCount > 0 
+              ? ` ${fetchResult.failedCount} challenge${fetchResult.failedCount !== 1 ? 's' : ''} failed. You cannot import challenges you have not played.`
               : ''
           }`
         });

@@ -229,6 +229,102 @@ export const isValidChallengeUrl = (url) => {
   }
 };
 
+// Parallel fetch multiple challenges data with progress tracking
+export const fetchChallengesData = async (challengeUrls, onProgress = null, forceRefresh = false) => {
+  if (!Array.isArray(challengeUrls) || challengeUrls.length === 0) {
+    throw new Error('challengeUrls must be a non-empty array');
+  }
+
+  let addedCount = 0;
+  let failedCount = 0;
+  const results = [];
+  const errors = [];
+  const updateProgress = () => {
+    if (onProgress) {
+      onProgress({
+        addedCount,
+        failedCount,
+        totalCount: challengeUrls.length,
+        remainingCount: challengeUrls.length - addedCount - failedCount
+      });
+    }
+  };
+
+  const fetchPromises = challengeUrls.map(async (url, index) => {
+    try {
+      const challengeId = extractChallengeId(url);
+      
+      // Check session storage first (unless force refresh)
+      if (!forceRefresh && hasChallenge(challengeId)) {
+        const cachedData = loadChallenge(challengeId);
+        if (cachedData) {
+          addedCount++;
+          updateProgress();
+          return { success: true, data: cachedData, url, index, challengeId };
+        }
+      }
+      
+      if (!hasAuthToken()) {
+        throw new Error('Authentication required. Please set your _ncfa token in the settings.');
+      }
+
+      const authToken = getAuthToken();
+      const challengeData = await fetchChallengeResultsFromAPI(challengeId, authToken);
+      
+      // Save to session storage but DON'T append to challenge list yet
+      saveChallenge(challengeData);
+      
+      addedCount++;
+      updateProgress();
+      return { success: true, data: challengeData, url, index, challengeId };
+    } catch (error) {
+      failedCount++;
+      updateProgress();
+      const errorInfo = { success: false, error: error.message, url, index };
+      errors.push(errorInfo);
+      return errorInfo;
+    }
+  });
+
+  // Execute all fetches in parallel
+  const promiseResults = await Promise.allSettled(fetchPromises);
+
+  // Create ordered results array to maintain original order
+  const orderedResults = new Array(challengeUrls.length);
+  const orderedChallengeIds = new Array(challengeUrls.length);
+  
+  // Process results and place them in correct order
+  promiseResults.forEach((result, index) => {
+    if (result.status === 'fulfilled') {
+      const resultValue = result.value;
+      if (resultValue.success) {
+        orderedResults[resultValue.index] = resultValue.data;
+        orderedChallengeIds[resultValue.index] = resultValue.challengeId;
+        results.push(resultValue.data);
+      }
+    }
+  });
+
+  // Now append challenge IDs to the list in the correct order
+  orderedChallengeIds.forEach(challengeId => {
+    if (challengeId) {
+      appendChallengeList(challengeId);
+    }
+  });
+
+  // Filter out undefined entries to get only successful results in order
+  const finalOrderedResults = orderedResults.filter(result => result !== undefined);
+
+  return {
+    results: finalOrderedResults,
+    errors,
+    addedCount,
+    failedCount,
+    totalCount: challengeUrls.length,
+    successRate: challengeUrls.length > 0 ? (addedCount / challengeUrls.length) * 100 : 0
+  };
+};
+
 // Helper function to get user profile (requires auth)
 export const getUserProfile = async () => {
   if (!hasAuthToken()) {
