@@ -4,16 +4,7 @@ import ChallengeImportForm from './components/ChallengeImportForm';
 import ChallengeResults from './components/ChallengeResults';
 import ChallengeTrends from './components/ChallengeTrends';
 import Header from './components/Header';
-import { 
-  loadAllChallenges, 
-  clearAllChallenges,
-  removeChallenge,
-  updateChallengeName,
-  updateChallengeOrder,
-  saveChallenge,
-  appendChallengeList
-} from './utils/sessionStorage';
-import demoChallenges from './data/demoChallenges.json';
+import { useChallengeData } from './hooks/useChallengeData';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -34,18 +25,19 @@ const ContentBody = styled.div`
 `;
 
 function App() {
-  const [challenges, setChallenges] = useState([]);
+  const {
+    challenges,
+    addChallenge,
+    removeChallengeFromList,
+    clearAll,
+    handleUpdateChallengeName,
+    handleReorderChallenges,
+    handleImportChallenges,
+    loadDemoData,
+  } = useChallengeData();
+
   const [currentPage, setCurrentPage] = useState(1);
   const CHALLENGES_PER_PAGE = 20;
-
-  // Load challenges from session storage on component mount
-  useEffect(() => {
-    const storedChallenges = loadAllChallenges();
-    if (storedChallenges.length > 0) {
-      setChallenges(storedChallenges);
-      console.log(`Restored ${storedChallenges.length} challenges from session storage`);
-    }
-  }, []);
 
   // Reset to valid page when challenges change
   useEffect(() => {
@@ -62,119 +54,6 @@ function App() {
   const startIndex = (currentPage - 1) * CHALLENGES_PER_PAGE;
   const endIndex = startIndex + CHALLENGES_PER_PAGE;
   const currentPageChallenges = challenges.slice(startIndex, endIndex);
-
-  const addChallenge = (challengeData, addAtStart = false) => {
-    setChallenges(prev => {
-      // Check if challenge already exists to avoid duplicates
-      const exists = prev.some(challenge => challenge.id === challengeData.id);
-      if (exists) {
-        console.log(`Challenge ${challengeData.id} already exists, not adding duplicate`);
-        return prev;
-      }
-      return addAtStart ? [challengeData, ...prev] : [...prev, challengeData];
-    });
-  };
-
-  const removeChallengeFromList = (index) => {
-    setChallenges(prev => {
-      const challengeToRemove = prev[index];
-      if (challengeToRemove) {
-        // Remove from session storage as well
-        removeChallenge(challengeToRemove.id);
-      }
-      return prev.filter((_, i) => i !== index);
-    });
-  };
-
-  const clearAll = () => {
-    setChallenges([]);
-    // Clear session storage as well
-    clearAllChallenges();
-  };
-
-  const handleUpdateChallengeName = (challengeIndex, newName) => {
-    setChallenges(prev => {
-      const updatedChallenges = [...prev];
-      const challenge = updatedChallenges[challengeIndex];
-      
-      if (challenge) {
-        // Update in state
-        updatedChallenges[challengeIndex] = {
-          ...challenge,
-          name: newName
-        };
-        
-        // Update in session storage
-        updateChallengeName(challenge.id, newName);
-      }
-      
-      return updatedChallenges;
-    });
-  };
-
-  const handleReorderChallenges = (sourceIndex, destinationIndex) => {
-    setChallenges(prev => {
-      const updatedChallenges = [...prev];
-      const [reorderedChallenge] = updatedChallenges.splice(sourceIndex, 1);
-      updatedChallenges.splice(destinationIndex, 0, reorderedChallenge);
-      
-      // Update the order in session storage
-      const challengeIds = updatedChallenges.map(challenge => challenge.id);
-      updateChallengeOrder(challengeIds);
-      
-      return updatedChallenges;
-    });
-  };
-
-  const handleImportChallenges = (importedChallenges) => {
-    let addedCount = 0;
-    
-    setChallenges(prev => {
-      const updatedChallenges = [...prev];
-      const existingIds = new Set(prev.map(challenge => challenge.id));
-      
-      // Add only new challenges (avoid duplicates)
-      for (const challenge of importedChallenges) {
-        if (!existingIds.has(challenge.id)) {
-          saveChallenge(challenge);
-          appendChallengeList(challenge.id);
-          updatedChallenges.push(challenge);
-          addedCount++;
-        }
-      }
-      
-      return updatedChallenges;
-    });
-    
-    return addedCount;
-  };
-
-  const loadDemoData = () => {
-    if (demoChallenges && demoChallenges.challenges && demoChallenges.challenges.length > 0) {
-      let addedCount = 0;
-      
-      setChallenges(prev => {
-        const updatedChallenges = [...prev];
-        const existingIds = new Set(prev.map(challenge => challenge.id));
-        
-        // Add only new demo challenges (avoid duplicates)
-        for (const challenge of demoChallenges.challenges) {
-          if (!existingIds.has(challenge.id)) {
-            saveChallenge(challenge);
-            appendChallengeList(challenge.id);
-            updatedChallenges.push(challenge);
-            addedCount++;
-          }
-        }
-        
-        return updatedChallenges;
-      });
-      
-      console.log(`Loaded ${addedCount} demo challenges`);
-      return addedCount;
-    }
-    return 0;
-  };
 
   return (
     <AppContainer>

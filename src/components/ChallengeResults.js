@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { loadAllChallenges } from '../utils/sessionStorage';
 import { exportChallenges, importChallenges } from '../utils/fileOperations';
 import {
   DndContext,
@@ -306,13 +305,10 @@ function ChallengeResults({
 
   const handleExportChallenges = () => {
     try {
-      // Get all challenges from session storage
-      const allChallenges = loadAllChallenges();
+      // Use the challenges from the hook (via props)
+      exportChallenges(challenges);
       
-      // Use the utility function to export
-      exportChallenges(allChallenges);
-      
-      console.log(`Exported ${allChallenges.length} challenges`);
+      console.log(`Exported ${challenges.length} challenges`);
     } catch (error) {
       console.error('Error exporting challenges:', error);
       alert(error.message || 'Failed to export challenges. Please try again.');
