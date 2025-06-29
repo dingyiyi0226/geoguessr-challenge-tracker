@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken } from '../utils/geoguessrApi';
 import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge } from '../utils/sessionStorage';
 import { importChallenges } from '../utils/fileOperations';
+import { parseDiscordMessages } from '../utils/discord';
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -334,6 +335,26 @@ const LoadDemoButton = styled.button`
   }
 `;
 
+const ImportFromDiscordButton = styled.button`
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
+  }
+`;
+
 function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
@@ -345,6 +366,7 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
   const [customName, setCustomName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const fileInputRef = React.useRef(null);
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
@@ -499,6 +521,30 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
   const currentChallengeId = getCurrentChallengeId();
   const isCached = currentChallengeId ? hasChallenge(currentChallengeId) : false;
 
+  const handleImportFromDiscord = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleDiscordFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target.result);
+        const result = parseDiscordMessages(json);
+        console.log('Discord message import:', result);
+        setError(`Successfully imported ${Object.keys(result).length} challenge${Object.keys(result).length !== 1 ? 's' : ''} from Discord message!`);
+      } catch (err) {
+        setError('Failed to parse Discord message JSON.');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <FormContainer>
       <FormTitle>Add Challenge</FormTitle>
@@ -634,6 +680,20 @@ function AddChallengeForm({ onAddChallenge, hasExistingChallenges, onLoadDemoDat
                 </ImportFromFileButton>
               </>
             )}
+            <ImportFromDiscordButton
+              type="button"
+              onClick={handleImportFromDiscord}
+              disabled={loading}
+            >
+              💬 Import from Discord message
+            </ImportFromDiscordButton>
+            <input
+              type="file"
+              accept="application/json"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleDiscordFileChange}
+            />
             
             {showCustomNameInput && (
               <CustomNameInput

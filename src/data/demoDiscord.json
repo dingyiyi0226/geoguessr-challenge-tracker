@@ -1,0 +1,281 @@
+{
+  "guild": {
+    "id": "1000000000000000000",
+    "name": "geoguessr",
+    "iconUrl": "https://cdn.discordapp.com/icons/1000000000000000000/9476082545be8076295962418c3d77d7.png?size=512"
+  },
+  "channel": {
+    "id": "1000000000000000000",
+    "type": "GuildTextChat",
+    "categoryId": "1000000000000000000",
+    "category": "Text Channels",
+    "name": "daily-challenge",
+    "topic": null
+  },
+  "dateRange": {
+    "after": "2025-06-23T00:00:00+08:00",
+    "before": null
+  },
+  "exportedAt": "2025-06-29T07:49:21.104071+08:00",
+  "messages": [
+    {
+      "id": "1000000000000000000",
+      "type": "Default",
+      "timestamp": "2025-06-23T21:41:20.109+08:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "ACW: https://www.geoguessr.com/challenge/feUGFXy80M7eg69Z\nChina: https://www.geoguessr.com/challenge/7SOs3PepJzy12L7s\nSnow: https://www.geoguessr.com/challenge/CZN555iVbgqZ9bMy",
+      "author": {
+        "id": "100000000000000000",
+        "name": "user",
+        "discriminator": "0000",
+        "nickname": "user",
+        "color": null,
+        "isBot": false,
+        "roles": [],
+        "avatarUrl": "https://cdn.discordapp.com/embed/avatars/1.png"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/feUGFXy80M7eg69Z",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on A Community World",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        },
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/7SOs3PepJzy12L7s",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on China",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        },
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/CZN555iVbgqZ9bMy",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on Snow Coverage",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": [],
+      "inlineEmojis": []
+    },
+    {
+      "id": "1000000000000000000",
+      "type": "Default",
+      "timestamp": "2025-06-24T20:10:11.904+08:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "An arbitrary world: https://www.geoguessr.com/challenge/261M0FHAsRuTPRrg\nNamibia: https://www.geoguessr.com/challenge/WtzVgenpZ9IotWds\nWhere's That Emirates Plane: https://www.geoguessr.com/challenge/DbxGIHUS7pf6Mnsy",
+      "author": {
+        "id": "100000000000000000",
+        "name": "user",
+        "discriminator": "0000",
+        "nickname": "user",
+        "color": null,
+        "isBot": false,
+        "roles": [],
+        "avatarUrl": "https://cdn.discordapp.com/embed/avatars/1.png"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/261M0FHAsRuTPRrg",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on An Arbitrary World",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        },
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/WtzVgenpZ9IotWds",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on Namibia",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        },
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/DbxGIHUS7pf6Mnsy",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on Where's That Emirates Plane?",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": [],
+      "inlineEmojis": []
+    },
+    {
+      "id": "1000000000000000000",
+      "type": "Default",
+      "timestamp": "2025-06-25T22:08:35.044+08:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "ACW: https://www.geoguessr.com/challenge/CcVm5aWVTrPSdcNH\nNorth America: https://www.geoguessr.com/challenge/61NeQ6a0eLyQZs37\nSoil world: https://www.geoguessr.com/challenge/APJiQD5yVaakhaNA",
+      "author": {
+        "id": "100000000000000000",
+        "name": "user",
+        "discriminator": "0000",
+        "nickname": "user",
+        "color": null,
+        "isBot": false,
+        "roles": [],
+        "avatarUrl": "https://cdn.discordapp.com/embed/avatars/1.png"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/CcVm5aWVTrPSdcNH",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on A Community World",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        },
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/61NeQ6a0eLyQZs37",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on North America",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        },
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/APJiQD5yVaakhaNA",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on A Soiled World",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": [],
+      "inlineEmojis": []
+    },
+    {
+      "id": "1000000000000000000",
+      "type": "Default",
+      "timestamp": "2025-06-27T10:30:20.173+08:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "ACW: https://www.geoguessr.com/challenge/q002JtjN7sbQcCw8\nextraordinary world: https://www.geoguessr.com/challenge/xFiSsGrg6loba4el",
+      "author": {
+        "id": "100000000000000000",
+        "name": "user",
+        "discriminator": "0000",
+        "nickname": "user",
+        "color": null,
+        "isBot": false,
+        "roles": [],
+        "avatarUrl": "https://cdn.discordapp.com/embed/avatars/1.png"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/q002JtjN7sbQcCw8",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on A Community World",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        },
+        {
+          "title": "",
+          "url": "https://www.geoguessr.com/challenge/xFiSsGrg6loba4el",
+          "timestamp": null,
+          "description": "User has challenged you to a game of GeoGuessr on An Extraordinary World",
+          "thumbnail": {
+            "url": "https://images-ext-1.discordapp.net/external/sB-U64K_rHPKaA67FELYQvMwKXJeHz57dpnMflmgAkU/https/www.geoguessr.com/_next/static/media/challenge.63b53e4a.webp",
+            "width": 1200,
+            "height": 630
+          },
+          "images": [],
+          "fields": [],
+          "inlineEmojis": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": [],
+      "inlineEmojis": []
+    }
+  ],
+  "messageCount": 4
+}
