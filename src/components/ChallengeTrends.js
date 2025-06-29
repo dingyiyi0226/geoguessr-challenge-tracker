@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Chart from 'react-apexcharts';
 import _ from 'lodash';
 import { formatScore } from '../utils/formatters';
+import PlayerAveragesChart from './PlayerAveragesChart';
 
 const TrendsContainer = styled.div`
   background: white;
@@ -65,15 +66,12 @@ const PlayerFilter = styled.select`
   }
 `;
 
-const ChartContainer = styled.div`
-  padding: 20px 25px;
-`;
-
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  margin-bottom: 30px;
+  padding: 20px 25px;
+  margin-bottom: 10px;
 `;
 
 const StatCard = styled.div`
@@ -100,6 +98,20 @@ const NoDataMessage = styled.div`
   padding: 40px;
   color: #666;
   font-size: 1.1rem;
+`;
+
+const ChartSection = styled.div`
+  padding: 20px 25px;
+  margin-bottom: 30px;
+`;
+
+const SectionTitle = styled.h4`
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e9ecef;
 `;
 
 function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, totalPages = 1, totalChallenges = 0 }) {
@@ -262,7 +274,7 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
     return labels[metric] || metric;
   };
 
-  const getChartOptions = () => ({
+  const chartOptions = useMemo(() => ({
     chart: {
       type: 'line',
       height: 400,
@@ -334,7 +346,7 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
       }
     },
     colors: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#43e97b', '#fa709a', '#ffecd2']
-  });
+  }), [chartData, selectedMetric]);
 
   if (!challenges || challenges.length === 0) {
     return (
@@ -401,31 +413,32 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
         </ControlsContainer>
       </TrendsHeader>
 
-      <ChartContainer>
-        {overallStats && (
-          <StatsGrid>
-            <StatCard>
-              <StatValue>{overallStats.totalChallenges}</StatValue>
-              <StatLabel>Total Challenges</StatLabel>
-            </StatCard>
-            <StatCard>
-              <StatValue>{overallStats.totalPlayers}</StatValue>
-              <StatLabel>Unique Players</StatLabel>
-            </StatCard>
-            <StatCard>
-              <StatValue>{formatScore(overallStats.averageScore)}</StatValue>
-              <StatLabel>Average Score</StatLabel>
-            </StatCard>
-            <StatCard>
-              <StatValue>{overallStats.bestPlayer}</StatValue>
-              <StatLabel>Top Performer - {formatScore(overallStats.bestScore)}</StatLabel>
-            </StatCard>
-          </StatsGrid>
-        )}
+      {overallStats && (
+        <StatsGrid>
+          <StatCard>
+            <StatValue>{overallStats.totalChallenges}</StatValue>
+            <StatLabel>Total Challenges</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatValue>{overallStats.totalPlayers}</StatValue>
+            <StatLabel>Unique Players</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatValue>{formatScore(overallStats.averageScore)}</StatValue>
+            <StatLabel>Average Score</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatValue>{overallStats.bestPlayer}</StatValue>
+            <StatLabel>Top Performer - {formatScore(overallStats.bestScore)}</StatLabel>
+          </StatCard>
+        </StatsGrid>
+      )}
 
+      <ChartSection>
+        <SectionTitle>Performance Trends Over Challenges</SectionTitle>
         {chartData && chartData.series.length > 0 ? (
           <Chart
-            options={getChartOptions()}
+            options={chartOptions}
             series={chartData.series}
             type="line"
             height={400}
@@ -435,7 +448,9 @@ function ChallengeTrends({ challenges, isPagedView = false, currentPage = 1, tot
             No data available for the selected filters
           </NoDataMessage>
         )}
-      </ChartContainer>
+      </ChartSection>
+
+      <PlayerAveragesChart allPlayers={allPlayers} />
     </TrendsContainer>
   );
 }
