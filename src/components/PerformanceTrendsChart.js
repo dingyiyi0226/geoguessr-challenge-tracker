@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import Chart from 'react-apexcharts';
 import { formatTime, formatDistance, formatScore, getRankDisplay } from '../utils/formatters';
-import { Select } from '@mantine/core';
+import { Select, MultiSelect } from '@mantine/core';
 
 const ChartSection = styled.div`
   padding: 20px 25px;
@@ -44,17 +44,18 @@ const NoDataMessage = styled.div`
 
 function PerformanceTrendsChart({ allPlayers, challenges }) {
   const [selectedMetric, setSelectedMetric] = useState('totalScore');
-  const [selectedPlayers, setSelectedPlayers] = useState('all');
+  const [selectedPlayers, setSelectedPlayers] = useState([]);
 
   // Filter players based on selection
   const filteredPlayers = useMemo(() => {
     if (!allPlayers) return [];
     
-    if (selectedPlayers === 'all') {
+    // If no players selected, show all
+    if (selectedPlayers.length === 0) {
       return allPlayers;
     }
     
-    return allPlayers.filter(player => player.userId === selectedPlayers);
+    return allPlayers.filter(player => selectedPlayers.includes(player.userId));
   }, [allPlayers, selectedPlayers]);
 
   // Prepare chart data
@@ -212,19 +213,20 @@ function PerformanceTrendsChart({ allPlayers, challenges }) {
             comboboxProps={{ withinPortal: false }}
           />
           
-          <Select
+          <MultiSelect
             value={selectedPlayers}
             onChange={setSelectedPlayers}
-            data={[
-              { value: 'all', label: 'All Players' },
-              ...allPlayers.map(player => ({
-                value: player.userId,
-                label: player.nick
-              }))
-            ]}
+            data={allPlayers.map(player => ({
+              value: player.userId,
+              label: player.nick
+            }))}
+            placeholder={selectedPlayers.length > 0 ? "" : "Select players..."}
             size="sm"
             radius="md"
             comboboxProps={{ withinPortal: false }}
+            clearable
+            searchable
+            style={{ maxWidth: '250px' }}
           />
         </ControlsContainer>
       </SectionHeader>
