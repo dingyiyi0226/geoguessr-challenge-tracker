@@ -395,17 +395,6 @@ function ChallengeCard({
           </ChallengeInfo>
         </ChallengeHeaderContent>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <ActionIcon 
-            onClick={(e) => { 
-              e.stopPropagation(); 
-              toggleChallenge(challengeIndex); 
-            }}
-            color="blue"
-            size="lg"
-            variant="filled"
-          >
-            {expandedChallenges.has(challengeIndex) ? '▼' : '▶'}
-          </ActionIcon>
           <Button 
             onClick={(e) => { e.stopPropagation(); onRemoveChallenge(challengeIndex); }}
             color="red"
