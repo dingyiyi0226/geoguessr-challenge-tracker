@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import Chart from 'react-apexcharts';
 import { formatTime, formatDistance, formatScore, getRankDisplay } from '../utils/formatters';
+import { Select } from '@mantine/core';
 
 const ChartSection = styled.div`
   padding: 20px 25px;
@@ -32,33 +33,7 @@ const ControlsContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const MetricSelector = styled.select`
-  padding: 8px 12px;
-  border: 2px solid #e1e5e9;
-  border-radius: 6px;
-  background: white;
-  font-size: 0.9rem;
-  cursor: pointer;
-  
-  &:focus {
-    outline: none;
-    border-color: #667eea;
-  }
-`;
 
-const PlayerFilter = styled.select`
-  padding: 8px 12px;
-  border: 2px solid #e1e5e9;
-  border-radius: 6px;
-  background: white;
-  font-size: 0.9rem;
-  cursor: pointer;
-  
-  &:focus {
-    outline: none;
-    border-color: #667eea;
-  }
-`;
 
 const NoDataMessage = styled.div`
   text-align: center;
@@ -220,30 +195,37 @@ function PerformanceTrendsChart({ allPlayers, challenges }) {
       <SectionHeader>
         <SectionTitleWithControls>Performance Trends Over Challenges</SectionTitleWithControls>
         <ControlsContainer>
-          <MetricSelector
+          <Select
             value={selectedMetric}
-            onChange={(e) => setSelectedMetric(e.target.value)}
-          >
-            <option value="totalScore">Total Score</option>
-            <option value="averageScore">Average Score per Round</option>
-            <option value="totalTime">Total Time</option>
-            <option value="averageTime">Average Time per Round</option>
-            <option value="averageDistance">Average Distance</option>
-            <option value="rank">Rank</option>
-            <option value="scorePercentage">Score Percentage</option>
-          </MetricSelector>
+            onChange={setSelectedMetric}
+            data={[
+              { value: 'totalScore', label: 'Total Score' },
+              { value: 'averageScore', label: 'Average Score per Round' },
+              { value: 'totalTime', label: 'Total Time' },
+              { value: 'averageTime', label: 'Average Time per Round' },
+              { value: 'averageDistance', label: 'Average Distance' },
+              { value: 'rank', label: 'Rank' },
+              { value: 'scorePercentage', label: 'Score Percentage' }
+            ]}
+            size="sm"
+            radius="md"
+            comboboxProps={{ withinPortal: false }}
+          />
           
-          <PlayerFilter
+          <Select
             value={selectedPlayers}
-            onChange={(e) => setSelectedPlayers(e.target.value)}
-          >
-            <option value="all">All Players</option>
-            {allPlayers.map(player => (
-              <option key={player.userId} value={player.userId}>
-                {player.nick}
-              </option>
-            ))}
-          </PlayerFilter>
+            onChange={setSelectedPlayers}
+            data={[
+              { value: 'all', label: 'All Players' },
+              ...allPlayers.map(player => ({
+                value: player.userId,
+                label: player.nick
+              }))
+            ]}
+            size="sm"
+            radius="md"
+            comboboxProps={{ withinPortal: false }}
+          />
         </ControlsContainer>
       </SectionHeader>
 
