@@ -234,10 +234,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         onStatusUpdate?.({ type: 'info', content: `Note: Loaded from cache (${cacheAge} minute${cacheAge !== 1 ? 's' : ''} old). Use "Refresh" for latest data.` });
       }
       
-      // Show info if using simulated data
-      if (challengeData.isSimulated) {
-        onStatusUpdate?.({ type: 'warning', content: `Note: ${challengeData.simulationReason} Displaying simulated data for demonstration.` });
-      }
+
     } catch (err) {
       onStatusUpdate?.({ type: 'error', content: err.message || 'Failed to fetch challenge data. Please check the URL and try again.' });
     } finally {

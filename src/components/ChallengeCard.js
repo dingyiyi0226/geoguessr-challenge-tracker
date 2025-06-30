@@ -56,15 +56,12 @@ const ChallengeHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px 25px;
-  background: ${props => props.$isSimulated ? '#fff3cd' : props.$isPrivate ? '#f8d7da' : '#ffffff'};
+  background: #ffffff;
   cursor: pointer;
   transition: background-color 0.2s ease;
 
   &:hover {
-    background: ${props => 
-      props.$isSimulated ? '#ffeaa7' : 
-      props.$isPrivate ? '#f5c6cb' : '#f8f9fa'
-    };
+    background: #f8f9fa;
   }
   
   ${props => props.$isDragging && `
@@ -111,23 +108,7 @@ const ChallengeDetails = styled.div`
   flex-wrap: wrap;
 `;
 
-const Badge = styled.span`
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-left: 10px;
-`;
 
-const SimulatedBadge = styled(Badge)`
-  background: #ffc107;
-  color: #212529;
-`;
-
-const PrivateBadge = styled(Badge)`
-  background: #dc3545;
-  color: white;
-`;
 
 
 
@@ -285,8 +266,6 @@ function ChallengeCard({
     >
       <ChallengeHeader 
         onClick={() => toggleChallenge(challengeIndex)}
-        $isSimulated={challenge.isSimulated}
-        $isPrivate={challenge.isPrivate}
         $isDragging={isDragging}
       >
         <ChallengeHeaderContent>
@@ -375,8 +354,6 @@ function ChallengeCard({
                   </ActionIcon>
                 </>
               )}
-              {challenge.isSimulated && <SimulatedBadge>DEMO</SimulatedBadge>}
-              {challenge.isPrivate && <PrivateBadge>PRIVATE</PrivateBadge>}
             </ChallengeNameContainer>
             <ChallengeDetails>
               <span>🏆 {challenge.highscoreCount || challenge.participants?.length || 0} results</span>
@@ -466,15 +443,7 @@ function ChallengeCard({
           </Table>
         ) : (
           <EmptyState>
-            {challenge.isPrivate ? (
-              <>
-                🔒 This challenge is private or has no public results.
-                <br />
-                <small>{challenge.warning}</small>
-              </>
-            ) : (
-              'No participants found for this challenge.'
-            )}
+            No participants found for this challenge.
           </EmptyState>
         )}
       </PlayersContainer>
