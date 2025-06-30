@@ -1,46 +1,51 @@
 import React from 'react';
-import styled from 'styled-components';
+import { Alert } from '@mantine/core';
+import { IconInfoCircle, IconAlertTriangle, IconExclamationCircle } from '@tabler/icons-react';
 
-const ErrorMessage = styled.div`
-  background: #fee;
-  border: 1px solid #fcc;
-  color: #c66;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-`;
-
-const InfoMessage = styled.div`
-  background: #e7f3ff;
-  border: 1px solid #b3d9ff;
-  color: #0066cc;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-`;
-
-const WarningMessage = styled.div`
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  color: #856404;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-`;
-
-function StatusMessage({ type, content }) {
+function StatusMessage({ type, content, onClose }) {
   if (!content) return null;
 
-  switch (type) {
-    case 'info':
-      return <InfoMessage>{content}</InfoMessage>;
-    case 'warning':
-      return <WarningMessage>{content}</WarningMessage>;
-    case 'error':
-      return <ErrorMessage>{content}</ErrorMessage>;
-    default:
-      return null;
-  }
+  const getAlertProps = () => {
+    switch (type) {
+      case 'info':
+        return {
+          color: 'blue',
+          icon: <IconInfoCircle size={24} />,
+          title: 'Info'
+        };
+      case 'warning':
+        return {
+          color: 'yellow',
+          icon: <IconAlertTriangle size={24} />,
+          title: 'Warning'
+        };
+      case 'error':
+        return {
+          color: 'red',
+          icon: <IconExclamationCircle size={24} />,
+          title: 'Error'
+        };
+      default:
+        return {
+          color: 'blue',
+          icon: <IconInfoCircle size={24} />
+        };
+    }
+  };
+
+  const alertProps = getAlertProps();
+
+  return (
+    <Alert
+      {...alertProps}
+      mt="md"
+      radius="md"
+      withCloseButton
+      onClose={onClose}
+    >
+      {content}
+    </Alert>
+  );
 }
 
 export default StatusMessage; 

@@ -52,6 +52,11 @@ function App() {
     setFilteredChallenges(filtered);
   }, []);
 
+  // Handle status message close
+  const handleCloseStatusMessage = useCallback(() => {
+    setStatusMessage({ type: '', content: '' });
+  }, []);
+
   React.useEffect(() => {
     setFilteredChallenges(challenges);
   }, [challenges]);
@@ -67,7 +72,7 @@ function App() {
             onLoadDemoData={loadDemoData}
             onStatusUpdate={setStatusMessage}
           />
-          <StatusMessage type={statusMessage.type} content={statusMessage.content} />
+          <StatusMessage type={statusMessage.type} content={statusMessage.content} onClose={handleCloseStatusMessage} />
           {challenges.length > 0 && (
             <>
               <ChallengeResults 
