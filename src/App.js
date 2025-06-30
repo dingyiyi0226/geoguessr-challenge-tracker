@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import ChallengeImportForm from './components/ChallengeImportForm';
 import ChallengeResults from './components/ChallengeResults';
 import ChallengeTrends from './components/ChallengeTrends';
-import ChallengeFilter from './components/ChallengeFilter';
 import Header from './components/Header';
 import { useChallengeData } from './hooks/useChallengeData';
 import { usePagination } from './hooks/usePagination';
@@ -44,7 +43,7 @@ function App() {
   const [filteredChallenges, setFilteredChallenges] = useState(challenges);
   const pagination = usePagination(filteredChallenges, CHALLENGES_PER_PAGE);
 
-  // Handle filter changes
+  // Handle filter changes from ChallengeResults
   const handleFilterChange = useCallback((filtered) => {
     setFilteredChallenges(filtered);
   }, []);
@@ -65,11 +64,6 @@ function App() {
           />
           {challenges.length > 0 && (
             <>
-              <ChallengeFilter
-                challenges={challenges}
-                onFilterChange={handleFilterChange}
-                filteredCount={filteredChallenges.length}
-              />
               <ChallengeResults 
                 allChallenges={challenges}
                 challenges={filteredChallenges}
@@ -80,6 +74,7 @@ function App() {
                 onReorderChallenges={handleReorderChallenges}
                 onImportChallenges={handleImportChallenges}
                 onSortChallenges={sortChallengesAscending}
+                onFilterChange={handleFilterChange}
               />
               <ChallengeTrends 
                 challenges={pagination.currentPageItems} 

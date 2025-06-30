@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { exportChallenges, importChallenges } from '../utils/fileOperations';
 import {
@@ -19,6 +19,7 @@ import {
   restrictToParentElement,
 } from '@dnd-kit/modifiers';
 import ChallengeCard from './ChallengeCard';
+import ChallengeFilterPanel from './ChallengeFilterPanel';
 
 const TableContainer = styled.div`
   background: white;
@@ -128,6 +129,21 @@ const SortButton = styled.button`
   }
 `;
 
+const FilterButton = styled.button`
+  padding: 8px 16px;
+  background: ${props => props.$active ? '#6c63ff' : '#6c757d'};
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: ${props => props.$active ? '#5a54eb' : '#5a6268'};
+  }
+`;
+
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
@@ -185,12 +201,31 @@ function ChallengeResults({
   onUpdateChallengeName, 
   onReorderChallenges, 
   onImportChallenges,
-  onSortChallenges
+  onSortChallenges,
+  onFilterChange
 }) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
   const [editingChallenge, setEditingChallenge] = useState(null);
   const [editName, setEditName] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  
+  // Filter states - now using arrays instead of Sets
+  const [selectedMapNames, setSelectedMapNames] = useState([]);
+  const [selectedGameModes, setSelectedGameModes] = useState([]);
+  
+  // Apply filters whenever filter values change
+  useEffect(() => {
+    const filtered = allChallenges.filter(challenge => {
+      const mapNameMatch = selectedMapNames.length === 0 || selectedMapNames.includes(challenge.mapName);
+      const gameModeMatch = selectedGameModes.length === 0 || selectedGameModes.includes(challenge.mode);
+      return mapNameMatch && gameModeMatch;
+    });
+
+    if (onFilterChange) {
+      onFilterChange(filtered);
+    }
+  }, [allChallenges, selectedMapNames, selectedGameModes, onFilterChange]);
   
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -199,9 +234,11 @@ function ChallengeResults({
     })
   );
 
-  if (challenges.length === 0) {
+  if (allChallenges.length === 0) {
     return null;
   }
+
+  const hasActiveFilters = selectedMapNames.length > 0 || selectedGameModes.length > 0;
 
   const toggleChallenge = (challengeIndex) => {
     setExpandedChallenges(prev => {
@@ -238,21 +275,18 @@ function ChallengeResults({
 
   const handlePageChange = (page) => {
     pagination.goToPage(page);
-    // Clear expanded states when changing pages
     setExpandedChallenges(new Set());
     setExpandedPlayers(new Set());
   };
 
   const handleNextPage = () => {
     pagination.nextPage();
-    // Clear expanded states when changing pages
     setExpandedChallenges(new Set());
     setExpandedPlayers(new Set());
   };
 
   const handlePrevPage = () => {
     pagination.prevPage();
-    // Clear expanded states when changing pages
     setExpandedChallenges(new Set());
     setExpandedPlayers(new Set());
   };
@@ -264,9 +298,7 @@ function ChallengeResults({
 
   const handleExportChallenges = () => {
     try {
-      // Use the full challenges array for export
       exportChallenges(allChallenges);
-      
       console.log(`Exported ${allChallenges.length} challenges`);
     } catch (error) {
       console.error('Error exporting challenges:', error);
@@ -276,10 +308,8 @@ function ChallengeResults({
 
   const handleImportChallenges = async () => {
     try {
-      // Use the utility function to import
       const importedChallenges = await importChallenges();
       
-      // Pass the imported challenges to the parent component
       if (onImportChallenges) {
         const addedCount = onImportChallenges(importedChallenges);
         console.log(`Imported ${importedChallenges.length} challenges, ${addedCount} added (duplicates skipped)`);
@@ -302,7 +332,6 @@ function ChallengeResults({
 
   const saveEditingName = () => {
     if (editingChallenge !== null && editName.trim() !== '') {
-      // Find the challenge in the full challenges array to get the correct index
       const challenge = challenges[editingChallenge];
       const fullArrayIndex = allChallenges.findIndex(c => c.id === challenge.id);
       onUpdateChallengeName(fullArrayIndex, editName.trim());
@@ -323,14 +352,11 @@ function ChallengeResults({
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      // Find the indices in the original full challenges array
       const oldIndex = allChallenges.findIndex((challenge) => challenge.id === active.id);
       const newIndex = allChallenges.findIndex((challenge) => challenge.id === over.id);
 
       onReorderChallenges(oldIndex, newIndex);
       
-      // After reordering, we might need to adjust the current page
-      // to keep the dragged item visible in the filtered view
       const newFilteredIndex = challenges.findIndex((challenge) => challenge.id === active.id);
       if (newFilteredIndex >= 0) {
         const newPage = pagination.getPageFromIndex(newFilteredIndex);
@@ -342,8 +368,6 @@ function ChallengeResults({
   }
 
   const currentChallengeIds = pagination.currentPageItems.map(challenge => challenge.id);
-
-  // Check if we're showing filtered results
   const isFiltered = allChallenges.length !== challenges.length;
 
   return (
@@ -368,12 +392,28 @@ function ChallengeResults({
           <ButtonGroup>
             <ImportButton onClick={handleImportChallenges}>Import</ImportButton>
             <ExportButton onClick={handleExportChallenges}>Export</ExportButton>
+            <FilterButton 
+              $active={showFilters || hasActiveFilters}
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              🔍 Filter {hasActiveFilters && `(${selectedMapNames.length + selectedGameModes.length})`}
+            </FilterButton>
             <SortButton onClick={onSortChallenges}>↑↓ Sort A-Z</SortButton>
             <CollapseButton onClick={collapseAll}>Collapse All</CollapseButton>
             <ClearButton onClick={onClearAll}>Clear All</ClearButton>
           </ButtonGroup>
         </ButtonRow>
       </TableHeader>
+
+      <ChallengeFilterPanel
+        challenges={allChallenges}
+        visible={showFilters}
+        selectedMapNames={selectedMapNames}
+        selectedGameModes={selectedGameModes}
+        onMapNamesChange={setSelectedMapNames}
+        onGameModesChange={setSelectedGameModes}
+        onClearFilters={() => setShowFilters(false)}
+      />
       
       <DndContext 
         sensors={sensors}
@@ -383,7 +423,7 @@ function ChallengeResults({
       >
         <SortableContext items={currentChallengeIds} strategy={verticalListSortingStrategy}>
           {pagination.currentPageItems.map((challenge, pageIndex) => {
-            const globalIndex = pagination.startIndex + pageIndex; // Calculate global index for proper functionality
+            const globalIndex = pagination.startIndex + pageIndex;
             return (
               <ChallengeCard
                 key={challenge.id}
@@ -397,7 +437,6 @@ function ChallengeResults({
                 toggleChallenge={toggleChallenge}
                 togglePlayer={togglePlayer}
                 onRemoveChallenge={(index) => {
-                  // Find the challenge in the full array and remove it
                   const challenge = challenges[index];
                   const fullArrayIndex = allChallenges.findIndex(c => c.id === challenge.id);
                   onRemoveChallenge(fullArrayIndex);
@@ -416,7 +455,7 @@ function ChallengeResults({
         <PaginationContainer>
           <PaginationInfo>
             Showing {pagination.startIndex + 1}-{Math.min(pagination.endIndex, challenges.length)} of {challenges.length} challenges
-            {isFiltered && (
+            {hasActiveFilters && (
               <span style={{ color: '#667eea', marginLeft: '8px' }}>
                 (filtered from {allChallenges.length} total)
               </span>

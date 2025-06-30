@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import _ from 'lodash';
 
 const FilterContainer = styled.div`
   background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  margin: 15px 25px 0;
   padding: 20px 25px;
+  display: ${props => props.$visible ? 'block' : 'none'};
 `;
 
 const FilterTitle = styled.h3`
@@ -191,42 +193,35 @@ const ResultCount = styled.div`
   font-style: italic;
 `;
 
-function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
-  const [selectedMapNames, setSelectedMapNames] = useState(new Set());
-  const [selectedGameModes, setSelectedGameModes] = useState(new Set());
+function ChallengeFilterPanel({ 
+  challenges, 
+  visible, 
+  selectedMapNames, 
+  selectedGameModes, 
+  onMapNamesChange, 
+  onGameModesChange,
+  onClearFilters 
+}) {
   const [dropdownOpen, setDropdownOpen] = useState({ maps: false, modes: false });
 
-  // Extract unique map names and game modes from challenges
   const uniqueMapNames = React.useMemo(() => {
-    const mapNames = challenges
-      .map(challenge => challenge.mapName)
-      .filter(Boolean)
-      .filter((name, index, array) => array.indexOf(name) === index)
-      .sort();
-    return mapNames;
+    return _(challenges)
+      .map('mapName')
+      .compact()
+      .uniq()
+      .sort()
+      .value();
   }, [challenges]);
 
   const uniqueGameModes = React.useMemo(() => {
-    const gameModes = challenges
-      .map(challenge => challenge.mode)
-      .filter(Boolean)
-      .filter((mode, index, array) => array.indexOf(mode) === index)
-      .sort();
-    return gameModes;
+    return _(challenges)
+      .map('mode')
+      .compact()
+      .uniq()
+      .sort()
+      .value();
   }, [challenges]);
 
-  // Apply filters whenever filter values change
-  useEffect(() => {
-    const filteredChallenges = challenges.filter(challenge => {
-      const mapNameMatch = selectedMapNames.size === 0 || selectedMapNames.has(challenge.mapName);
-      const gameModeMatch = selectedGameModes.size === 0 || selectedGameModes.has(challenge.mode);
-      return mapNameMatch && gameModeMatch;
-    });
-
-    onFilterChange(filteredChallenges);
-  }, [challenges, selectedMapNames, selectedGameModes, onFilterChange]);
-
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.dropdown-container')) {
@@ -241,75 +236,58 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
   }, []);
 
   const toggleSelection = (item, type) => {
-    if (type === 'map') {
-      setSelectedMapNames(prev => {
-        const newSet = new Set(prev);
-        if (newSet.has(item)) {
-          newSet.delete(item);
-        } else {
-          newSet.add(item);
-        }
-        return newSet;
-      });
-    } else {
-      setSelectedGameModes(prev => {
-        const newSet = new Set(prev);
-        if (newSet.has(item)) {
-          newSet.delete(item);
-        } else {
-          newSet.add(item);
-        }
-        return newSet;
-      });
-    }
+    const currentArray = type === 'map' ? selectedMapNames : selectedGameModes;
+    const updateFunction = type === 'map' ? onMapNamesChange : onGameModesChange;
+    
+    const newArray = currentArray.includes(item)
+      ? _.without(currentArray, item)  // Remove item
+      : _.union(currentArray, [item]); // Add item
+      
+    updateFunction(newArray);
   };
 
   const removeSelection = (item, type) => {
-    if (type === 'map') {
-      setSelectedMapNames(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(item);
-        return newSet;
-      });
-    } else {
-      setSelectedGameModes(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(item);
-        return newSet;
-      });
-    }
+    const currentArray = type === 'map' ? selectedMapNames : selectedGameModes;
+    const updateFunction = type === 'map' ? onMapNamesChange : onGameModesChange;
+    
+    const newArray = _.without(currentArray, item);
+    updateFunction(newArray);
   };
 
   const selectAllMaps = () => {
-    setSelectedMapNames(new Set(uniqueMapNames));
+    onMapNamesChange([...uniqueMapNames]);
   };
 
   const deselectAllMaps = () => {
-    setSelectedMapNames(new Set());
+    onMapNamesChange([]);
   };
 
   const selectAllModes = () => {
-    setSelectedGameModes(new Set(uniqueGameModes));
+    onGameModesChange([...uniqueGameModes]);
   };
 
   const deselectAllModes = () => {
-    setSelectedGameModes(new Set());
+    onGameModesChange([]);
   };
 
   const clearAllFilters = () => {
-    setSelectedMapNames(new Set());
-    setSelectedGameModes(new Set());
+    onMapNamesChange([]);
+    onGameModesChange([]);
     setDropdownOpen({ maps: false, modes: false });
+    if (onClearFilters) {
+      onClearFilters();
+    }
   };
 
-  const hasActiveFilters = selectedMapNames.size > 0 || selectedGameModes.size > 0;
-
-  if (challenges.length === 0) {
-    return null;
-  }
+  const hasActiveFilters = selectedMapNames.length > 0 || selectedGameModes.length > 0;
+  const filteredCount = challenges.filter(challenge => {
+    const mapNameMatch = selectedMapNames.length === 0 || selectedMapNames.includes(challenge.mapName);
+    const gameModeMatch = selectedGameModes.length === 0 || selectedGameModes.includes(challenge.mode);
+    return mapNameMatch && gameModeMatch;
+  }).length;
 
   return (
-    <FilterContainer>
+    <FilterContainer $visible={visible}>
       <FilterTitle>Filter Challenges</FilterTitle>
       
       <FilterRow>
@@ -321,9 +299,9 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
               onClick={() => setDropdownOpen(prev => ({ ...prev, maps: !prev.maps }))}
             >
               <span>
-                {selectedMapNames.size === 0 
+                {selectedMapNames.length === 0 
                   ? `Select maps... (${uniqueMapNames.length} available)` 
-                  : `${selectedMapNames.size} of ${uniqueMapNames.length} selected`
+                  : `${selectedMapNames.length} of ${uniqueMapNames.length} selected`
                 }
               </span>
               <span>{dropdownOpen.maps ? '▲' : '▼'}</span>
@@ -342,7 +320,7 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
                   <DropdownItem key={mapName} onClick={() => toggleSelection(mapName, 'map')}>
                     <input 
                       type="checkbox" 
-                      checked={selectedMapNames.has(mapName)} 
+                      checked={selectedMapNames.includes(mapName)} 
                       onChange={() => {}} 
                     />
                     <span title={mapName}>{mapName}</span>
@@ -357,10 +335,9 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
             )}
           </CustomDropdown>
           
-          {/* Selected maps chips */}
-          {selectedMapNames.size > 0 && (
+          {selectedMapNames.length > 0 && (
             <SelectedChipsContainer>
-              {Array.from(selectedMapNames).map(mapName => (
+              {selectedMapNames.map(mapName => (
                 <SelectedChip key={mapName}>
                   📍 {mapName}
                   <RemoveChipButton onClick={() => removeSelection(mapName, 'map')}>
@@ -380,9 +357,9 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
               onClick={() => setDropdownOpen(prev => ({ ...prev, modes: !prev.modes }))}
             >
               <span>
-                {selectedGameModes.size === 0 
+                {selectedGameModes.length === 0 
                   ? `Select modes... (${uniqueGameModes.length} available)` 
-                  : `${selectedGameModes.size} of ${uniqueGameModes.length} selected`
+                  : `${selectedGameModes.length} of ${uniqueGameModes.length} selected`
                 }
               </span>
               <span>{dropdownOpen.modes ? '▲' : '▼'}</span>
@@ -401,7 +378,7 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
                   <DropdownItem key={gameMode} onClick={() => toggleSelection(gameMode, 'mode')}>
                     <input 
                       type="checkbox" 
-                      checked={selectedGameModes.has(gameMode)} 
+                      checked={selectedGameModes.includes(gameMode)} 
                       onChange={() => {}} 
                     />
                     <span>{gameMode}</span>
@@ -416,10 +393,9 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
             )}
           </CustomDropdown>
           
-          {/* Selected modes chips */}
-          {selectedGameModes.size > 0 && (
+          {selectedGameModes.length > 0 && (
             <SelectedChipsContainer>
-              {Array.from(selectedGameModes).map(gameMode => (
+              {selectedGameModes.map(gameMode => (
                 <SelectedChip key={gameMode}>
                   🎮 {gameMode}
                   <RemoveChipButton onClick={() => removeSelection(gameMode, 'mode')}>
@@ -448,9 +424,9 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
           )}
           {hasActiveFilters && (
             <div style={{ fontSize: '0.8rem', marginTop: '2px' }}>
-              {selectedMapNames.size > 0 && `${selectedMapNames.size} map${selectedMapNames.size !== 1 ? 's' : ''}`}
-              {selectedMapNames.size > 0 && selectedGameModes.size > 0 && ' • '}
-              {selectedGameModes.size > 0 && `${selectedGameModes.size} mode${selectedGameModes.size !== 1 ? 's' : ''}`}
+              {selectedMapNames.length > 0 && `${selectedMapNames.length} map${selectedMapNames.length !== 1 ? 's' : ''}`}
+              {selectedMapNames.length > 0 && selectedGameModes.length > 0 && ' • '}
+              {selectedGameModes.length > 0 && `${selectedGameModes.length} mode${selectedGameModes.length !== 1 ? 's' : ''}`}
             </div>
           )}
         </ResultCount>
@@ -459,4 +435,4 @@ function ChallengeFilter({ challenges, onFilterChange, filteredCount }) {
   );
 }
 
-export default ChallengeFilter; 
+export default ChallengeFilterPanel; 
