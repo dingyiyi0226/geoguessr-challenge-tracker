@@ -276,7 +276,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
           <Button 
             type="submit" 
             disabled={loading || !challengeUrl.trim()}
-            color="violet"
+            color="teal"
             size="md"
             radius="md"
             leftSection={loading ? <Loader size="xs" color="white" /> : null}
@@ -289,11 +289,11 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
               onClick={(e) => handleSubmit(e, true)}
               disabled={loading}
               color="orange"
-              size="sm"
+              size="md"
               radius="md"
               leftSection={loading ? <Loader size="xs" color="white" /> : null}
             >
-              {loading ? 'Refreshing...' : '🔄 Refresh'}
+              {loading ? 'Refreshing...' : 'Refresh'}
             </Button>
           )}
         </InputGroup>
