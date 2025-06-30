@@ -125,10 +125,10 @@ const RoundScoreCell = styled(RoundCell)`
 const RoundDistanceCell = styled(RoundCell)`
   color: ${props => {
     const distance = props.$distance;
-    if (distance < 100) return '#28a745'; // Great guess
-    if (distance < 1000) return '#ffc107'; // Good guess
-    if (distance < 10000) return '#fd7e14'; // Okay guess
-    return '#dc3545'; // Poor guess
+    if (distance < 10000) return '#28a745';
+    if (distance < 100000) return '#ffc107';
+    if (distance < 500000) return '#fd7e14';
+    return '#dc3545';
   }};
   font-weight: 600;
 `;
