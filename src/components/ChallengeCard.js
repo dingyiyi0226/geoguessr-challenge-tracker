@@ -4,6 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {formatScore, formatTime, getCountryFlag, getRankDisplay} from '../utils/formatters';
 import PlayerRoundDetails from './PlayerRoundDetails';
+import { Button, ActionIcon, Anchor } from '@mantine/core';
 
 const ChallengeCardContainer = styled.div`
   border-bottom: 1px solid #e9ecef;
@@ -113,60 +114,7 @@ const ChallengeNameInput = styled.input`
   }
 `;
 
-const EditButton = styled.button`
-  background:rgb(221, 221, 221);
-  border: none;
-  border-radius: 3px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 0.7rem;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background:rgb(188, 188, 188);
-  }
-`;
 
-const SaveButton = styled(EditButton)`
-  background:rgb(177, 215, 255);
-
-  &:hover {
-    background:rgb(105, 177, 253);
-  }
-`;
-
-const CancelButton = styled(EditButton)`
-  background:rgb(221, 221, 221);
-  
-  &:hover {
-    background:rgb(188, 188, 188);
-  }
-`;
-
-const LinkButton = styled.a`
-  background:rgb(221, 221, 221);
-  border: none;
-  border-radius: 3px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 0.7rem;
-  transition: all 0.2s ease;
-  color: white;
-  text-decoration: none;
-  
-  &:hover {
-    background:rgb(188, 188, 188);
-    color: white;
-  }
-`;
 
 const ChallengeDetails = styled.div`
   color: #666;
@@ -194,42 +142,7 @@ const PrivateBadge = styled(Badge)`
   color: white;
 `;
 
-const ExpandButton = styled.button`
-  background: #667eea;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  margin-left: 10px;
-  
-  &:hover {
-    background: #5a67d8;
-  }
-`;
 
-const ActionButton = styled.button`
-  padding: 6px 12px;
-  background: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin-left: 10px;
-
-  &:hover {
-    background: #5a6268;
-  }
-`;
 
 const PlayersContainer = styled.div`
   max-height: ${props => props.$expanded ? '1000px' : '0'};
@@ -411,48 +324,61 @@ function ChallengeCard({
                     autoFocus
                     onClick={(e) => e.stopPropagation()}
                   />
-                  <SaveButton 
+                  <ActionIcon 
                     onClick={(e) => { 
                       e.stopPropagation(); 
                       saveEditingName(); 
                     }}
                     title="Save"
+                    color="teal"
+                    size="sm"
+                    variant="filled"
                   >
                     ✓
-                  </SaveButton>
-                  <CancelButton 
+                  </ActionIcon>
+                  <ActionIcon 
                     onClick={(e) => { 
                       e.stopPropagation(); 
                       cancelEditingName(); 
                     }}
                     title="Cancel"
+                    color="gray"
+                    size="sm"
+                    variant="filled"
                   >
                     ✕
-                  </CancelButton>
+                  </ActionIcon>
                 </>
               ) : (
                 <>
                   <ChallengeName>
                     {challenge.name || 'Unknown Challenge'}
                   </ChallengeName>
-                  <EditButton 
+                  <ActionIcon 
                     onClick={(e) => { 
                       e.stopPropagation(); 
                       startEditingName(challengeIndex, challenge.name || 'Unknown Challenge'); 
                     }}
                     title="Edit challenge name"
+                    color="gray.8"
+                    size="sm"
+                    variant="light"
                   >
                     ✎
-                  </EditButton>
-                  <LinkButton 
+                  </ActionIcon>
+                  <ActionIcon 
+                    component="a"
                     href={`https://www.geoguessr.com/challenge/${challenge.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     title="View original challenge"
+                    color="gray.8"
+                    size="sm"
+                    variant="light"
                   >
                     🔗
-                  </LinkButton>
+                  </ActionIcon>
                 </>
               )}
               {challenge.isSimulated && <SimulatedBadge>DEMO</SimulatedBadge>}
@@ -468,18 +394,26 @@ function ChallengeCard({
             </ChallengeDetails>
           </ChallengeInfo>
         </ChallengeHeaderContent>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ExpandButton 
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <ActionIcon 
             onClick={(e) => { 
               e.stopPropagation(); 
               toggleChallenge(challengeIndex); 
             }}
+            color="blue"
+            size="lg"
+            variant="filled"
           >
             {expandedChallenges.has(challengeIndex) ? '▼' : '▶'}
-          </ExpandButton>
-          <ActionButton onClick={(e) => { e.stopPropagation(); onRemoveChallenge(challengeIndex); }}>
+          </ActionIcon>
+          <Button 
+            onClick={(e) => { e.stopPropagation(); onRemoveChallenge(challengeIndex); }}
+            color="red"
+            size="xs"
+            variant="filled"
+          >
             Remove
-          </ActionButton>
+          </Button>
         </div>
       </ChallengeHeader>
       

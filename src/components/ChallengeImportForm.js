@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Button, Group, Loader } from '@mantine/core';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../utils/geoguessrApi';
 import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList, batchSaveChallenges } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
@@ -50,51 +51,7 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button`
-  padding: 15px 25px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  white-space: nowrap;
 
-  &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
-
-const SmallButton = styled(Button)`
-  padding: 8px 16px;
-  font-size: 0.9rem;
-`;
-
-
-
-const LoadingSpinner = styled.div`
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #667eea;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-right: 10px;
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`;
 
 const InstructionsText = styled.div`
   font-size: 0.9rem;
@@ -158,22 +115,7 @@ const ToggleSwitch = styled.div`
   }
 `;
 
-const OptionButton = styled.button`
-  margin-left: 10px;
-  padding: 8px 12px;
-  background: ${props => props.$active ? '#667eea' : '#ffffff'};
-  color: ${props => props.$active ? 'white' : '#667eea'};
-  border: 2px solid #667eea;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
 
-  &:hover {
-    background: ${props => props.$active ? '#5a67d8' : '#f7fafc'};
-  }
-`;
 
 const CustomNameInput = styled.input`
   flex: 1;
@@ -206,52 +148,7 @@ const OptionsRow = styled.div`
   }
 `;
 
-const ImportFromFileButton = styled.button`
-  padding: 10px 16px;
-  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-  }
-`;
-
-const LoadDemoButton = styled.button`
-  padding: 10px 16px;
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-`;
 
 function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData, onStatusUpdate }) {
   const [challengeUrl, setChallengeUrl] = useState('');
@@ -453,20 +350,28 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
             placeholder="Enter Geoguessr challenge URL (e.g., https://www.geoguessr.com/challenge/...)"
             disabled={loading}
           />
-          <Button type="submit" disabled={loading || !challengeUrl.trim()}>
-            {loading && <LoadingSpinner />}
+          <Button 
+            type="submit" 
+            disabled={loading || !challengeUrl.trim()}
+            color="violet"
+            size="md"
+            radius="md"
+            leftSection={loading ? <Loader size="xs" color="white" /> : null}
+          >
             {loading ? 'Fetching...' : (isCached ? 'Load Cached' : 'Add Challenge')}
           </Button>
           {isCached && (
-            <SmallButton 
+            <Button 
               type="button"
               onClick={(e) => handleSubmit(e, true)}
               disabled={loading}
-              style={{ background: '#fd7e14' }}
+              color="orange"
+              size="sm"
+              radius="md"
+              leftSection={loading ? <Loader size="xs" color="white" /> : null}
             >
-              {loading && <LoadingSpinner />}
               {loading ? 'Refreshing...' : '🔄 Refresh'}
-            </SmallButton>
+            </Button>
           )}
         </InputGroup>
         
@@ -477,18 +382,21 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
               <span>Add at {addAtStart ? 'start' : 'end'}</span>
             </ToggleLabel>
             
-            <OptionButton
+            <Button
               type="button"
-              $active={showCustomNameInput}
+              variant={showCustomNameInput ? "filled" : "outline"}
+              color="blue"
+              size="sm"
+              radius="md"
               onClick={() => {
                 setShowCustomNameInput(!showCustomNameInput);
                 if (showCustomNameInput) {
                   setCustomName('');
                 }
               }}
-              >
+            >
               Challenge Name
-            </OptionButton>
+            </Button>
             {showCustomNameInput && (
               <CustomNameInput
                 type="text"
@@ -499,20 +407,26 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
             )}
             {!hasExistingChallenges && (
               <>
-                <LoadDemoButton
+                <Button
                   type="button"
                   onClick={handleLoadDemoData}
                   disabled={loading}
+                  color="teal"
+                  size="sm"
+                  radius="md"
                 >
                   🎮 Load Demo Data
-                </LoadDemoButton>
-                <ImportFromFileButton
+                </Button>
+                <Button
                   type="button"
                   onClick={handleImportFromFile}
                   disabled={loading}
+                  color="blue"
+                  size="sm"
+                  radius="md"
                 >
                   📁 Import from file
-                </ImportFromFileButton>
+                </Button>
               </>
             )}
             <DiscordImporter

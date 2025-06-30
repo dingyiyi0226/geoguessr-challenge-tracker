@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Button, ActionIcon } from '@mantine/core';
 import _ from 'lodash';
 
 const FilterContainer = styled.div`
@@ -97,20 +98,7 @@ const DropdownHeader = styled.div`
   font-size: 0.85rem;
 `;
 
-const HeaderButton = styled.button`
-  padding: 4px 8px;
-  background: ${props => props.$type === 'select' ? '#667eea' : '#dc3545'};
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
 
-  &:hover {
-    background: ${props => props.$type === 'select' ? '#5a67d8' : '#c82333'};
-  }
-`;
 
 const DropdownItem = styled.div`
   padding: 8px 16px;
@@ -153,39 +141,7 @@ const SelectedChip = styled.div`
   font-size: 0.8rem;
 `;
 
-const RemoveChipButton = styled.button`
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  
-  &:hover {
-    color: #ffcccb;
-  }
-`;
 
-const ClearFiltersButton = styled.button`
-  padding: 8px 16px;
-  background: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background: #5a6268;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
 
 const ResultCount = styled.div`
   color: #666;
@@ -309,12 +265,22 @@ function ChallengeFilterPanel({
             {dropdownOpen.maps && (
               <DropdownMenu>
                 <DropdownHeader>
-                  <HeaderButton $type="select" onClick={selectAllMaps}>
+                  <Button 
+                    onClick={selectAllMaps}
+                    color="blue"
+                    size="xs"
+                    variant="filled"
+                  >
                     Select All
-                  </HeaderButton>
-                  <HeaderButton $type="deselect" onClick={deselectAllMaps}>
+                  </Button>
+                  <Button 
+                    onClick={deselectAllMaps}
+                    color="red"
+                    size="xs"
+                    variant="filled"
+                  >
                     Clear All
-                  </HeaderButton>
+                  </Button>
                 </DropdownHeader>
                 {uniqueMapNames.map(mapName => (
                   <DropdownItem key={mapName} onClick={() => toggleSelection(mapName, 'map')}>
@@ -340,9 +306,14 @@ function ChallengeFilterPanel({
               {selectedMapNames.map(mapName => (
                 <SelectedChip key={mapName}>
                   📍 {mapName}
-                  <RemoveChipButton onClick={() => removeSelection(mapName, 'map')}>
+                  <ActionIcon 
+                    onClick={() => removeSelection(mapName, 'map')}
+                    size="xs"
+                    variant="transparent"
+                    color="white"
+                  >
                     ×
-                  </RemoveChipButton>
+                  </ActionIcon>
                 </SelectedChip>
               ))}
             </SelectedChipsContainer>
@@ -367,12 +338,22 @@ function ChallengeFilterPanel({
             {dropdownOpen.modes && (
               <DropdownMenu>
                 <DropdownHeader>
-                  <HeaderButton $type="select" onClick={selectAllModes}>
+                  <Button 
+                    onClick={selectAllModes}
+                    color="blue"
+                    size="xs"
+                    variant="filled"
+                  >
                     Select All
-                  </HeaderButton>
-                  <HeaderButton $type="deselect" onClick={deselectAllModes}>
+                  </Button>
+                  <Button 
+                    onClick={deselectAllModes}
+                    color="red"
+                    size="xs"
+                    variant="filled"
+                  >
                     Clear All
-                  </HeaderButton>
+                  </Button>
                 </DropdownHeader>
                 {uniqueGameModes.map(gameMode => (
                   <DropdownItem key={gameMode} onClick={() => toggleSelection(gameMode, 'mode')}>
@@ -398,9 +379,14 @@ function ChallengeFilterPanel({
               {selectedGameModes.map(gameMode => (
                 <SelectedChip key={gameMode}>
                   🎮 {gameMode}
-                  <RemoveChipButton onClick={() => removeSelection(gameMode, 'mode')}>
+                  <ActionIcon 
+                    onClick={() => removeSelection(gameMode, 'mode')}
+                    size="xs"
+                    variant="transparent"
+                    color="white"
+                  >
                     ×
-                  </RemoveChipButton>
+                  </ActionIcon>
                 </SelectedChip>
               ))}
             </SelectedChipsContainer>
@@ -409,12 +395,15 @@ function ChallengeFilterPanel({
       </FilterRow>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }}>
-        <ClearFiltersButton 
+        <Button 
           onClick={clearAllFilters}
           disabled={!hasActiveFilters}
+          color="gray"
+          size="sm"
+          variant="filled"
         >
           Clear All Filters
-        </ClearFiltersButton>
+        </Button>
         
         <ResultCount>
           {hasActiveFilters ? (

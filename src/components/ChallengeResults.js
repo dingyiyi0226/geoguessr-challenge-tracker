@@ -20,6 +20,7 @@ import {
 } from '@dnd-kit/modifiers';
 import ChallengeCard from './ChallengeCard';
 import ChallengeFilterPanel from './ChallengeFilterPanel';
+import { Button, Group } from '@mantine/core';
 
 const TableContainer = styled.div`
   background: white;
@@ -54,101 +55,6 @@ const TableTitle = styled.h2`
   font-weight: 600;
 `;
 
-const ClearButton = styled.button`
-  padding: 8px 16px;
-  background: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background: #c82333;
-  }
-`;
-
-const CollapseButton = styled.button`
-  padding: 8px 16px;
-  background: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background: #5a6268;
-  }
-`;
-
-const ExportButton = styled.button`
-  padding: 8px 16px;
-  background: #28a745;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background: #218838;
-  }
-`;
-
-const ImportButton = styled.button`
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background: #0056b3;
-  }
-`;
-
-const SortButton = styled.button`
-  padding: 8px 16px;
-  background: #17a2b8;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background: #138496;
-  }
-`;
-
-const FilterButton = styled.button`
-  padding: 8px 16px;
-  background: ${props => props.$active ? '#6c63ff' : '#6c757d'};
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background: ${props => props.$active ? '#5a54eb' : '#5a6268'};
-  }
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -167,23 +73,6 @@ const PaginationControls = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-`;
-
-const PaginationButton = styled.button`
-  padding: 8px 12px;
-  background: ${props => props.$active ? '#667eea' : '#fff'};
-  color: ${props => props.$active ? '#fff' : '#333'};
-  border: 1px solid ${props => props.$active ? '#667eea' : '#dee2e6'};
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-  opacity: ${props => props.disabled ? 0.5 : 1};
-  transition: all 0.2s ease;
-
-  &:hover:not(:disabled) {
-    background: ${props => props.$active ? '#5a67d8' : '#e9ecef'};
-    border-color: ${props => props.$active ? '#5a67d8' : '#adb5bd'};
-  }
 `;
 
 const PageNumber = styled.span`
@@ -401,19 +290,56 @@ function ChallengeResults({
           </TableTitle>
         </TitleRow>
         <ButtonRow>
-          <ButtonGroup>
-            <ImportButton onClick={handleImportChallenges}>Import</ImportButton>
-            <ExportButton onClick={handleExportChallenges}>Export</ExportButton>
-            <FilterButton 
-              $active={showFilters || hasActiveFilters}
+          <Group gap="md">
+            <Button 
+              onClick={handleImportChallenges}
+              color="teal"
+              size="sm"
+              radius="md"
+            >
+              Import
+            </Button>
+            <Button 
+              onClick={handleExportChallenges}
+              color="teal"
+              size="sm"
+              radius="md"
+            >
+              Export
+            </Button>
+            <Button 
               onClick={() => setShowFilters(!showFilters)}
+              color={showFilters || hasActiveFilters ? "violet" : "gray"}
+              size="sm"
+              radius="md"
             >
               🔍 Filter {hasActiveFilters && `(${selectedMapNames.length + selectedGameModes.length})`}
-            </FilterButton>
-            <SortButton onClick={onSortChallenges}>↑↓ Sort A-Z</SortButton>
-            <CollapseButton onClick={collapseAll}>Collapse All</CollapseButton>
-            <ClearButton onClick={onClearAll}>Clear All</ClearButton>
-          </ButtonGroup>
+            </Button>
+            <Button 
+              onClick={onSortChallenges}
+              color="gray"
+              size="sm"
+              radius="md"
+            >
+              ↑↓ Sort A-Z
+            </Button>
+            <Button 
+              onClick={collapseAll}
+              color="gray"
+              size="sm"
+              radius="md"
+            >
+              Collapse All
+            </Button>
+            <Button 
+              onClick={onClearAll}
+              color="red"
+              size="sm"
+              radius="md"
+            >
+              Clear All
+            </Button>
+          </Group>
         </ButtonRow>
       </TableHeader>
 
@@ -474,27 +400,41 @@ function ChallengeResults({
             )}
           </PaginationInfo>
           <PaginationControls>
-            <PaginationButton onClick={handlePrevPage} disabled={!pagination.hasPrevPage}>
+            <Button 
+              onClick={handlePrevPage} 
+              disabled={!pagination.hasPrevPage}
+              variant="outline"
+              size="sm"
+              color="gray"
+            >
               Previous
-            </PaginationButton>
+            </Button>
             
             {pagination.getVisiblePageNumbers().map((page, index) => (
               page === '...' ? (
                 <PageNumber key={`dots-${index}`}>...</PageNumber>
               ) : (
-                <PaginationButton
+                <Button
                   key={page}
-                  $active={page === pagination.currentPage}
+                  variant={page === pagination.currentPage ? "filled" : "outline"}
+                  color={page === pagination.currentPage ? "blue" : "gray"}
+                  size="sm"
                   onClick={() => handlePageChange(page)}
                 >
                   {page}
-                </PaginationButton>
+                </Button>
               )
             ))}
             
-            <PaginationButton onClick={handleNextPage} disabled={!pagination.hasNextPage}>
+            <Button 
+              onClick={handleNextPage} 
+              disabled={!pagination.hasNextPage}
+              variant="outline"
+              size="sm"
+              color="gray"
+            >
               Next
-            </PaginationButton>
+            </Button>
           </PaginationControls>
         </PaginationContainer>
       )}
