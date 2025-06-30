@@ -196,27 +196,6 @@ export const updateChallengeName = async (challengeId, newName) => {
   }
 };
 
-// Get storage info (for debugging)
-export const getStorageInfo = async () => {
-  try {
-    const challengesList = await getChallengesList();
-    const db = await initDB();
-    
-    // Get approximate size by counting all challenges
-    const allChallenges = await db.getAll(CHALLENGES_STORE);
-    const storageSize = new Blob([JSON.stringify(allChallenges)]).size;
-    
-    return {
-      challengeCount: challengesList.length,
-      challengeIds: challengesList,
-      approximateSize: `${(storageSize / 1024).toFixed(2)} KB`
-    };
-  } catch (error) {
-    console.error('Error getting storage info:', error);
-    return { challengeCount: 0, challengeIds: [], approximateSize: '0 KB' };
-  }
-};
-
 // Append challenge to the list
 export const appendChallengeList = async (challengeId) => {
   try {

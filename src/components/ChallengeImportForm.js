@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../utils/geoguessrApi';
-import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList } from '../utils/indexedDbStorage';
+import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
 
 import AuthSection from './AuthSection';
@@ -290,7 +290,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
   const [loading, setLoading] = useState(false);
   const [hint, setHint] = useState({ type: '', content: '' });
   const [isCached, setIsCached] = useState(false);
-  const [storageInfo, setStorageInfo] = useState({ challengeCount: 0, approximateSize: '0 KB' });
 
   // Update cache status when URL changes
   useEffect(() => {
@@ -310,23 +309,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       setIsCached(false);
     }
   }, [challengeUrl]);
-
-  // Update storage info periodically
-  useEffect(() => {
-    const updateStorageInfo = async () => {
-      try {
-        const info = await getStorageInfo();
-        setStorageInfo(info);
-      } catch (error) {
-        console.error('Error getting storage info:', error);
-      }
-    };
-
-    updateStorageInfo();
-    // Update every 5 seconds when component is active
-    const interval = setInterval(updateStorageInfo, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
@@ -577,11 +559,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         hint.type === 'warning' ? <WarningMessage>{hint.content}</WarningMessage> :
         <ErrorMessage>{hint.content}</ErrorMessage>
       )}
-
-      {/* Storage Info */}
-      <InstructionsText style={{ marginTop: '15px', marginLeft: '15px', fontSize: '0.75rem', color: '#999' }}>
-        💾 Cache: {storageInfo.challengeCount} challenge{storageInfo.challengeCount !== 1 ? 's' : ''} stored ({storageInfo.approximateSize})
-      </InstructionsText>
     </FormContainer>
   );
 }
