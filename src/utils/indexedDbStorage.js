@@ -210,4 +210,60 @@ export const appendChallengeList = async (challengeId) => {
     console.error('Error appending to challenges list:', error);
     return false;
   }
+};
+
+// Batch save multiple challenges efficiently
+export const batchSaveChallenges = async (challengesData) => {
+  try {
+    const db = await initDB();
+    
+    // Get current challenges list and existing challenges
+    const currentChallengesList = await getChallengesList();
+    const existingChallengesIds = new Set(currentChallengesList);
+    
+    // Filter out challenges that already exist
+    const challengesToSave = [];
+    const newChallengeIds = [];
+    
+    for (const challengeData of challengesData) {
+      if (!existingChallengesIds.has(challengeData.id)) {
+        const dataToStore = {
+          ...challengeData,
+          cachedAt: Date.now(),
+          version: '1.0'
+        };
+        
+        challengesToSave.push(dataToStore);
+        newChallengeIds.push(challengeData.id);
+      }
+    }
+    
+    if (challengesToSave.length === 0) {
+      console.log('No new challenges to save');
+      return { addedCount: 0, totalProcessed: challengesData.length };
+    }
+    
+    // Start a transaction for batch operations
+    const tx = db.transaction([CHALLENGES_STORE, METADATA_STORE], 'readwrite');
+    const challengesStore = tx.objectStore(CHALLENGES_STORE);
+    const metadataStore = tx.objectStore(METADATA_STORE);
+    
+    // Batch insert all new challenges
+    for (const challenge of challengesToSave) {
+      challengesStore.put(challenge);
+    }
+    
+    // Update the challenges list with new IDs
+    const updatedChallengesList = [...currentChallengesList, ...newChallengeIds];
+    metadataStore.put(updatedChallengesList, CHALLENGES_LIST_KEY);
+    
+    // Wait for transaction to complete
+    await tx.complete;
+    
+    console.log(`Batch saved ${challengesToSave.length} challenges to IndexedDB`);
+    return { addedCount: challengesToSave.length, totalProcessed: challengesData.length };
+  } catch (error) {
+    console.error('Error batch saving challenges to IndexedDB:', error);
+    return { addedCount: 0, totalProcessed: challengesData.length, error: error.message };
+  }
 }; 

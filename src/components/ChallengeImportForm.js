@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../utils/geoguessrApi';
-import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList } from '../utils/indexedDbStorage';
+import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList, batchSaveChallenges } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
 
 import AuthSection from './AuthSection';
@@ -338,15 +338,26 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         return;
       }
       
-      // Add each challenge individually to maintain proper state management
-      let addedCount = 0;
-      for (const challenge of importedChallenges) {
-        // Check if challenge already exists to avoid duplicates
-        if (!(await hasChallenge(challenge.id))) {
-          await saveChallenge(challenge);
-          await appendChallengeList(challenge.id);
-          onAddChallenge(challenge, false); // Add to back by default
-          addedCount++;
+      // Get existing challenges before batch insert
+      const existingChallengeIds = await getChallengesList();
+      const existingIdsSet = new Set(existingChallengeIds);
+      
+      // Use batch insert for better performance
+      const result = await batchSaveChallenges(importedChallenges);
+      
+      if (result.error) {
+        throw new Error(result.error);
+      }
+      
+      const { addedCount, totalProcessed } = result;
+      
+      // Add only the newly imported challenges to React state
+      if (addedCount > 0) {
+        for (const challenge of importedChallenges) {
+          // Only add to state if it wasn't already in the database before import
+          if (!existingIdsSet.has(challenge.id)) {
+            onAddChallenge(challenge, false); // Add to back by default
+          }
         }
       }
       
@@ -356,7 +367,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         setHint({ type: 'info', content: 'All challenges from the file already exist.' });
       }
       
-      console.log(`Imported ${addedCount} out of ${importedChallenges.length} challenges`);
+      console.log(`Imported ${addedCount} out of ${totalProcessed} challenges using batch insert`);
     } catch (err) {
       console.error('Error importing challenges:', err);
       setHint({ type: 'error', content: err.message || 'Failed to import challenges. Please try again.' });

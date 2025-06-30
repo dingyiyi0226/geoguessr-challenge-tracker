@@ -6,7 +6,8 @@ import {
   updateChallengeName,
   updateChallengeOrder,
   saveChallenge,
-  appendChallengeList
+  appendChallengeList,
+  batchSaveChallenges
 } from '../utils/indexedDbStorage';
 import demoChallenges from '../data/demoChallenges.json';
 
@@ -111,52 +112,58 @@ export const useChallengeData = () => {
   }, []);
 
   const handleImportChallenges = useCallback(async (importedChallenges) => {
-    let addedCount = 0;
-    
-    const updatedChallenges = [...challenges];
     const existingIds = new Set(challenges.map(challenge => challenge.id));
     
-    // Add only new challenges (avoid duplicates)
-    for (const challenge of importedChallenges) {
-      if (!existingIds.has(challenge.id)) {
-        try {
-          await saveChallenge(challenge);
-          await appendChallengeList(challenge.id);
-          updatedChallenges.push(challenge);
-          addedCount++;
-        } catch (error) {
-          console.error(`Error saving challenge ${challenge.id} to IndexedDB:`, error);
-        }
-      }
+    // Filter out challenges that already exist in React state
+    const newChallenges = importedChallenges.filter(challenge => !existingIds.has(challenge.id));
+    
+    if (newChallenges.length === 0) {
+      return 0;
     }
     
-    setChallenges(updatedChallenges);
-    return addedCount;
+    // Use batch insert for better performance
+    const result = await batchSaveChallenges(newChallenges);
+    
+    if (result.error) {
+      console.error('Error batch saving challenges:', result.error);
+      return 0;
+    }
+    
+    // Add successfully saved challenges to React state
+    if (result.addedCount > 0) {
+      setChallenges(prev => [...prev, ...newChallenges]);
+    }
+    
+    return result.addedCount;
   }, [challenges]);
 
   const loadDemoData = useCallback(async () => {
     if (demoChallenges && demoChallenges.challenges && demoChallenges.challenges.length > 0) {
-      let addedCount = 0;
-      
-      const updatedChallenges = [...challenges];
       const existingIds = new Set(challenges.map(challenge => challenge.id));
       
-      for (const challenge of demoChallenges.challenges) {
-        if (!existingIds.has(challenge.id)) {
-          try {
-            await saveChallenge(challenge);
-            await appendChallengeList(challenge.id);
-            updatedChallenges.push(challenge);
-            addedCount++;
-          } catch (error) {
-            console.error(`Error saving demo challenge ${challenge.id} to IndexedDB:`, error);
-          }
-        }
+      // Filter out demo challenges that already exist
+      const newDemoChallenges = demoChallenges.challenges.filter(challenge => !existingIds.has(challenge.id));
+      
+      if (newDemoChallenges.length === 0) {
+        console.log('All demo challenges already exist');
+        return 0;
       }
       
-      setChallenges(updatedChallenges);
-      console.log(`Loaded ${addedCount} demo challenges`);
-      return addedCount;
+      // Use batch insert for better performance
+      const result = await batchSaveChallenges(newDemoChallenges);
+      
+      if (result.error) {
+        console.error('Error batch saving demo challenges:', result.error);
+        return 0;
+      }
+      
+      // Add successfully saved demo challenges to React state
+      if (result.addedCount > 0) {
+        setChallenges(prev => [...prev, ...newDemoChallenges]);
+      }
+      
+      console.log(`Loaded ${result.addedCount} demo challenges using batch insert`);
+      return result.addedCount;
     }
     return 0;
   }, [challenges]);
