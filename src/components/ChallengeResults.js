@@ -202,7 +202,8 @@ function ChallengeResults({
   onReorderChallenges, 
   onImportChallenges,
   onSortChallenges,
-  onFilterChange
+  onFilterChange,
+  onStatusUpdate
 }) {
   const [expandedChallenges, setExpandedChallenges] = useState(new Set());
   const [expandedPlayers, setExpandedPlayers] = useState(new Set());
@@ -310,13 +311,24 @@ function ChallengeResults({
     try {
       const importedChallenges = await importChallenges();
       
+      if (importedChallenges === null) {
+        return;
+      }
+      
       if (onImportChallenges) {
-        const addedCount = onImportChallenges(importedChallenges);
+        const addedCount = await onImportChallenges(importedChallenges);
         console.log(`Imported ${importedChallenges.length} challenges, ${addedCount} added (duplicates skipped)`);
+        
+        // Show user-friendly message
+        if (addedCount > 0) {
+          onStatusUpdate?.({ type: 'info', content: `Successfully imported ${addedCount} challenges!` });
+        } else {
+          onStatusUpdate?.({ type: 'info', content: 'All challenges from the file already exist.' });
+        }
       }
     } catch (error) {
       console.error('Error importing challenges:', error);
-      alert(error.message || 'Failed to import challenges. Please try again.');
+      onStatusUpdate?.({ type: 'error', content: error.message || 'Failed to import challenges. Please try again.' });
     }
   };
 
