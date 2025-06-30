@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import { Button, ActionIcon, Group } from '@mantine/core';
-import { IconMessage, IconQuestionMark } from '@tabler/icons-react';
+import { Button, Group, Tooltip } from '@mantine/core';
+import { IconBrandDiscord } from '@tabler/icons-react';
 import { fetchChallengesData } from '../utils/geoguessrApi';
 import { parseDiscordMessages } from '../utils/discord';
 
@@ -86,35 +86,33 @@ function DiscordImporter({ onAddChallenge, onStatusUpdate, disabled = false }) {
     reader.readAsText(file);
   };
 
-  const handleShowHint = () => {
-    onStatusUpdate?.({ 
-      type: 'info', 
-      content: 'Export the Discord message as JSON by DiscordChatExporter. We fetch all challenge links from each message.' 
-    });
-  };
+
 
   return (
     <Group gap="xs">
-      <Button
-        leftSection={<IconMessage size={16} />}
-        variant="filled"
-        color="grape"
-        size="sm"
-        onClick={handleImportFromDiscord}
-        disabled={disabled}
+      <Tooltip 
+        label={
+          <>
+            Export the Discord message as JSON by DiscordChatExporter.
+            <br />
+            We fetch all challenge links from each message.
+          </>
+        }
+        multiline
+        w={300}
+        withArrow
       >
-        Import from Discord message
-      </Button>
-      
-      <ActionIcon
-        variant="light"
-        color="grape"
-        size="sm"
-        onClick={handleShowHint}
-        aria-label="Show hint for Discord import"
-      >
-        <IconQuestionMark size={20} />
-      </ActionIcon>
+        <Button
+          leftSection={<IconBrandDiscord size={16} />}
+          variant="filled"
+          color="grape"
+          size="sm"
+          onClick={handleImportFromDiscord}
+          disabled={disabled}
+        >
+          Import from Discord message
+        </Button>
+      </Tooltip>
       
       <input
         type="file"
