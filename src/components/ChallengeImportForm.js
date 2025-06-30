@@ -78,32 +78,7 @@ const SmallButton = styled(Button)`
   font-size: 0.9rem;
 `;
 
-const ErrorMessage = styled.div`
-  background: #fee;
-  border: 1px solid #fcc;
-  color: #c66;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-`;
 
-const InfoMessage = styled.div`
-  background: #e7f3ff;
-  border: 1px solid #b3d9ff;
-  color: #0066cc;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-`;
-
-const WarningMessage = styled.div`
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  color: #856404;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-`;
 
 const LoadingSpinner = styled.div`
   display: inline-block;
@@ -278,7 +253,7 @@ const LoadDemoButton = styled.button`
   }
 `;
 
-function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData }) {
+function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData, onStatusUpdate }) {
   const [challengeUrl, setChallengeUrl] = useState('');
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
@@ -288,7 +263,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
   const [showCustomNameInput, setShowCustomNameInput] = useState(false);
   const [customName, setCustomName] = useState('');
   const [loading, setLoading] = useState(false);
-  const [hint, setHint] = useState({ type: '', content: '' });
   const [isCached, setIsCached] = useState(false);
 
   // Update cache status when URL changes
@@ -317,20 +291,20 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       setIsAuthenticated(true);
       setAuthTokenInput('');
       setShowAuthInput(false);
-      setHint({ type: '', content: '' });
+      onStatusUpdate?.({ type: '', content: '' });
     }
   };
 
   const handleAuthClear = () => {
     clearAuthToken();
     setIsAuthenticated(false);
-    setHint({ type: '', content: '' });
+    onStatusUpdate?.({ type: '', content: '' });
   };
 
   const handleImportFromFile = async () => {
     try {
       setLoading(true);
-      setHint({ type: '', content: '' });
+      onStatusUpdate?.({ type: '', content: '' });
       
       // Use the utility function to import
       const importedChallenges = await importChallenges();
@@ -362,15 +336,15 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       }
       
       if (addedCount > 0) {
-        setHint({ type: 'info', content: `Successfully imported ${addedCount} challenges!` });
+        onStatusUpdate?.({ type: 'info', content: `Successfully imported ${addedCount} challenges!` });
       } else {
-        setHint({ type: 'info', content: 'All challenges from the file already exist.' });
+        onStatusUpdate?.({ type: 'info', content: 'All challenges from the file already exist.' });
       }
       
       console.log(`Imported ${addedCount} out of ${totalProcessed} challenges using batch insert`);
     } catch (err) {
       console.error('Error importing challenges:', err);
-      setHint({ type: 'error', content: err.message || 'Failed to import challenges. Please try again.' });
+      onStatusUpdate?.({ type: 'error', content: err.message || 'Failed to import challenges. Please try again.' });
     } finally {
       setLoading(false);
     }
@@ -379,20 +353,20 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
   const handleLoadDemoData = async () => {
     try {
       setLoading(true);
-      setHint({ type: '', content: '' });
+      onStatusUpdate?.({ type: '', content: '' });
       
       const addedCount = await onLoadDemoData();
       
       if (addedCount > 0) {
-        setHint({ type: 'info', content: `Successfully loaded ${addedCount} demo challenges!` });
+        onStatusUpdate?.({ type: 'info', content: `Successfully loaded ${addedCount} demo challenges!` });
       } else {
-        setHint({ type: 'warning', content: 'All demo challenges already exist.' });
+        onStatusUpdate?.({ type: 'warning', content: 'All demo challenges already exist.' });
       }
       
       console.log(`Loaded ${addedCount} demo challenges`);
     } catch (err) {
       console.error('Error loading demo data:', err);
-      setHint({ type: 'error', content: err.message || 'Failed to load demo data. Please try again.' });
+      onStatusUpdate?.({ type: 'error', content: err.message || 'Failed to load demo data. Please try again.' });
     } finally {
       setLoading(false);
     }
@@ -402,12 +376,12 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     e.preventDefault();
     
     if (!challengeUrl.trim()) {
-      setHint({ type: 'error', content: 'Please enter a challenge URL' });
+      onStatusUpdate?.({ type: 'error', content: 'Please enter a challenge URL' });
       return;
     }
 
     setLoading(true);
-    setHint({ type: '', content: '' });
+    onStatusUpdate?.({ type: '', content: '' });
 
     try {
       const challengeData = await fetchChallengeData(challengeUrl, forceRefreshParam || forceRefresh);
@@ -436,22 +410,22 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       // Show cache status info
       if (challengeData.cachedAt && !forceRefreshParam && !forceRefresh) {
         const cacheAge = Math.round((Date.now() - challengeData.cachedAt) / 60000);
-        setHint({ type: 'info', content: `Note: Loaded from cache (${cacheAge} minute${cacheAge !== 1 ? 's' : ''} old). Use "Refresh" for latest data.` });
+        onStatusUpdate?.({ type: 'info', content: `Note: Loaded from cache (${cacheAge} minute${cacheAge !== 1 ? 's' : ''} old). Use "Refresh" for latest data.` });
       }
       
       // Show info if using simulated data
       if (challengeData.isSimulated) {
-        setHint({ type: 'warning', content: `Note: ${challengeData.simulationReason} Displaying simulated data for demonstration.` });
+        onStatusUpdate?.({ type: 'warning', content: `Note: ${challengeData.simulationReason} Displaying simulated data for demonstration.` });
       }
     } catch (err) {
-      setHint({ type: 'error', content: err.message || 'Failed to fetch challenge data. Please check the URL and try again.' });
+      onStatusUpdate?.({ type: 'error', content: err.message || 'Failed to fetch challenge data. Please check the URL and try again.' });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleStatusUpdate = (status) => {
-    setHint(status);
+  const handleDiscordStatusUpdate = (status) => {
+    onStatusUpdate?.(status);
   };
 
   return (
@@ -543,7 +517,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
             )}
             <DiscordImporter
               onAddChallenge={onAddChallenge}
-              onStatusUpdate={handleStatusUpdate}
+              onStatusUpdate={handleDiscordStatusUpdate}
               disabled={loading}
             />
             
@@ -564,12 +538,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
           </InstructionsText>
         )}
       </form>
-
-      {hint.content && (
-        hint.type === 'info' ? <InfoMessage>{hint.content}</InfoMessage> :
-        hint.type === 'warning' ? <WarningMessage>{hint.content}</WarningMessage> :
-        <ErrorMessage>{hint.content}</ErrorMessage>
-      )}
     </FormContainer>
   );
 }

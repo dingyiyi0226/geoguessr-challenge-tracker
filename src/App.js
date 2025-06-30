@@ -4,6 +4,7 @@ import ChallengeImportForm from './components/ChallengeImportForm';
 import ChallengeResults from './components/ChallengeResults';
 import ChallengeTrends from './components/ChallengeTrends';
 import Header from './components/Header';
+import StatusMessage from './components/StatusMessage';
 import { useChallengeData } from './hooks/useChallengeData';
 import { usePagination } from './hooks/usePagination';
 
@@ -42,6 +43,9 @@ function App() {
 
   const [filteredChallenges, setFilteredChallenges] = useState(challenges);
   const pagination = usePagination(filteredChallenges, CHALLENGES_PER_PAGE);
+  
+  // Global status message state
+  const [statusMessage, setStatusMessage] = useState({ type: '', content: '' });
 
   // Handle filter changes from ChallengeResults
   const handleFilterChange = useCallback((filtered) => {
@@ -61,7 +65,9 @@ function App() {
             onAddChallenge={addChallenge}
             hasExistingChallenges={challenges.length > 0}
             onLoadDemoData={loadDemoData}
+            onStatusUpdate={setStatusMessage}
           />
+          <StatusMessage type={statusMessage.type} content={statusMessage.content} />
           {challenges.length > 0 && (
             <>
               <ChallengeResults 
@@ -75,6 +81,7 @@ function App() {
                 onImportChallenges={handleImportChallenges}
                 onSortChallenges={sortChallengesAscending}
                 onFilterChange={handleFilterChange}
+                onStatusUpdate={setStatusMessage}
               />
               <ChallengeTrends 
                 challenges={pagination.currentPageItems} 
