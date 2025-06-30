@@ -1,56 +1,8 @@
 import React, { useRef } from 'react';
-import styled from 'styled-components';
-import { FaQuestionCircle } from 'react-icons/fa';
+import { Button, ActionIcon, Group } from '@mantine/core';
+import { IconMessage, IconQuestionMark } from '@tabler/icons-react';
 import { fetchChallengesData } from '../utils/geoguessrApi';
 import { parseDiscordMessages } from '../utils/discord';
-
-const ImportFromDiscordButton = styled.button`
-  padding: 10px 16px;
-  background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-`;
-
-const QuestionMarkButton = styled.button`
-  background: none;
-  border: none;
-  padding: 0 4px;
-  margin-left: -6px;
-  color: #8e44ad;
-  cursor: pointer;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  transition: color 0.2s;
-  
-  &:hover {
-    color: #5e3370;
-  }
-`;
-
-const HiddenFileInput = styled.input`
-  display: none;
-`;
 
 function DiscordImporter({ onAddChallenge, onStatusUpdate, disabled = false }) {
   const fileInputRef = useRef(null);
@@ -142,30 +94,36 @@ function DiscordImporter({ onAddChallenge, onStatusUpdate, disabled = false }) {
   };
 
   return (
-    <>
-      <ImportFromDiscordButton
-        type="button"
+    <Group gap="xs">
+      <Button
+        leftSection={<IconMessage size={16} />}
+        variant="filled"
+        color="grape"
+        size="sm"
         onClick={handleImportFromDiscord}
         disabled={disabled}
       >
-        💬 Import from Discord message
-      </ImportFromDiscordButton>
+        Import from Discord message
+      </Button>
       
-      <QuestionMarkButton
-        type="button"
-        aria-label="Show hint for Discord import"
+      <ActionIcon
+        variant="light"
+        color="grape"
+        size="sm"
         onClick={handleShowHint}
+        aria-label="Show hint for Discord import"
       >
-        <FaQuestionCircle />
-      </QuestionMarkButton>
+        <IconQuestionMark size={20} />
+      </ActionIcon>
       
-      <HiddenFileInput
+      <input
         type="file"
         accept="application/json"
         ref={fileInputRef}
         onChange={handleDiscordFileChange}
+        style={{ display: 'none' }}
       />
-    </>
+    </Group>
   );
 }
 
