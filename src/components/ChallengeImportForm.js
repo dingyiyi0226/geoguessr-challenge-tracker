@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../utils/geoguessrApi';
-import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList } from '../utils/sessionStorage';
+import { hasChallenge, getStorageInfo, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
 
 import AuthSection from './AuthSection';
@@ -18,8 +18,6 @@ const FormTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: 600;
 `;
-
-
 
 const InputGroup = styled.div`
   display: flex;
@@ -291,6 +289,44 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
   const [customName, setCustomName] = useState('');
   const [loading, setLoading] = useState(false);
   const [hint, setHint] = useState({ type: '', content: '' });
+  const [isCached, setIsCached] = useState(false);
+  const [storageInfo, setStorageInfo] = useState({ challengeCount: 0, approximateSize: '0 KB' });
+
+  // Update cache status when URL changes
+  useEffect(() => {
+    const checkCacheStatus = async () => {
+      const currentChallengeId = getChallengeIDFromUrl(challengeUrl);
+      if (currentChallengeId) {
+        const cached = await hasChallenge(currentChallengeId);
+        setIsCached(cached);
+      } else {
+        setIsCached(false);
+      }
+    };
+
+    if (challengeUrl.trim()) {
+      checkCacheStatus();
+    } else {
+      setIsCached(false);
+    }
+  }, [challengeUrl]);
+
+  // Update storage info periodically
+  useEffect(() => {
+    const updateStorageInfo = async () => {
+      try {
+        const info = await getStorageInfo();
+        setStorageInfo(info);
+      } catch (error) {
+        console.error('Error getting storage info:', error);
+      }
+    };
+
+    updateStorageInfo();
+    // Update every 5 seconds when component is active
+    const interval = setInterval(updateStorageInfo, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
@@ -324,9 +360,9 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       let addedCount = 0;
       for (const challenge of importedChallenges) {
         // Check if challenge already exists to avoid duplicates
-        if (!hasChallenge(challenge.id)) {
-          saveChallenge(challenge);
-          appendChallengeList(challenge.id);
+        if (!(await hasChallenge(challenge.id))) {
+          await saveChallenge(challenge);
+          await appendChallengeList(challenge.id);
           onAddChallenge(challenge, false); // Add to back by default
           addedCount++;
         }
@@ -369,9 +405,13 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     }
   };
 
-  const handleSubmit = async (e, forceRefreshParam = false) => {
+  const handleSubmit = async (e, forceRefreshParam = false, addAtStart = false) => {
     e.preventDefault();
-    if (!challengeUrl.trim()) return;
+    
+    if (!challengeUrl.trim()) {
+      setHint({ type: 'error', content: 'Please enter a challenge URL' });
+      return;
+    }
 
     setLoading(true);
     setHint({ type: '', content: '' });
@@ -386,12 +426,12 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       };
 
       if (addAtStart) {
-        const currentChallenges = getChallengesList();
+        const currentChallenges = await getChallengesList();
         const updatedOrder = [challengeData.id, ...currentChallenges.filter(id => id !== challengeData.id)];
-        updateChallengeOrder(updatedOrder);
+        await updateChallengeOrder(updatedOrder);
       }
       if (customName.trim()) {
-        updateChallengeName(challengeData.id, customName.trim());
+        await updateChallengeName(challengeData.id, customName.trim());
       }
       
       onAddChallenge(finalChallengeData, addAtStart);
@@ -417,21 +457,14 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     }
   };
 
-  
-  const currentChallengeId = getChallengeIDFromUrl(challengeUrl);
-  const isCached = currentChallengeId ? hasChallenge(currentChallengeId) : false;
-
   const handleStatusUpdate = (status) => {
     setHint(status);
   };
 
   return (
     <FormContainer>
-      <FormTitle>Import Challenge</FormTitle>
+      <FormTitle>Add Challenge</FormTitle>
       
-      <CorsNotice />
-      
-      {/* Authentication Section */}
       <AuthSection
         isAuthenticated={isAuthenticated}
         showAuthInput={showAuthInput}
@@ -442,8 +475,8 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         setShowAuthInput={setShowAuthInput}
         loading={loading}
       />
-
-      {/* Challenge URL Input */}
+      <CorsNotice />
+      
       <form onSubmit={handleSubmit}>
         <InputGroup>
           <Input
@@ -470,7 +503,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
           )}
         </InputGroup>
         
-        {/* Challenge Options */}
         <ChallengeImportOptionsContainer>
           <OptionsRow>
             <ToggleLabel onClick={() => setAddAtStart(!addAtStart)}>
@@ -525,7 +557,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
           </OptionsRow>
         </ChallengeImportOptionsContainer>
         
-        {/* Cache Status */}
         {challengeUrl.trim() && (
           <InstructionsText style={{ marginTop: '10px', marginLeft: '15px', fontSize: '0.8rem' }}>
             {isCached ? (
@@ -549,7 +580,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
 
       {/* Storage Info */}
       <InstructionsText style={{ marginTop: '15px', marginLeft: '15px', fontSize: '0.75rem', color: '#999' }}>
-        💾 Cache: {getStorageInfo().challengeCount} challenge{getStorageInfo().challengeCount !== 1 ? 's' : ''} stored ({getStorageInfo().approximateSize})
+        💾 Cache: {storageInfo.challengeCount} challenge{storageInfo.challengeCount !== 1 ? 's' : ''} stored ({storageInfo.approximateSize})
       </InstructionsText>
     </FormContainer>
   );

@@ -4,7 +4,7 @@ import {
   loadChallenge, 
   hasChallenge,
   appendChallengeList
-} from './sessionStorage';
+} from './indexedDbStorage';
 
 // Geoguessr API configuration
 const GEOGUESSR_BASE_URL = '/api'; // Using proxy, so relative URL
@@ -193,7 +193,7 @@ const fetchChallengeResultsFromAPI = async (challengeId, authToken) => {
   }
 };
 
-// Main function to fetch challenge data with session storage caching
+// Main function to fetch challenge data with IndexedDB caching
 export const fetchChallengeData = async (challengeUrl, forceRefresh = false) => {
   try {
     const challengeId = getChallengeIDFromUrl(challengeUrl);
@@ -201,9 +201,9 @@ export const fetchChallengeData = async (challengeUrl, forceRefresh = false) => 
       throw new Error('Invalid Geoguessr challenge URL format');
     }
     
-    // Check session storage first (unless force refresh)
-    if (!forceRefresh && hasChallenge(challengeId)) {
-      const cachedData = loadChallenge(challengeId);
+    // Check IndexedDB first (unless force refresh)
+    if (!forceRefresh && await hasChallenge(challengeId)) {
+      const cachedData = await loadChallenge(challengeId);
       if (cachedData) {
         console.log(`Using cached data for challenge ${challengeId}`);
         return cachedData;
@@ -218,9 +218,9 @@ export const fetchChallengeData = async (challengeUrl, forceRefresh = false) => 
     console.log(`Fetching fresh data for challenge ${challengeId}`);
     const challengeData = await fetchChallengeResultsFromAPI(challengeId, authToken);
     
-    // Save to session storage after successful fetch
-    saveChallenge(challengeData);
-    appendChallengeList(challengeId);
+    // Save to IndexedDB after successful fetch
+    await saveChallenge(challengeData);
+    await appendChallengeList(challengeId);
     
     return challengeData;
   } catch (error) {
@@ -239,14 +239,14 @@ const processBatch = async (batch, startIndex, updateProgress, forceRefresh = fa
         throw new Error('Invalid Geoguessr challenge URL format');
       }
       
-      // Check session storage first (unless force refresh)
-      if (!forceRefresh && hasChallenge(challengeId)) {
-        const cachedData = loadChallenge(challengeId);
+      // Check IndexedDB first (unless force refresh)
+      if (!forceRefresh && await hasChallenge(challengeId)) {
+        const cachedData = await loadChallenge(challengeId);
         if (cachedData) {
           // Apply custom name if provided, even for cached data
           if (names && names[index]) {
             cachedData.name = names[index];
-            saveChallenge(cachedData); // Re-save with updated name
+            await saveChallenge(cachedData); // Re-save with updated name
           }
           return { success: true, data: cachedData, url, index, challengeId };
         }
@@ -270,8 +270,8 @@ const processBatch = async (batch, startIndex, updateProgress, forceRefresh = fa
         challengeData.name = names[index];
       }
       
-      // Save to session storage but DON'T append to challenge list yet
-      saveChallenge(challengeData);
+      // Save to IndexedDB but DON'T append to challenge list yet
+      await saveChallenge(challengeData);
       
       return { success: true, data: challengeData, url, index, challengeId };
     } catch (error) {
