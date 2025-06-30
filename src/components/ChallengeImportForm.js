@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Group, Loader } from '@mantine/core';
+import { Button, Group, Loader, TextInput } from '@mantine/core';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../utils/geoguessrApi';
 import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList, batchSaveChallenges } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
@@ -30,28 +30,6 @@ const InputGroup = styled.div`
     flex-direction: column;
   }
 `;
-
-const Input = styled.input`
-  flex: 1;
-  padding: 15px;
-  border: 2px solid #e1e5e9;
-  border-radius: 10px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  min-width: 300px;
-
-  &:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  }
-
-  &::placeholder {
-    color: #999;
-  }
-`;
-
-
 
 const InstructionsText = styled.div`
   font-size: 0.9rem;
@@ -117,25 +95,6 @@ const ToggleSwitch = styled.div`
 
 
 
-const CustomNameInput = styled.input`
-  flex: 1;
-  padding: 8px 12px;
-  border: 2px solid #e1e5e9;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  transition: border-color 0.3s ease;
-  max-width: 300px;
-
-  &:focus {
-    outline: none;
-    border-color: #667eea;
-  }
-
-  &::placeholder {
-    color: #999;
-  }
-`;
-
 const OptionsRow = styled.div`
   display: flex;
   align-items: center;
@@ -147,8 +106,6 @@ const OptionsRow = styled.div`
     margin-top: 0;
   }
 `;
-
-
 
 function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemoData, onStatusUpdate }) {
   const [challengeUrl, setChallengeUrl] = useState('');
@@ -343,12 +300,14 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       
       <form onSubmit={handleSubmit}>
         <InputGroup>
-          <Input
-            type="text"
+          <TextInput
             value={challengeUrl}
             onChange={(e) => setChallengeUrl(e.target.value)}
             placeholder="Enter Geoguessr challenge URL (e.g., https://www.geoguessr.com/challenge/...)"
             disabled={loading}
+            size="md"
+            radius="md"
+            style={{ flex: 1, minWidth: '300px' }}
           />
           <Button 
             type="submit" 
@@ -398,11 +357,13 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
               Challenge Name
             </Button>
             {showCustomNameInput && (
-              <CustomNameInput
-                type="text"
+              <TextInput
                 value={customName}
                 onChange={(e) => setCustomName(e.target.value)}
                 placeholder="Custom challenge name"
+                size="sm"
+                radius="md"
+                style={{ flex: 1, maxWidth: '300px' }}
               />
             )}
             {!hasExistingChallenges && (

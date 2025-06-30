@@ -4,7 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {formatScore, formatTime, getCountryFlag, getRankDisplay} from '../utils/formatters';
 import PlayerRoundDetails from './PlayerRoundDetails';
-import { Button, ActionIcon, Anchor } from '@mantine/core';
+import { Button, ActionIcon, Anchor, TextInput } from '@mantine/core';
 
 const ChallengeCardContainer = styled.div`
   border-bottom: 1px solid #e9ecef;
@@ -99,20 +99,7 @@ const ChallengeName = styled.h4`
   margin: 0;
 `;
 
-const ChallengeNameInput = styled.input`
-  color: #333;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border: 2px solid #667eea;
-  border-radius: 4px;
-  padding: 4px 8px;
-  background: white;
-  
-  &:focus {
-    outline: none;
-    border-color: #5a67d8;
-  }
-`;
+
 
 
 
@@ -317,12 +304,19 @@ function ChallengeCard({
             <ChallengeNameContainer>
               {editingChallenge === challengeIndex ? (
                 <>
-                  <ChallengeNameInput
+                  <TextInput
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
                     onKeyDown={handleNameInputKeyDown}
                     autoFocus
                     onClick={(e) => e.stopPropagation()}
+                    size="sm"
+                    radius="sm"
+                    style={{ 
+                      color: '#333',
+                      fontSize: '1.1rem',
+                      fontWeight: 600
+                    }}
                   />
                   <ActionIcon 
                     onClick={(e) => { 
