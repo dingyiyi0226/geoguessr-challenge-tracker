@@ -350,7 +350,6 @@ function ChallengeResults({
         selectedGameModes={selectedGameModes}
         onMapNamesChange={setSelectedMapNames}
         onGameModesChange={setSelectedGameModes}
-        onClearFilters={() => setShowFilters(false)}
       />
       
       <DndContext 
