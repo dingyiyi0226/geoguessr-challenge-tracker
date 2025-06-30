@@ -1,81 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const AuthSectionContainer = styled.div`
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-`;
-
-const AuthTitle = styled.h3`
-  color: #333;
-  margin-bottom: 15px;
-  font-size: 1.2rem;
-  font-weight: 600;
-`;
-
-const AuthStatus = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-`;
-
-const AuthIndicator = styled.div`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: ${props => props.$authenticated ? '#28a745' : '#dc3545'};
-`;
-
-const AuthText = styled.span`
-  color: ${props => props.$authenticated ? '#28a745' : '#dc3545'};
-  font-weight: 500;
-`;
-
-const SmallButton = styled.button`
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-right: 8px;
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
-
-const InputGroup = styled.div`
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-`;
-
-const Input = styled.input`
-  flex: 1;
-  padding: 15px;
-  border: 2px solid #e1e5e9;
-  border-radius: 10px;
-  font-size: 1rem;
-  min-width: 300px;
-`;
-
-const InstructionsText = styled.div`
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.5;
-  margin-top: 10px;
-  strong { color: #333; }
-  ol { margin: 10px 0; padding-left: 20px; }
-  li { margin: 5px 0; }
-`;
+import { Paper, Title, Group, Text, Button, TextInput, List, Box } from '@mantine/core';
+import { IconLock, IconCheck, IconX } from '@tabler/icons-react';
 
 function AuthSection({
   isAuthenticated,
@@ -88,64 +13,101 @@ function AuthSection({
   loading
 }) {
   return (
-    <AuthSectionContainer>
-      <AuthTitle>🔐 API Authentication</AuthTitle>
-      <AuthStatus>
-        <AuthIndicator $authenticated={isAuthenticated} />
-        <AuthText $authenticated={isAuthenticated}>
+    <Paper
+      p="md"
+      mb="md"
+      radius="md"
+      withBorder
+      bg="gray.1"
+    >
+      <Title order={3} size="h4" mb="md" c="dark.7">
+        <Group gap="xs">
+          <IconLock size={20} />
+          API Authentication
+        </Group>
+      </Title>
+      
+      <Group gap="xs" mb="md">
+        {isAuthenticated ? (
+          <IconCheck size={16} color="green" />
+        ) : (
+          <IconX size={16} color="red" />
+        )}
+        <Text
+          size="sm"
+          fw={600}
+          c={isAuthenticated ? "green.6" : "red.6"}
+        >
           {isAuthenticated ? 'Connected to Geoguessr API' : 'Not authenticated - try importing from file'}
-        </AuthText>
-      </AuthStatus>
+        </Text>
+      </Group>
+
       {!isAuthenticated && !showAuthInput && (
         <>
-          <SmallButton onClick={() => setShowAuthInput(true)}>
+          <Button
+            size="sm"
+            mb="md"
+            onClick={() => setShowAuthInput(true)}
+          >
             Setup API Access
-          </SmallButton>
-          <InstructionsText>
-            <strong>To use real Geoguessr data:</strong>
-            <ol>
-              <li>Open Geoguessr in your browser and log in</li>
-              <li>Open browser Developer Tools (F12)</li>
-              <li>Go to Application/Storage → Cookies → geoguessr.com</li>
-              <li>Find the <strong>_ncfa</strong> cookie and copy its value</li>
-              <li>Paste it above to connect to the real API</li>
-            </ol>
-            Without authentication, the app cannot fetch real data. But you can import challenges from an existing file.
-          </InstructionsText>
+          </Button>
+          
+          <Box c="dark.6" fz="sm" lh={1.5}>
+            <Text fw={600} mb="xs">To use real Geoguessr data:</Text>
+            <List size="sm" spacing="xs">
+              <List.Item>Open Geoguessr in your browser and log in</List.Item>
+              <List.Item>Open browser Developer Tools (F12)</List.Item>
+              <List.Item>Go to Application/Storage → Cookies → geoguessr.com</List.Item>
+              <List.Item>Find the <Text component="span" fw={600}>_ncfa</Text> cookie and copy its value</List.Item>
+              <List.Item>Paste it above to connect to the real API</List.Item>
+            </List>
+            <Text mt="xs">
+              Without authentication, the app cannot fetch real data. But you can import challenges from an existing file.
+            </Text>
+          </Box>
         </>
       )}
+
       {showAuthInput && (
         <form onSubmit={handleAuthSubmit}>
-          <InputGroup>
-            <Input
+          <Group gap="md" mb="md" align="flex-end">
+            <TextInput
               type="password"
               value={authToken}
               onChange={(e) => setAuthTokenInput(e.target.value)}
               placeholder="Paste your _ncfa cookie value here"
               disabled={loading}
+              style={{ flex: 1, minWidth: 300 }}
             />
-            <SmallButton type="submit" disabled={loading}>Connect</SmallButton>
-            <SmallButton 
-              type="button" 
+            <Button type="submit" disabled={loading} size="sm">
+              Connect
+            </Button>
+            <Button
+              type="button"
+              variant="filled"
+              color="gray.5"
               onClick={() => setShowAuthInput(false)}
-              style={{ background: '#6c757d' }}
               disabled={loading}
+              size="sm"
             >
               Cancel
-            </SmallButton>
-          </InputGroup>
+            </Button>
+          </Group>
         </form>
       )}
+
       {isAuthenticated && (
-        <SmallButton 
+        <Button
+          color="red"
+          variant="light"
           onClick={handleAuthClear}
-          style={{ background: '#dc3545' }}
           disabled={loading}
+          size="sm"
         >
           Disconnect
-        </SmallButton>
+        </Button>
       )}
-    </AuthSectionContainer>
+    </Paper>
   );
 }
 
