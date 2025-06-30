@@ -31,26 +31,6 @@ const InputGroup = styled.div`
   }
 `;
 
-const InstructionsText = styled.div`
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.5;
-  margin-top: 10px;
-
-  strong {
-    color: #333;
-  }
-
-  ol {
-    margin: 10px 0;
-    padding-left: 20px;
-  }
-
-  li {
-    margin: 5px 0;
-  }
-`;
-
 const ChallengeImportOptionsContainer = styled.div`
   display: flex;
   align-items: center;
@@ -227,14 +207,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       setCustomName('');
       setShowCustomNameInput(false);
       setForceRefresh(false);
-      
-      // Show cache status info
-      if (challengeData.cachedAt && !forceRefreshParam && !forceRefresh) {
-        const cacheAge = Math.round((Date.now() - challengeData.cachedAt) / 60000);
-        onStatusUpdate?.({ type: 'info', content: `Note: Loaded from cache (${cacheAge} minute${cacheAge !== 1 ? 's' : ''} old). Use "Refresh" for latest data.` });
-      }
-      
-
     } catch (err) {
       onStatusUpdate?.({ type: 'error', content: err.message || 'Failed to fetch challenge data. Please check the URL and try again.' });
     } finally {
@@ -365,20 +337,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
             
           </OptionsRow>
         </ChallengeImportOptionsContainer>
-        
-        {challengeUrl.trim() && (
-          <InstructionsText style={{ marginTop: '10px', marginLeft: '15px', fontSize: '0.8rem' }}>
-            {isCached ? (
-              <span style={{ color: '#28a745' }}>
-                ✅ This challenge is cached - will load instantly. Use "Refresh" for latest data.
-              </span>
-            ) : (
-              <span style={{ color: '#666' }}>
-                💾 This challenge will be cached after first load.
-              </span>
-            )}
-          </InstructionsText>
-        )}
       </form>
     </FormContainer>
   );
