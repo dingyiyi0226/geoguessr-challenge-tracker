@@ -381,7 +381,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       setLoading(true);
       setHint({ type: '', content: '' });
       
-      const addedCount = onLoadDemoData();
+      const addedCount = await onLoadDemoData();
       
       if (addedCount > 0) {
         setHint({ type: 'info', content: `Successfully loaded ${addedCount} demo challenges!` });

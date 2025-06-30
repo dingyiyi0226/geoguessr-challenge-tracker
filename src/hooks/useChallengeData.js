@@ -5,8 +5,6 @@ import {
   removeChallenge,
   updateChallengeName,
   updateChallengeOrder,
-  saveChallenge,
-  appendChallengeList,
   batchSaveChallenges
 } from '../utils/indexedDbStorage';
 import demoChallenges from '../data/demoChallenges.json';
