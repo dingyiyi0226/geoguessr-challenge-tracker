@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import Chart from 'react-apexcharts';
 import { formatScore } from '../utils/formatters';
+import { Switch } from '@mantine/core';
 
 const ChartSection = styled.div`
   padding: 20px 25px;
@@ -29,40 +30,6 @@ const ToggleContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-`;
-
-const ToggleLabel = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  color: #333;
-  user-select: none;
-  font-size: 0.9rem;
-`;
-
-const ToggleSwitch = styled.div`
-  position: relative;
-  width: 48px;
-  height: 24px;
-  background: ${props => props.$checked ? '#667eea' : '#ccc'};
-  border-radius: 12px;
-  transition: background 0.3s ease;
-  cursor: pointer;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: ${props => props.$checked ? '26px' : '2px'};
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    transition: left 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
 `;
 
 const NoDataMessage = styled.div`
@@ -208,10 +175,13 @@ function PlayerAveragesChart({ allPlayers }) {
       <SectionHeader>
         <SectionTitleWithControls>Player Average Scores</SectionTitleWithControls>
         <ToggleContainer>
-          <ToggleLabel onClick={() => setShowUnqualified(!showUnqualified)}>
-            <ToggleSwitch $checked={showUnqualified} />
-            <span>Show low participation players</span>
-          </ToggleLabel>
+          <Switch
+            checked={showUnqualified}
+            onChange={(event) => setShowUnqualified(event.currentTarget.checked)}
+            label="Show low participation players"
+            color="gray"
+            size="sm"
+          />
         </ToggleContainer>
       </SectionHeader>
       {playerAveragesData && playerAveragesData.series[0].data.length > 0 ? (

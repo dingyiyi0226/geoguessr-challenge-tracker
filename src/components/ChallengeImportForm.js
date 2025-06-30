@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Group, Loader, TextInput } from '@mantine/core';
+import { Button, Group, Loader, TextInput, Switch } from '@mantine/core';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../utils/geoguessrApi';
 import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList, batchSaveChallenges } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
@@ -58,39 +58,6 @@ const ChallengeImportOptionsContainer = styled.div`
   margin-top: 15px;
   padding-left: 15px;
   padding-right: 15px;
-`;
-
-const ToggleLabel = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  color: #333;
-  user-select: none;
-`;
-
-const ToggleSwitch = styled.div`
-  position: relative;
-  width: 48px;
-  height: 24px;
-  background: ${props => props.$checked ? '#667eea' : '#ccc'};
-  border-radius: 12px;
-  transition: background 0.3s ease;
-  cursor: pointer;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: ${props => props.$checked ? '26px' : '2px'};
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    transition: left 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
 `;
 
 
@@ -336,10 +303,13 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         
         <ChallengeImportOptionsContainer>
           <OptionsRow>
-            <ToggleLabel onClick={() => setAddAtStart(!addAtStart)}>
-              <ToggleSwitch $checked={addAtStart} />
-              <span>Add at {addAtStart ? 'start' : 'end'}</span>
-            </ToggleLabel>
+            <Switch
+              checked={addAtStart}
+              onChange={(event) => setAddAtStart(event.currentTarget.checked)}
+              label={`Add at ${addAtStart ? 'start' : 'end'}`}
+              color="gray"
+              size="sm"
+            />
             
             <Button
               type="button"
