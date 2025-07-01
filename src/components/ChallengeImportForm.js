@@ -7,7 +7,7 @@ import { importChallenges } from '../utils/fileOperations';
 
 import AuthSection from './AuthSection';
 import DiscordImporter from './DiscordImporter';
-import CorsNotice from './CorsNotice';
+import BookmarkletGuide from './BookmarkletGuide';
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -304,7 +304,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     <FormContainer>
       <FormTitle>Add Challenge</FormTitle>
       
-      <CorsNotice />
+      <BookmarkletGuide />
       {process.env.NODE_ENV === 'development' && (
         <AuthSection
           isAuthenticated={isAuthenticated}
