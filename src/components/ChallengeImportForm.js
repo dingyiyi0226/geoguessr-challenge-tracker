@@ -304,18 +304,20 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     <FormContainer>
       <FormTitle>Add Challenge</FormTitle>
       
-      <AuthSection
-        isAuthenticated={isAuthenticated}
-        showAuthInput={showAuthInput}
-        authToken={authToken}
-        setAuthTokenInput={setAuthTokenInput}
-        handleAuthSubmit={handleAuthSubmit}
-        handleAuthClear={handleAuthClear}
-        setShowAuthInput={setShowAuthInput}
-        loading={loading}
-      />
       <CorsNotice />
-      
+      {process.env.NODE_ENV === 'development' && (
+        <AuthSection
+          isAuthenticated={isAuthenticated}
+          showAuthInput={showAuthInput}
+          authToken={authToken}
+          setAuthTokenInput={setAuthTokenInput}
+          handleAuthSubmit={handleAuthSubmit}
+          handleAuthClear={handleAuthClear}
+          setShowAuthInput={setShowAuthInput}
+          loading={loading}
+        />
+      )}
+
       <form onSubmit={handlePasteImport}>
         <InputGroup>
           <Textarea
@@ -344,85 +346,15 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         </InputGroup>
       </form>
 
-      <form onSubmit={handleSubmit}>
-        <InputGroup>
-          <TextInput
-            value={challengeUrl}
-            onChange={(e) => setChallengeUrl(e.target.value)}
-            placeholder="Enter Geoguessr challenge URL (e.g., https://www.geoguessr.com/challenge/...)"
-            disabled={loading}
-            size="md"
-            radius="md"
-            style={{ flex: 1, minWidth: '300px' }}
-          />
-          <Button 
-            type="submit" 
-            disabled={loading || !challengeUrl.trim()}
-            color="teal"
-            size="md"
-            radius="md"
-            leftSection={loading ? <Loader size="xs" color="white" /> : null}
-            style={{ minWidth: '130px' }}
-          >
-            {loading ? 'Fetching...' : (isCached ? 'Load Cached' : 'Add Challenge')}
-          </Button>
-          {isCached && (
-            <Button 
-              type="button"
-              onClick={(e) => handleSubmit(e, true)}
-              disabled={loading}
-              color="orange"
-              size="md"
-              radius="md"
-              leftSection={loading ? <Loader size="xs" color="white" /> : null}
-              style={{ minWidth: '160px' }}
-            >
-              {loading ? 'Refreshing...' : 'Refresh'}
-            </Button>
-          )}
-        </InputGroup>
-        
+      {process.env.NODE_ENV === 'production' && (
         <ChallengeImportOptionsContainer>
           <OptionsRow>
-            <Switch
-              checked={addAtStart}
-              onChange={(event) => setAddAtStart(event.currentTarget.checked)}
-              label={`Add at ${addAtStart ? 'start' : 'end'}`}
-              color="gray"
-              size="sm"
-            />
-            
-            <Button
-              type="button"
-              variant={showCustomNameInput ? "filled" : "outline"}
-              color="blue"
-              size="sm"
-              radius="md"
-              onClick={() => {
-                setShowCustomNameInput(!showCustomNameInput);
-                if (showCustomNameInput) {
-                  setCustomName('');
-                }
-              }}
-            >
-              Challenge Name
-            </Button>
-            {showCustomNameInput && (
-              <TextInput
-                value={customName}
-                onChange={(e) => setCustomName(e.target.value)}
-                placeholder="Custom challenge name"
-                size="sm"
-                radius="md"
-                style={{ flex: 1, maxWidth: '300px' }}
-              />
-            )}
             {!hasExistingChallenges && (
               <>
                 <Button
                   type="button"
                   onClick={handleLoadDemoData}
-                  disabled={loading}
+                  disabled={loading || pasteLoading}
                   color="teal"
                   size="sm"
                   radius="md"
@@ -432,7 +364,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
                 <Button
                   type="button"
                   onClick={handleImportFromFile}
-                  disabled={loading}
+                  disabled={loading || pasteLoading}
                   color="blue"
                   size="sm"
                   radius="md"
@@ -444,12 +376,121 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
             <DiscordImporter
               onAddChallenge={onAddChallenge}
               onStatusUpdate={handleDiscordStatusUpdate}
-              disabled={loading}
+              disabled={loading || pasteLoading}
             />
-            
           </OptionsRow>
         </ChallengeImportOptionsContainer>
-      </form>
+      )}
+
+      {process.env.NODE_ENV === 'development' && (
+        <form onSubmit={handleSubmit}>
+          <InputGroup>
+            <TextInput
+              value={challengeUrl}
+              onChange={(e) => setChallengeUrl(e.target.value)}
+              placeholder="Enter Geoguessr challenge URL (e.g., https://www.geoguessr.com/challenge/...)"
+              disabled={loading}
+              size="md"
+              radius="md"
+              style={{ flex: 1, minWidth: '300px' }}
+            />
+            <Button 
+              type="submit" 
+              disabled={loading || !challengeUrl.trim()}
+              color="teal"
+              size="md"
+              radius="md"
+              leftSection={loading ? <Loader size="xs" color="white" /> : null}
+              style={{ minWidth: '130px' }}
+            >
+              {loading ? 'Fetching...' : (isCached ? 'Load Cached' : 'Add Challenge')}
+            </Button>
+            {isCached && (
+              <Button 
+                type="button"
+                onClick={(e) => handleSubmit(e, true)}
+                disabled={loading}
+                color="orange"
+                size="md"
+                radius="md"
+                leftSection={loading ? <Loader size="xs" color="white" /> : null}
+                style={{ minWidth: '160px' }}
+              >
+                {loading ? 'Refreshing...' : 'Refresh'}
+              </Button>
+            )}
+          </InputGroup>
+          
+          <ChallengeImportOptionsContainer>
+            <OptionsRow>
+              <Switch
+                checked={addAtStart}
+                onChange={(event) => setAddAtStart(event.currentTarget.checked)}
+                label={`Add at ${addAtStart ? 'start' : 'end'}`}
+                color="gray"
+                size="sm"
+              />
+              
+              <Button
+                type="button"
+                variant={showCustomNameInput ? "filled" : "outline"}
+                color="blue"
+                size="sm"
+                radius="md"
+                onClick={() => {
+                  setShowCustomNameInput(!showCustomNameInput);
+                  if (showCustomNameInput) {
+                    setCustomName('');
+                  }
+                }}
+              >
+                Challenge Name
+              </Button>
+              {showCustomNameInput && (
+                <TextInput
+                  value={customName}
+                  onChange={(e) => setCustomName(e.target.value)}
+                  placeholder="Custom challenge name"
+                  size="sm"
+                  radius="md"
+                  style={{ flex: 1, maxWidth: '300px' }}
+                />
+              )}
+
+              {!hasExistingChallenges && (
+                <>
+                  <Button
+                    type="button"
+                    onClick={handleLoadDemoData}
+                    disabled={loading || pasteLoading}
+                    color="teal"
+                    size="sm"
+                    radius="md"
+                  >
+                    🎮 Load Demo Data
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleImportFromFile}
+                    disabled={loading || pasteLoading}
+                    color="blue"
+                    size="sm"
+                    radius="md"
+                  >
+                    📁 Import from file
+                  </Button>
+                </>
+              )}
+              <DiscordImporter
+                onAddChallenge={onAddChallenge}
+                onStatusUpdate={handleDiscordStatusUpdate}
+                disabled={loading || pasteLoading}
+              />
+              
+            </OptionsRow>
+          </ChallengeImportOptionsContainer>
+        </form>
+      )}
     </FormContainer>
   );
 }

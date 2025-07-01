@@ -4,15 +4,12 @@ import { IconBookmark, IconInfoCircle } from '@tabler/icons-react';
 import { BOOKMARKLET_CODE } from '../utils/bookmarklet';
 
 function CorsNotice() {
-  // Check if we're in development (localhost)
-  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  
   // Get current origin for the bookmarklet
   const currentOrigin = window.location.origin;
 
   return (
-    <Stack spacing="md" mb="xl">
-      {isDevelopment && (
+    <Stack spacing="md" mb="md">
+      {process.env.NODE_ENV === 'development' && (
         <Alert
           icon={<IconInfoCircle size={20} />}
           title="Development Mode"
