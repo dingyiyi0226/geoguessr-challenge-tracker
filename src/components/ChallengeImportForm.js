@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Group, Loader, TextInput, Switch } from '@mantine/core';
-import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../utils/geoguessrApi';
+import { Button, Group, Loader, TextInput, Switch, Textarea } from '@mantine/core';
+import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl, processRawChallengeData } from '../utils/geoguessrApi';
 import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList, batchSaveChallenges } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
 
@@ -40,8 +40,6 @@ const ChallengeImportOptionsContainer = styled.div`
   padding-right: 15px;
 `;
 
-
-
 const OptionsRow = styled.div`
   display: flex;
   align-items: center;
@@ -65,6 +63,10 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
   const [customName, setCustomName] = useState('');
   const [loading, setLoading] = useState(false);
   const [isCached, setIsCached] = useState(false);
+  
+  // Bookmarklet paste area state
+  const [pasteData, setPasteData] = useState('');
+  const [pasteLoading, setPasteLoading] = useState(false);
 
   // Update cache status when URL changes
   useEffect(() => {
@@ -218,6 +220,86 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     onStatusUpdate?.(status);
   };
 
+  const handlePasteImport = async (e) => {
+    e.preventDefault();
+    
+    if (!pasteData.trim()) {
+      onStatusUpdate?.({ type: 'error', content: 'Please paste bookmarklet data' });
+      return;
+    }
+
+    setPasteLoading(true);
+    onStatusUpdate?.({ type: '', content: '' });
+
+    try {
+      // Parse JSON data
+      let rawApiData;
+      try {
+        rawApiData = JSON.parse(pasteData.trim());
+      } catch (parseError) {
+        throw new Error('Invalid JSON format. Please make sure you copied the complete data from the bookmarklet.');
+      }
+
+      // Validate required fields
+      if (!rawApiData.challengeId || !rawApiData.challengeResponse || !rawApiData.highscoresResponse) {
+        throw new Error('Invalid bookmarklet data format. Please make sure you copied the complete data.');
+      }
+
+      onStatusUpdate?.({ type: 'info', content: 'Processing bookmarklet data...' });
+
+      // Process raw API data using existing function
+      const processedChallengeData = processRawChallengeData(
+        rawApiData.challengeId,
+        rawApiData.challengeResponse,
+        rawApiData.highscoresResponse
+      );
+
+      // Add timestamp and metadata
+      const challengeWithTimestamp = {
+        ...processedChallengeData,
+        cachedAt: rawApiData.timestamp || Date.now(),
+        version: "1.0",
+        lastModified: Date.now()
+      };
+
+      // Apply custom name if provided
+      const finalChallengeData = {
+        ...challengeWithTimestamp,
+        name: customName.trim() || challengeWithTimestamp.name
+      };
+
+      // Save to IndexedDB
+      await saveChallenge(finalChallengeData);
+      
+      if (addAtStart) {
+        const currentChallenges = await getChallengesList();
+        const updatedOrder = [finalChallengeData.id, ...currentChallenges.filter(id => id !== finalChallengeData.id)];
+        await updateChallengeOrder(updatedOrder);
+      } else {
+        await appendChallengeList(finalChallengeData.id);
+      }
+
+      if (customName.trim()) {
+        await updateChallengeName(finalChallengeData.id, customName.trim());
+      }
+
+      // Update UI
+      onAddChallenge(finalChallengeData, addAtStart);
+      
+      // Clear form
+      setPasteData('');
+      setCustomName('');
+      setShowCustomNameInput(false);
+      
+      onStatusUpdate?.({ type: 'success', content: `Successfully imported "${finalChallengeData.name}"!` });
+    } catch (err) {
+      console.error('Error importing bookmarklet data:', err);
+      onStatusUpdate?.({ type: 'error', content: err.message || 'Failed to import bookmarklet data. Please try again.' });
+    } finally {
+      setPasteLoading(false);
+    }
+  };
+
   return (
     <FormContainer>
       <FormTitle>Add Challenge</FormTitle>
@@ -234,6 +316,34 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       />
       <CorsNotice />
       
+      <form onSubmit={handlePasteImport}>
+        <InputGroup>
+          <Textarea
+            value={pasteData}
+            onChange={(e) => setPasteData(e.target.value)}
+            placeholder="Paste the JSON data copied from the bookmarklet here..."
+            disabled={pasteLoading}
+            size="md"
+            radius="md"
+            minRows={1}
+            maxRows={6}
+            autosize
+            style={{ flex: 1, minWidth: '300px' }}
+          />
+          <Button
+            type="submit"
+            disabled={pasteLoading || !pasteData.trim()}
+            color="blue"
+            size="md"
+            radius="md"
+            leftSection={pasteLoading ? <Loader size="xs" color="white" /> : null}
+            style={{ minWidth: '160px' }}
+          >
+            {pasteLoading ? 'Processing...' : 'Import Data'}
+          </Button>
+        </InputGroup>
+      </form>
+
       <form onSubmit={handleSubmit}>
         <InputGroup>
           <TextInput
@@ -252,6 +362,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
             size="md"
             radius="md"
             leftSection={loading ? <Loader size="xs" color="white" /> : null}
+            style={{ minWidth: '130px' }}
           >
             {loading ? 'Fetching...' : (isCached ? 'Load Cached' : 'Add Challenge')}
           </Button>
@@ -264,6 +375,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
               size="md"
               radius="md"
               leftSection={loading ? <Loader size="xs" color="white" /> : null}
+              style={{ minWidth: '160px' }}
             >
               {loading ? 'Refreshing...' : 'Refresh'}
             </Button>

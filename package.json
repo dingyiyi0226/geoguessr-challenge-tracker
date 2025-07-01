@@ -5,6 +5,7 @@
   "homepage": "https://dingyiyi0226.github.io/geoguessr-challenge-tracker",
   "main": "index.js",
   "scripts": {
+    "build-bookmarklet": "terser scripts/bookmarklet.js --compress --mangle | node scripts/build-bookmarklet-module.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -48,6 +49,7 @@
     "gh-pages": "^6.3.0",
     "postcss": "^8.5.6",
     "postcss-preset-mantine": "^1.18.0",
-    "postcss-simple-vars": "^7.0.1"
+    "postcss-simple-vars": "^7.0.1",
+    "terser": "^5.43.1"
   }
 }

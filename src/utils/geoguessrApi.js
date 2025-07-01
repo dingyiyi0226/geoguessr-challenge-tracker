@@ -75,6 +75,91 @@ export const hasAuthToken = () => {
   return !!localStorage.getItem('geoguessr_ncfa_token');
 };
 
+// Get game mode from challenge data
+export const getGameMode = (challengeData) => {
+  if (challengeData.challenge.forbidMoving && challengeData.challenge.forbidRotating && challengeData.challenge.forbidZooming) {
+    return 'NMPZ';
+  } else if (challengeData.challenge.forbidMoving) {
+    return 'No move';
+  } else {
+    return 'Moving';
+  }
+};
+
+// Process raw API responses into challenge data format
+export const processRawChallengeData = (challengeId, challengeData, highscores) => {
+  if (!challengeData) {
+    throw new Error('Challenge not found or access denied');
+  }
+
+  if (!highscores || !highscores.items || highscores.items.length === 0) {
+    throw new Error('No results found for this challenge');
+  }
+
+  // Process highscores items to get detailed results
+  const participants = highscores.items.map((item, index) => {
+    const game = item.game;
+    const player = game.player;
+
+    return {
+      rank: index + 1,
+      userId: player.id,
+      nick: player.nick || 'Anonymous',
+      totalScore: parseInt(player.totalScore.amount),
+      totalTime: player.totalTime,
+      gameToken: game.token,
+      playedAt: game.rounds[0]?.startTime || null,
+      pinUrl: player.pin?.url,
+      countryCode: player.countryCode,
+      isVerified: player.isVerified || false,
+      flair: player.flair || 0,
+      rounds: game.rounds.map((round, roundIndex) => {
+        const guess = player.guesses[roundIndex];
+        return {
+          roundNumber: roundIndex + 1,
+          lat: round.lat,
+          lng: round.lng,
+          guessLat: guess?.lat,
+          guessLng: guess?.lng,
+          distance: guess?.distanceInMeters,
+          score: guess?.roundScoreInPoints,
+          time: guess?.time,
+          streakLocationCode: round.streakLocationCode,
+          timedOut: guess?.timedOut || false,
+          skippedRound: guess?.skippedRound || false,
+        };
+      }),
+      gameMode: game.mode,
+      gameType: game.type,
+      totalDistance: player.totalDistanceInMeters,
+      scorePercentage: parseFloat(player.totalScore.percentage),
+    };
+  });
+
+  return {
+    id: challengeId,
+    name: challengeData.map?.name || 'Unknown Challenge',
+    description: challengeData.map?.description || '',
+    creator: challengeData.creator?.nick || 'Unknown',
+    mode: getGameMode(challengeData),
+    timeLimit: challengeData.challenge?.timeLimit,
+    participants: participants,
+    totalParticipants: participants.length,
+    mapName: challengeData.map?.name,
+    mapId: challengeData.map?.id,
+    url: challengeData.map?.url,
+    bounds: challengeData.map?.bounds,
+    highscoreCount: highscores.items.length,
+    forbidMoving: challengeData.challenge?.forbidMoving,
+    forbidRotating: challengeData.challenge?.forbidRotating,
+    forbidZooming: challengeData.challenge?.forbidZooming,
+    roundCount: challengeData.challenge?.roundCount,
+    challengeType: challengeData.challenge?.challengeType,
+    streakType: challengeData.challenge?.streakType,
+    accessLevel: challengeData.challenge?.accessLevel,
+  };
+};
+
 // Fetch challenge results using the highscores API approach
 const fetchChallengeResultsFromAPI = async (challengeId, authToken) => {
   try {
@@ -109,76 +194,7 @@ const fetchChallengeResultsFromAPI = async (challengeId, authToken) => {
     );
 
     const highscores = highscoresResponse.data;
-    
-    if (!highscores || !highscores.items || highscores.items.length === 0) {
-      throw new Error('No results found for this challenge');
-    }
-
-    // Process highscores items to get detailed results
-    // Process highscores items - all data is already included in the response
-    const participants = highscores.items.map((item, index) => {
-      const game = item.game;
-      const player = game.player;
-      
-      return {
-        rank: index + 1,
-        userId: player.id,
-        nick: player.nick || 'Anonymous',
-        totalScore: parseInt(player.totalScore.amount),
-        totalTime: player.totalTime,
-        gameToken: game.token,
-        playedAt: game.rounds[0]?.startTime || null,
-        pinUrl: player.pin?.url,
-        countryCode: player.countryCode,
-        isVerified: player.isVerified || false,
-        flair: player.flair || 0,
-        rounds: game.rounds.map((round, roundIndex) => {
-          const guess = player.guesses[roundIndex];
-          return {
-            roundNumber: roundIndex + 1,
-            lat: round.lat,
-            lng: round.lng,
-            guessLat: guess?.lat,
-            guessLng: guess?.lng,
-            distance: guess?.distanceInMeters,
-            score: guess?.roundScoreInPoints,
-            time: guess?.time,
-            streakLocationCode: round.streakLocationCode,
-            timedOut: guess?.timedOut || false,
-            skippedRound: guess?.skippedRound || false,
-          };
-        }),
-        gameMode: game.mode,
-        gameType: game.type,
-        totalDistance: player.totalDistanceInMeters,
-        scorePercentage: parseFloat(player.totalScore.percentage),
-      };
-    });
-
-    // All participants are already processed successfully
-
-    return {
-      id: challengeId,
-      name: challengeData.map?.name || 'Unknown Challenge',
-      description: challengeData.map?.description || '',
-      creator: challengeData.creator?.nick || 'Unknown',
-      mode: getGameMode(challengeData),
-      timeLimit: challengeData.challenge?.timeLimit,
-      participants: participants,
-      totalParticipants: participants.length,
-      mapName: challengeData.map?.name,
-      mapId: challengeData.map?.id,
-      url: challengeData.map?.url,
-      bounds: challengeData.map?.bounds,
-      highscoreCount: highscores.items.length,
-      forbidMoving: challengeData.challenge?.forbidMoving,
-      forbidRotating: challengeData.challenge?.forbidRotating,
-      forbidZooming: challengeData.challenge?.forbidZooming,
-      roundCount: challengeData.challenge?.roundCount,
-      challengeType: challengeData.challenge?.challengeType,
-      streakType: challengeData.challenge?.streakType,
-      accessLevel: challengeData.challenge?.accessLevel,
-    };
+    return processRawChallengeData(challengeId, challengeData, highscores);
   } catch (error) {
     if (error.response) {
       if (error.response.status === 401) {
@@ -451,13 +467,3 @@ export const getChallengeHighscores = async (challengeId, options = {}) => {
     throw new Error('Failed to fetch highscores');
   }
 }; 
-
-export const getGameMode = (challengeData) => {
-  if (challengeData.challenge.forbidMoving && challengeData.challenge.forbidRotating && challengeData.challenge.forbidZooming) {
-    return 'NMPZ';
-  } else if (challengeData.challenge.forbidMoving) {
-    return 'No move';
-  } else {
-    return 'Moving';
-  }
-}
