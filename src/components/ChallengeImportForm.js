@@ -238,8 +238,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     }
   };
 
-
-
   const handlePasteImport = async (e) => {
     e.preventDefault();
     
@@ -381,42 +379,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         </InputGroup>
       </form>
 
-      {process.env.NODE_ENV === 'production' && (
-        <ChallengeImportOptionsContainer>
-          <OptionsRow>
-            {!hasExistingChallenges && (
-              <>
-                <Button
-                  type="button"
-                  onClick={handleLoadDemoData}
-                  disabled={loading || pasteLoading}
-                  color="teal"
-                  size="sm"
-                  radius="md"
-                >
-                  🎮 Load Demo Data
-                </Button>
-                <Button
-                  type="button"
-                  onClick={handleImportFromFile}
-                  disabled={loading || pasteLoading}
-                  color="blue"
-                  size="sm"
-                  radius="md"
-                >
-                  📁 Import from file
-                </Button>
-              </>
-            )}
-            <DiscordImporter
-              onAddChallenge={onAddChallenge}
-              onStatusUpdate={onStatusUpdate}
-              disabled={loading || pasteLoading}
-            />
-          </OptionsRow>
-        </ChallengeImportOptionsContainer>
-      )}
-
       {process.env.NODE_ENV === 'development' && (
         <form onSubmit={handleSubmit}>
           <InputGroup>
@@ -456,77 +418,76 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
               </Button>
             )}
           </InputGroup>
+        </form>
+      )}
+
+      <ChallengeImportOptionsContainer>
+        <OptionsRow>
+          <Switch
+            checked={addAtStart}
+            onChange={(event) => setAddAtStart(event.currentTarget.checked)}
+            label={`Add at ${addAtStart ? 'start' : 'end'}`}
+            color="gray"
+            size="sm"
+          />
           
-          <ChallengeImportOptionsContainer>
-            <OptionsRow>
-              <Switch
-                checked={addAtStart}
-                onChange={(event) => setAddAtStart(event.currentTarget.checked)}
-                label={`Add at ${addAtStart ? 'start' : 'end'}`}
-                color="gray"
-                size="sm"
-              />
-              
+          <Button
+            type="button"
+            variant={showCustomNameInput ? "filled" : "outline"}
+            color="blue"
+            size="sm"
+            radius="md"
+            onClick={() => {
+              setShowCustomNameInput(!showCustomNameInput);
+              if (showCustomNameInput) {
+                setCustomName('');
+              }
+            }}
+          >
+            Challenge Name
+          </Button>
+          {showCustomNameInput && (
+            <TextInput
+              value={customName}
+              onChange={(e) => setCustomName(e.target.value)}
+              placeholder="Custom challenge name"
+              size="sm"
+              radius="md"
+              style={{ flex: 1, maxWidth: '300px' }}
+            />
+          )}
+
+          {!hasExistingChallenges && (
+            <>
               <Button
                 type="button"
-                variant={showCustomNameInput ? "filled" : "outline"}
+                onClick={handleLoadDemoData}
+                disabled={loading || pasteLoading}
+                color="teal"
+                size="sm"
+                radius="md"
+              >
+                🎮 Load Demo Data
+              </Button>
+              <Button
+                type="button"
+                onClick={handleImportFromFile}
+                disabled={loading || pasteLoading}
                 color="blue"
                 size="sm"
                 radius="md"
-                onClick={() => {
-                  setShowCustomNameInput(!showCustomNameInput);
-                  if (showCustomNameInput) {
-                    setCustomName('');
-                  }
-                }}
               >
-                Challenge Name
+                📁 Import from file
               </Button>
-              {showCustomNameInput && (
-                <TextInput
-                  value={customName}
-                  onChange={(e) => setCustomName(e.target.value)}
-                  placeholder="Custom challenge name"
-                  size="sm"
-                  radius="md"
-                  style={{ flex: 1, maxWidth: '300px' }}
-                />
-              )}
-
-              {!hasExistingChallenges && (
-                <>
-                  <Button
-                    type="button"
-                    onClick={handleLoadDemoData}
-                    disabled={loading || pasteLoading}
-                    color="teal"
-                    size="sm"
-                    radius="md"
-                  >
-                    🎮 Load Demo Data
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={handleImportFromFile}
-                    disabled={loading || pasteLoading}
-                    color="blue"
-                    size="sm"
-                    radius="md"
-                  >
-                    📁 Import from file
-                  </Button>
-                </>
-              )}
-              <DiscordImporter
-                onAddChallenge={onAddChallenge}
-                onStatusUpdate={onStatusUpdate}
-                disabled={loading || pasteLoading}
-              />
-              
-            </OptionsRow>
-          </ChallengeImportOptionsContainer>
-        </form>
-      )}
+            </>
+          )}
+          <DiscordImporter
+            onAddChallenge={onAddChallenge}
+            onStatusUpdate={onStatusUpdate}
+            disabled={loading || pasteLoading}
+          />
+        </OptionsRow>
+      </ChallengeImportOptionsContainer>
     </FormContainer>
   );
 }
