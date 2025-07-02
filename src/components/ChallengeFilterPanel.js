@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MultiSelect } from '@mantine/core';
+import { Button, MultiSelect } from '@mantine/core';
 import _ from 'lodash';
 
 const FilterPanel = styled.div`
@@ -25,6 +25,25 @@ const FilterLabel = styled.div`
   margin-bottom: 8px;
   font-size: 0.95rem;
 `;
+
+const FilterRow = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+`;
+
+const FilterColumn = styled.div`
+  flex: 1;
+`;
+
+const COMMON_MAP_NAMES = [
+  "A Community World",
+  "An Official World",
+  "A Varied World",
+  "A Rainbolt World",
+  "A Competitive World",
+  "An Arbitrary World"
+]
 
 function ChallengeFilterPanel({ 
   challenges, 
@@ -52,21 +71,41 @@ function ChallengeFilterPanel({
       .value();
   }, [challenges]);
 
+  const handleSelectCommonMaps = () => {
+    const availableCommonMaps = COMMON_MAP_NAMES.filter(mapName => 
+      uniqueMapNames.includes(mapName)
+    );
+    onMapNamesChange(availableCommonMaps);
+  };
+
   return (
     <FilterPanel $visible={visible}>      
       <div>
         <FilterLabel>📍 Map Names</FilterLabel>
-        <MultiSelect
-          value={selectedMapNames}
-          onChange={onMapNamesChange}
-          data={uniqueMapNames}
-          placeholder={`Select maps... (${uniqueMapNames.length} available)`}
-          searchable
-          clearable
-          size="sm"
-          radius="md"
-          comboboxProps={{ withinPortal: false }}
-        />
+        <FilterRow>
+          <FilterColumn>
+            <MultiSelect
+              value={selectedMapNames}
+              onChange={onMapNamesChange}
+              data={uniqueMapNames}
+              placeholder={`Select maps... (${uniqueMapNames.length} available)`}
+              searchable
+              clearable
+              size="sm"
+              radius="md"
+              comboboxProps={{ withinPortal: false }}
+            />
+          </FilterColumn>
+          <Button
+            onClick={handleSelectCommonMaps}
+            size="sm"
+            radius="md"
+            variant="outline"
+            color="blue"
+          >
+            Common Maps
+          </Button>
+        </FilterRow>
       </div>
 
       <div>
