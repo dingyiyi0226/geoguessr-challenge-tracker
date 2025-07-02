@@ -36,12 +36,20 @@ export const useChallengeData = () => {
     loadChallenges();
   }, []);
 
-  const addChallenge = useCallback((challengeData, addAtStart = false) => {
+  const addChallenge = useCallback((challengeData, addAtStart = false, forceUpdate = false) => {
     setChallenges(prev => {
-      const exists = prev.some(challenge => challenge.id === challengeData.id);
-      if (exists) {
-        console.log(`Challenge ${challengeData.id} already exists, not adding duplicate`);
-        return prev;
+      const existingIndex = prev.findIndex(challenge => challenge.id === challengeData.id);
+      if (existingIndex !== -1) {
+        if (forceUpdate) {
+          // Update existing challenge with new data
+          const updatedChallenges = [...prev];
+          updatedChallenges[existingIndex] = challengeData;
+          console.log(`Challenge ${challengeData.id} updated with fresh data`);
+          return updatedChallenges;
+        } else {
+          console.log(`Challenge ${challengeData.id} already exists, not adding duplicate`);
+          return prev;
+        }
       }
       return addAtStart ? [challengeData, ...prev] : [...prev, challengeData];
     });

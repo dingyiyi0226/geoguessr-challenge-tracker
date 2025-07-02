@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Group, Loader, TextInput, Switch, Textarea } from '@mantine/core';
+import { Button, Loader, TextInput, Switch, Textarea } from '@mantine/core';
 import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl, processRawChallengeData } from '../utils/geoguessrApi';
 import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList, batchSaveChallenges } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
@@ -57,7 +57,6 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
   const [authToken, setAuthTokenInput] = useState('');
   const [showAuthInput, setShowAuthInput] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(hasAuthToken());
-  const [forceRefresh, setForceRefresh] = useState(false);
   const [addAtStart, setAddAtStart] = useState(false);
   const [showCustomNameInput, setShowCustomNameInput] = useState(false);
   const [customName, setCustomName] = useState('');
@@ -67,6 +66,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
   // Bookmarklet paste area state
   const [pasteData, setPasteData] = useState('');
   const [pasteLoading, setPasteLoading] = useState(false);
+  const [pasteIsCached, setPasteIsCached] = useState(false);
 
   // Update cache status when URL changes
   useEffect(() => {
@@ -86,6 +86,29 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       setIsCached(false);
     }
   }, [challengeUrl]);
+
+  // Update cache status when paste data changes
+  useEffect(() => {
+    const checkPasteCacheStatus = async () => {
+      try {
+        const parsedData = JSON.parse(pasteData.trim());
+        if (parsedData.challengeId) {
+          const cached = await hasChallenge(parsedData.challengeId);
+          setPasteIsCached(cached);
+        } else {
+          setPasteIsCached(false);
+        }
+      } catch {
+        setPasteIsCached(false);
+      }
+    };
+
+    if (pasteData.trim()) {
+      checkPasteCacheStatus();
+    } else {
+      setPasteIsCached(false);
+    }
+  }, [pasteData]);
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
@@ -175,7 +198,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     }
   };
 
-  const handleSubmit = async (e, forceRefreshParam = false, addAtStart = false) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!challengeUrl.trim()) {
@@ -187,7 +210,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     onStatusUpdate?.({ type: '', content: '' });
 
     try {
-      const challengeData = await fetchChallengeData(challengeUrl, forceRefreshParam || forceRefresh);
+      const challengeData = await fetchChallengeData(challengeUrl, isCached);
       
       // Apply custom name if provided
       const finalChallengeData = {
@@ -204,11 +227,10 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
         await updateChallengeName(challengeData.id, customName.trim());
       }
       
-      onAddChallenge(finalChallengeData, addAtStart);
+      onAddChallenge(finalChallengeData, addAtStart, true);
       setChallengeUrl('');
       setCustomName('');
       setShowCustomNameInput(false);
-      setForceRefresh(false);
     } catch (err) {
       onStatusUpdate?.({ type: 'error', content: err.message || 'Failed to fetch challenge data. Please check the URL and try again.' });
     } finally {
@@ -216,9 +238,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     }
   };
 
-  const handleDiscordStatusUpdate = (status) => {
-    onStatusUpdate?.(status);
-  };
+
 
   const handlePasteImport = async (e) => {
     e.preventDefault();
@@ -284,7 +304,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       }
 
       // Update UI
-      onAddChallenge(finalChallengeData, addAtStart);
+      onAddChallenge(finalChallengeData, addAtStart, true);
       
       // Clear form
       setPasteData('');
@@ -332,17 +352,32 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
             autosize
             style={{ flex: 1, minWidth: '300px' }}
           />
-          <Button
-            type="submit"
-            disabled={pasteLoading || !pasteData.trim()}
-            color="blue"
-            size="md"
-            radius="md"
-            leftSection={pasteLoading ? <Loader size="xs" color="white" /> : null}
-            style={{ minWidth: '160px' }}
-          >
-            {pasteLoading ? 'Processing...' : 'Import Data'}
-          </Button>
+          {pasteIsCached ? (
+            <Button 
+              type="button"
+              onClick={(e) => handlePasteImport(e)}
+              disabled={pasteLoading}
+              color="orange"
+              size="md"
+              radius="md"
+              leftSection={pasteLoading ? <Loader size="xs" color="white" /> : null}
+              style={{ minWidth: '160px' }}
+            >
+              {pasteLoading ? 'Refreshing...' : 'Refresh'}
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              disabled={pasteLoading || !pasteData.trim()}
+              color="teal"
+              size="md"
+              radius="md"
+              leftSection={pasteLoading ? <Loader size="xs" color="white" /> : null}
+              style={{ minWidth: '160px' }}
+            >
+              {pasteLoading ? 'Processing...' : 'Import Data'}
+            </Button>
+          )}
         </InputGroup>
       </form>
 
@@ -375,7 +410,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
             )}
             <DiscordImporter
               onAddChallenge={onAddChallenge}
-              onStatusUpdate={handleDiscordStatusUpdate}
+              onStatusUpdate={onStatusUpdate}
               disabled={loading || pasteLoading}
             />
           </OptionsRow>
@@ -394,21 +429,10 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
               radius="md"
               style={{ flex: 1, minWidth: '300px' }}
             />
-            <Button 
-              type="submit" 
-              disabled={loading || !challengeUrl.trim()}
-              color="teal"
-              size="md"
-              radius="md"
-              leftSection={loading ? <Loader size="xs" color="white" /> : null}
-              style={{ minWidth: '130px' }}
-            >
-              {loading ? 'Fetching...' : (isCached ? 'Load Cached' : 'Add Challenge')}
-            </Button>
-            {isCached && (
+            {isCached ? (
               <Button 
                 type="button"
-                onClick={(e) => handleSubmit(e, true)}
+                onClick={(e) => handleSubmit(e)}
                 disabled={loading}
                 color="orange"
                 size="md"
@@ -417,6 +441,18 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
                 style={{ minWidth: '160px' }}
               >
                 {loading ? 'Refreshing...' : 'Refresh'}
+              </Button>
+            ) : (
+              <Button 
+                type="submit" 
+                disabled={loading || !challengeUrl.trim()}
+                color="teal"
+                size="md"
+                radius="md"
+                leftSection={loading ? <Loader size="xs" color="white" /> : null}
+                style={{ minWidth: '130px' }}
+              >
+                {loading ? 'Fetching...' : 'Add Challenge'}
               </Button>
             )}
           </InputGroup>
@@ -483,7 +519,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
               )}
               <DiscordImporter
                 onAddChallenge={onAddChallenge}
-                onStatusUpdate={handleDiscordStatusUpdate}
+                onStatusUpdate={onStatusUpdate}
                 disabled={loading || pasteLoading}
               />
               
