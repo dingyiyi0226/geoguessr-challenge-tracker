@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Button, Group, Tooltip } from '@mantine/core';
 import { IconBrandDiscord } from '@tabler/icons-react';
-import { fetchChallengesData } from '../utils/geoguessrApi';
+import { importChallengesFromUrls } from '../services';
 import { parseDiscordMessages } from '../utils/discord';
 
 function DiscordImporter({ onAddChallenge, onStatusUpdate, disabled = false }) {
@@ -46,7 +46,7 @@ function DiscordImporter({ onAddChallenge, onStatusUpdate, disabled = false }) {
         });
 
         // Parallel fetch with progress tracking and names
-        const fetchResult = await fetchChallengesData(
+        const fetchResult = await importChallengesFromUrls(
           challengeUrls,
           (progress) => {
             onStatusUpdate?.({ 

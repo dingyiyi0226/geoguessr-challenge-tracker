@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Loader, TextInput, Switch, Textarea } from '@mantine/core';
-import { fetchChallengeData, hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl, processRawChallengeData } from '../utils/geoguessrApi';
+import { hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../api';
+import { loadChallenge, convertRespToChallengeData } from '../services';
 import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList, batchSaveChallenges } from '../utils/indexedDbStorage';
 import { importChallenges } from '../utils/fileOperations';
 
@@ -210,7 +211,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
     onStatusUpdate?.({ type: '', content: '' });
 
     try {
-      const challengeData = await fetchChallengeData(challengeUrl, isCached);
+      const challengeData = await loadChallenge(challengeUrl, isCached);
       
       // Apply custom name if provided
       const finalChallengeData = {
@@ -266,7 +267,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       onStatusUpdate?.({ type: 'info', content: 'Processing bookmarklet data...' });
 
       // Process raw API data using existing function
-      const processedChallengeData = processRawChallengeData(
+      const processedChallengeData = convertRespToChallengeData(
         rawApiData.challengeId,
         rawApiData.challengeResponse,
         rawApiData.highscoresResponse
