@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import Chart from 'react-apexcharts';
 import { formatTime, formatDistance, formatScore, getRankDisplay } from '../utils/formatters';
 import { Select, MultiSelect } from '@mantine/core';
+import _ from 'lodash';
 
 const ChartSection = styled.div`
   padding: 20px 25px;
@@ -46,6 +47,14 @@ function PerformanceTrendsChart({ allPlayers, challenges }) {
   const [selectedMetric, setSelectedMetric] = useState('totalScore');
   const [selectedPlayers, setSelectedPlayers] = useState([]);
 
+  const top5Players = useMemo(() => {
+    return allPlayers
+      .filter(player => player.qualified)
+      .sort((a, b) => b.averageChallengeScore - a.averageChallengeScore)
+      .slice(0, 5)
+      .map(player => player.userId);
+  }, [allPlayers]);
+
   // Filter players based on selection
   const filteredPlayers = useMemo(() => {
     if (!allPlayers) return [];
@@ -57,6 +66,43 @@ function PerformanceTrendsChart({ allPlayers, challenges }) {
     
     return allPlayers.filter(player => selectedPlayers.includes(player.userId));
   }, [allPlayers, selectedPlayers]);
+
+  const playerOptions = useMemo(() => {
+    const [qualified, unqualified] = _.partition(allPlayers, 'qualified');
+    
+    return [{ 
+        group: 'Group', 
+        items: ['Top 5 Players', 'All Qualified Players']
+      }, {
+        group: 'Qualified Players', 
+        items: qualified.map(player => ({
+          value: player.userId,
+          label: player.nick
+        }))
+      }, { 
+        group: 'Unqualified Players', 
+        items: unqualified.map(player => ({
+          value: player.userId,
+          label: player.nick
+        }))
+      }
+    ];
+
+  }, [allPlayers]);
+  
+  useEffect(() => {
+    setSelectedPlayers(top5Players);
+  }, [top5Players]);
+
+  const onChangePlayerOptions = (value) => {
+    if (value.includes('All Qualified Players')) {
+      setSelectedPlayers(allPlayers.filter(player => player.qualified).map(player => player.userId));
+    } else if (value.includes('Top 5 Players')) {
+      setSelectedPlayers(top5Players);
+    } else {
+      setSelectedPlayers(value);
+    }
+  }
 
   // Prepare chart data
   const chartData = useMemo(() => {
@@ -215,11 +261,8 @@ function PerformanceTrendsChart({ allPlayers, challenges }) {
           
           <MultiSelect
             value={selectedPlayers}
-            onChange={setSelectedPlayers}
-            data={allPlayers.map(player => ({
-              value: player.userId,
-              label: player.nick
-            }))}
+            onChange={onChangePlayerOptions}
+            data={playerOptions}
             placeholder={selectedPlayers.length > 0 ? "" : "Select players..."}
             size="sm"
             radius="md"
