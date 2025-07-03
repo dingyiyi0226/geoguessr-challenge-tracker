@@ -356,8 +356,8 @@ function ChallengeCard({
               )}
             </ChallengeNameContainer>
             <ChallengeDetails>
-              <span>🏆 {challenge.highscoreCount || challenge.participants?.length || 0} results</span>
-              <span>👥 {challenge.totalParticipants || 0} players</span>
+              <span>🏆 {challenge.participants?.length || 0} results</span>
+              <span>👥 {challenge.participants?.length || 0} players</span>
               <span>📍 {challenge.mapName || 'Unknown Map'}</span>
               <span>👤 Creator: {challenge.creator || 'Unknown'}</span>
               <span>🎮 {challenge.mode}</span>

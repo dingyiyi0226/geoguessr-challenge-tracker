@@ -6,7 +6,6 @@
     {
       "id": "FdBanqJPymBjXgUm",
       "name": "6/20",
-      "description": "A world map with 100k+ handpicked locations put together by over a hundred experienced players and map makers from the GeoGuessr community || More about ACW: https://bit.ly/acwmap || ACW discord: https://discord.gg/zausPpkFPM || The map contains only official Google Street View locations, meaning there should be no blurry images, photospheres or black screens in game",
       "creator": "GaySir",
       "mode": "No move",
       "timeLimit": 120,
@@ -17,12 +16,9 @@
           "nick": "dingyiyi",
           "totalScore": 22775,
           "totalTime": 152,
-          "gameToken": "TbU89moE4htqvD4h",
           "playedAt": "2025-06-19T22:34:36.7360000+00:00",
-          "pinUrl": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -33,7 +29,6 @@
               "distance": 28924.0048941979,
               "score": 4923,
               "time": 33,
-              "streakLocationCode": "it",
               "timedOut": false,
               "skippedRound": false
             },
@@ -46,7 +41,6 @@
               "distance": 19997.769174986,
               "score": 4946,
               "time": 28,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -59,7 +53,6 @@
               "distance": 727621.2728718396,
               "score": 3377,
               "time": 38,
-              "streakLocationCode": "in",
               "timedOut": false,
               "skippedRound": false
             },
@@ -72,7 +65,6 @@
               "distance": 87057.6256875086,
               "score": 4771,
               "time": 21,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             },
@@ -85,13 +77,10 @@
               "distance": 91757.2757409636,
               "score": 4758,
               "time": 32,
-              "streakLocationCode": "za",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 955357.9483694957,
           "scorePercentage": 91.1
         },
@@ -101,12 +90,9 @@
           "nick": "GaySir",
           "totalScore": 20924,
           "totalTime": 167,
-          "gameToken": "DPGOuHNJ9tNfhuxU",
           "playedAt": "2025-06-19T17:02:43.1630000+00:00",
-          "pinUrl": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -117,7 +103,6 @@
               "distance": 174555.5519579016,
               "score": 4551,
               "time": 50,
-              "streakLocationCode": "it",
               "timedOut": false,
               "skippedRound": false
             },
@@ -130,7 +115,6 @@
               "distance": 44069.6401156519,
               "score": 4883,
               "time": 54,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -143,7 +127,6 @@
               "distance": 566186.2119111171,
               "score": 3684,
               "time": 22,
-              "streakLocationCode": "in",
               "timedOut": false,
               "skippedRound": false
             },
@@ -156,7 +139,6 @@
               "distance": 353239.4122400038,
               "score": 4132,
               "time": 30,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             },
@@ -169,13 +151,10 @@
               "distance": 571190.2121614389,
               "score": 3674,
               "time": 10,
-              "streakLocationCode": "za",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 1709241.0283861132,
           "scorePercentage": 83.696
         },
@@ -185,12 +164,9 @@
           "nick": "Utaha",
           "totalScore": 16058,
           "totalTime": 111,
-          "gameToken": "TjmcqhAE39b2xNNA",
           "playedAt": "2025-06-19T22:31:17.5390000+00:00",
-          "pinUrl": "pin/23b33fb1efd31d09b978595404e69479.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 0,
           "rounds": [
             {
               "roundNumber": 1,
@@ -201,7 +177,6 @@
               "distance": 368071.7968332524,
               "score": 4099,
               "time": 23,
-              "streakLocationCode": "it",
               "timedOut": false,
               "skippedRound": false
             },
@@ -214,7 +189,6 @@
               "distance": 195843.0371359097,
               "score": 4499,
               "time": 33,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -227,7 +201,6 @@
               "distance": 664548.6873401972,
               "score": 3493,
               "time": 9,
-              "streakLocationCode": "in",
               "timedOut": false,
               "skippedRound": false
             },
@@ -240,7 +213,6 @@
               "distance": 434836.4392240328,
               "score": 3954,
               "time": 10,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             },
@@ -253,13 +225,10 @@
               "distance": 11074489.094191194,
               "score": 13,
               "time": 36,
-              "streakLocationCode": "za",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 12737789.054724585,
           "scorePercentage": 64.232
         },
@@ -269,12 +238,9 @@
           "nick": "PK",
           "totalScore": 14557,
           "totalTime": 118,
-          "gameToken": "zUBGMH6mKrxaRGBh",
           "playedAt": "2025-06-20T02:52:18.2060000+00:00",
-          "pinUrl": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
           "countryCode": "tt",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -285,7 +251,6 @@
               "distance": 577977.7275843315,
               "score": 3661,
               "time": 33,
-              "streakLocationCode": "it",
               "timedOut": false,
               "skippedRound": false
             },
@@ -298,7 +263,6 @@
               "distance": 63964.4502002372,
               "score": 4830,
               "time": 36,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -311,7 +275,6 @@
               "distance": 1272081.8693335596,
               "score": 2517,
               "time": 28,
-              "streakLocationCode": "in",
               "timedOut": false,
               "skippedRound": false
             },
@@ -324,7 +287,6 @@
               "distance": 675525.8830743838,
               "score": 3473,
               "time": 10,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             },
@@ -337,21 +299,16 @@
               "distance": 7765118.115855706,
               "score": 76,
               "time": 11,
-              "streakLocationCode": "za",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 10354668.046048218,
           "scorePercentage": 58.228
         }
       ],
-      "totalParticipants": 4,
       "mapName": "A Community World",
       "mapId": "62a44b22040f04bd36e8a914",
-      "url": "/maps/62a44b22040f04bd36e8a914",
       "bounds": {
         "min": {
           "lat": -84.99784921796194,
@@ -362,14 +319,8 @@
           "lng": 178.4581818407309
         }
       },
-      "highscoreCount": 4,
-      "forbidMoving": true,
-      "forbidRotating": false,
-      "forbidZooming": false,
       "roundCount": 5,
       "challengeType": 0,
-      "streakType": "countrystreak",
-      "accessLevel": 1,
       "cachedAt": 1751123741399,
       "version": "1.0",
       "lastModified": 1751123865187
@@ -377,7 +328,6 @@
     {
       "id": "tQegeEGDKhb89QoO",
       "name": "6/21",
-      "description": "Custom generated map used for finals of Rainbolt Season 0 tournament. Rural focused meant for NM or NMPZ. Ownership transferred from Rainbolt to slashP for more frequent map updates. See https://bit.ly/slashp for distribution and other maps.",
       "creator": "GaySir",
       "mode": "NMPZ",
       "timeLimit": 120,
@@ -388,12 +338,9 @@
           "nick": "GaySir",
           "totalScore": 17627,
           "totalTime": 219,
-          "gameToken": "hpVYjQ5wsFYP02v7",
           "playedAt": "2025-06-20T16:04:12.1410000+00:00",
-          "pinUrl": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -404,7 +351,6 @@
               "distance": 646959.3636312018,
               "score": 3524,
               "time": 28,
-              "streakLocationCode": "fr",
               "timedOut": false,
               "skippedRound": false
             },
@@ -417,7 +363,6 @@
               "distance": 144746.0897715985,
               "score": 4624,
               "time": 28,
-              "streakLocationCode": "bg",
               "timedOut": false,
               "skippedRound": false
             },
@@ -430,7 +375,6 @@
               "distance": 1949816.577545968,
               "score": 1743,
               "time": 19,
-              "streakLocationCode": "id",
               "timedOut": false,
               "skippedRound": false
             },
@@ -443,7 +387,6 @@
               "distance": 885640.0296459722,
               "score": 3098,
               "time": 63,
-              "streakLocationCode": "kz",
               "timedOut": false,
               "skippedRound": false
             },
@@ -456,13 +399,10 @@
               "distance": 139044.1864259967,
               "score": 4638,
               "time": 80,
-              "streakLocationCode": "kr",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 3766206.2470207373,
           "scorePercentage": 70.508
         },
@@ -472,12 +412,9 @@
           "nick": "dingyiyi",
           "totalScore": 15296,
           "totalTime": 183,
-          "gameToken": "sOLvM8xqzmNiW7Yd",
           "playedAt": "2025-06-20T22:10:43.3070000+00:00",
-          "pinUrl": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -488,7 +425,6 @@
               "distance": 711516.6282157011,
               "score": 3404,
               "time": 35,
-              "streakLocationCode": "fr",
               "timedOut": false,
               "skippedRound": false
             },
@@ -501,7 +437,6 @@
               "distance": 71042.6753018616,
               "score": 4812,
               "time": 22,
-              "streakLocationCode": "bg",
               "timedOut": false,
               "skippedRound": false
             },
@@ -514,7 +449,6 @@
               "distance": 1517984.1073368855,
               "score": 2201,
               "time": 31,
-              "streakLocationCode": "id",
               "timedOut": false,
               "skippedRound": false
             },
@@ -527,7 +461,6 @@
               "distance": 5995746.598422258,
               "score": 196,
               "time": 89,
-              "streakLocationCode": "kz",
               "timedOut": false,
               "skippedRound": false
             },
@@ -540,13 +473,10 @@
               "distance": 121220.5334125774,
               "score": 4683,
               "time": 5,
-              "streakLocationCode": "kr",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 8417510.542689284,
           "scorePercentage": 61.184
         },
@@ -556,12 +486,9 @@
           "nick": "DoDay",
           "totalScore": 13995,
           "totalTime": 89,
-          "gameToken": "JjsmxULxPAUPCOS4",
           "playedAt": "2025-06-22T11:00:00.8890000+00:00",
-          "pinUrl": "pin/adef2e3fb50acbf806af39bef13356a1.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -572,7 +499,6 @@
               "distance": 882591.5818541334,
               "score": 3103,
               "time": 12,
-              "streakLocationCode": "fr",
               "timedOut": false,
               "skippedRound": false
             },
@@ -585,7 +511,6 @@
               "distance": 154932.3041857802,
               "score": 4598,
               "time": 33,
-              "streakLocationCode": "bg",
               "timedOut": false,
               "skippedRound": false
             },
@@ -598,7 +523,6 @@
               "distance": 2279912.1051772954,
               "score": 1458,
               "time": 12,
-              "streakLocationCode": "id",
               "timedOut": false,
               "skippedRound": false
             },
@@ -611,7 +535,6 @@
               "distance": 2602530.1541831726,
               "score": 1225,
               "time": 20,
-              "streakLocationCode": "kz",
               "timedOut": false,
               "skippedRound": false
             },
@@ -624,13 +547,10 @@
               "distance": 602053.7118070256,
               "score": 3611,
               "time": 12,
-              "streakLocationCode": "kr",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 6522019.857207407,
           "scorePercentage": 55.98
         },
@@ -640,12 +560,9 @@
           "nick": "PK",
           "totalScore": 10458,
           "totalTime": 107,
-          "gameToken": "OOMhLIqLe7Sy7MZ8",
           "playedAt": "2025-06-20T23:56:33.0330000+00:00",
-          "pinUrl": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
           "countryCode": "tt",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -656,7 +573,6 @@
               "distance": 1010063.0425394162,
               "score": 2896,
               "time": 52,
-              "streakLocationCode": "fr",
               "timedOut": false,
               "skippedRound": false
             },
@@ -669,7 +585,6 @@
               "distance": 2284199.373438188,
               "score": 1455,
               "time": 11,
-              "streakLocationCode": "bg",
               "timedOut": false,
               "skippedRound": false
             },
@@ -682,7 +597,6 @@
               "distance": 2542127.9250259115,
               "score": 1265,
               "time": 26,
-              "streakLocationCode": "id",
               "timedOut": false,
               "skippedRound": false
             },
@@ -695,7 +609,6 @@
               "distance": 16886582.474344254,
               "score": 1,
               "time": 12,
-              "streakLocationCode": "kz",
               "timedOut": false,
               "skippedRound": false
             },
@@ -708,21 +621,16 @@
               "distance": 59958.6585451133,
               "score": 4841,
               "time": 6,
-              "streakLocationCode": "kr",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 22782931.473892882,
           "scorePercentage": 41.832
         }
       ],
-      "totalParticipants": 4,
       "mapName": "A Rainbolt World",
       "mapId": "65c86935d327035509fd616f",
-      "url": "/maps/65c86935d327035509fd616f",
       "bounds": {
         "min": {
           "lat": -54.88367615480539,
@@ -733,14 +641,8 @@
           "lng": 178.54383891929268
         }
       },
-      "highscoreCount": 4,
-      "forbidMoving": true,
-      "forbidRotating": true,
-      "forbidZooming": true,
       "roundCount": 5,
       "challengeType": 0,
-      "streakType": "countrystreak",
-      "accessLevel": 1,
       "cachedAt": 1751120759522,
       "version": "1.0",
       "lastModified": 1751123854383
@@ -748,7 +650,6 @@
     {
       "id": "6N5sQkt5cnk6IW4D",
       "name": "6/22",
-      "description": "A world map with 100k+ handpicked locations put together by over a hundred experienced players and map makers from the GeoGuessr community || More about ACW: https://bit.ly/acwmap || ACW discord: https://discord.gg/zausPpkFPM || The map contains only official Google Street View locations, meaning there should be no blurry images, photospheres or black screens in game",
       "creator": "GaySir",
       "mode": "No move",
       "timeLimit": 120,
@@ -759,12 +660,9 @@
           "nick": "dingyiyi",
           "totalScore": 23716,
           "totalTime": 282,
-          "gameToken": "MBnjlyqGGq0NqtX2",
           "playedAt": "2025-06-21T23:03:45.0850000+00:00",
-          "pinUrl": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -775,7 +673,6 @@
               "distance": 116862.2032449714,
               "score": 4694,
               "time": 119,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -788,7 +685,6 @@
               "distance": 106.4799645127,
               "score": 5000,
               "time": 58,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -801,7 +697,6 @@
               "distance": 7.3762531045,
               "score": 5000,
               "time": 77,
-              "streakLocationCode": "ae",
               "timedOut": false,
               "skippedRound": false
             },
@@ -814,7 +709,6 @@
               "distance": 207331.6706565074,
               "score": 4471,
               "time": 11,
-              "streakLocationCode": "kh",
               "timedOut": false,
               "skippedRound": false
             },
@@ -827,13 +721,10 @@
               "distance": 174495.2276772555,
               "score": 4551,
               "time": 18,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 498802.9577963515,
           "scorePercentage": 94.864
         },
@@ -843,12 +734,9 @@
           "nick": "DoDay",
           "totalScore": 20171,
           "totalTime": 286,
-          "gameToken": "3uvEfRKRU8K5NOqd",
           "playedAt": "2025-06-22T10:47:06.8160000+00:00",
-          "pinUrl": "pin/adef2e3fb50acbf806af39bef13356a1.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -859,7 +747,6 @@
               "distance": 189965.7433124152,
               "score": 4513,
               "time": 62,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -872,7 +759,6 @@
               "distance": 182597.231455763,
               "score": 4531,
               "time": 102,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -885,7 +771,6 @@
               "distance": 2528.9484006029,
               "score": 4993,
               "time": 74,
-              "streakLocationCode": "ae",
               "timedOut": false,
               "skippedRound": false
             },
@@ -898,7 +783,6 @@
               "distance": 180433.1323952598,
               "score": 4536,
               "time": 19,
-              "streakLocationCode": "kh",
               "timedOut": false,
               "skippedRound": false
             },
@@ -911,13 +795,10 @@
               "distance": 2113971.821101336,
               "score": 1598,
               "time": 29,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 2669496.8766653766,
           "scorePercentage": 80.684
         },
@@ -927,12 +808,9 @@
           "nick": "GaySir",
           "totalScore": 19045,
           "totalTime": 213,
-          "gameToken": "nwdtYdVJwIyF0toQ",
           "playedAt": "2025-06-21T14:44:34.4810000+00:00",
-          "pinUrl": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -943,7 +821,6 @@
               "distance": 2730496.3264704873,
               "score": 1146,
               "time": 62,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -956,7 +833,6 @@
               "distance": 211901.9417565759,
               "score": 4460,
               "time": 10,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -969,7 +845,6 @@
               "distance": 3501.4191976202,
               "score": 4991,
               "time": 76,
-              "streakLocationCode": "ae",
               "timedOut": false,
               "skippedRound": false
             },
@@ -982,7 +857,6 @@
               "distance": 136083.5633269648,
               "score": 4646,
               "time": 15,
-              "streakLocationCode": "kh",
               "timedOut": false,
               "skippedRound": false
             },
@@ -995,13 +869,10 @@
               "distance": 507619.5730505797,
               "score": 3802,
               "time": 50,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 3589602.8238022276,
           "scorePercentage": 76.18
         },
@@ -1011,12 +882,9 @@
           "nick": "Utaha",
           "totalScore": 18426,
           "totalTime": 282,
-          "gameToken": "UTf7f5AeVlfXegH6",
           "playedAt": "2025-06-22T00:49:35.4040000+00:00",
-          "pinUrl": "pin/23b33fb1efd31d09b978595404e69479.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 0,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1027,7 +895,6 @@
               "distance": 154821.7595015034,
               "score": 4599,
               "time": 120,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1040,7 +907,6 @@
               "distance": 212966.6186175896,
               "score": 4457,
               "time": 19,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1053,7 +919,6 @@
               "distance": 20327.3298427985,
               "score": 4945,
               "time": 84,
-              "streakLocationCode": "ae",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1066,7 +931,6 @@
               "distance": 350784.7033263503,
               "score": 4138,
               "time": 34,
-              "streakLocationCode": "kh",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1079,13 +943,10 @@
               "distance": 5297893.462804722,
               "score": 287,
               "time": 25,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 6036793.8740929635,
           "scorePercentage": 73.704
         },
@@ -1095,12 +956,9 @@
           "nick": "PK",
           "totalScore": 14953,
           "totalTime": 193,
-          "gameToken": "rlvmf25IjSRKCejE",
           "playedAt": "2025-06-22T16:25:30.3620000+00:00",
-          "pinUrl": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
           "countryCode": "tt",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1111,7 +969,6 @@
               "distance": 3972461.0064480226,
               "score": 586,
               "time": 29,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1124,7 +981,6 @@
               "distance": 180209.5248743116,
               "score": 4537,
               "time": 16,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1137,7 +993,6 @@
               "distance": 85.9182243725,
               "score": 5000,
               "time": 114,
-              "streakLocationCode": "ae",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1150,7 +1005,6 @@
               "distance": 107084.804485968,
               "score": 4719,
               "time": 11,
-              "streakLocationCode": "kh",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1163,21 +1017,16 @@
               "distance": 7060353.550182837,
               "score": 111,
               "time": 23,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 11320194.804215511,
           "scorePercentage": 59.812
         }
       ],
-      "totalParticipants": 5,
       "mapName": "A Community World",
       "mapId": "62a44b22040f04bd36e8a914",
-      "url": "/maps/62a44b22040f04bd36e8a914",
       "bounds": {
         "min": {
           "lat": -84.99784921796194,
@@ -1188,14 +1037,8 @@
           "lng": 178.4581818407309
         }
       },
-      "highscoreCount": 5,
-      "forbidMoving": true,
-      "forbidRotating": false,
-      "forbidZooming": false,
       "roundCount": 5,
       "challengeType": 0,
-      "streakType": "countrystreak",
-      "accessLevel": 1,
       "cachedAt": 1751120704601,
       "version": "1.0",
       "lastModified": 1751123876920
@@ -1203,7 +1046,6 @@
     {
       "id": "n2VDdPK1WHtb7GA8",
       "name": "6/23",
-      "description": "Custom generated map used for finals of Rainbolt Season 0 tournament. Rural focused meant for NM or NMPZ. Ownership transferred from Rainbolt to slashP for more frequent map updates. See https://bit.ly/slashp for distribution and other maps.",
       "creator": "GaySir",
       "mode": "NMPZ",
       "timeLimit": 120,
@@ -1214,12 +1056,9 @@
           "nick": "DoDay",
           "totalScore": 17774,
           "totalTime": 91,
-          "gameToken": "YI2ufJXJwRE4sClM",
           "playedAt": "2025-06-22T13:18:40.9640000+00:00",
-          "pinUrl": "pin/adef2e3fb50acbf806af39bef13356a1.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1230,7 +1069,6 @@
               "distance": 909132.394178184,
               "score": 3059,
               "time": 21,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1243,7 +1081,6 @@
               "distance": 35778.3679759936,
               "score": 4904,
               "time": 12,
-              "streakLocationCode": "tw",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1256,7 +1093,6 @@
               "distance": 277525.4207427287,
               "score": 4303,
               "time": 16,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1269,7 +1105,6 @@
               "distance": 326245.3538627799,
               "score": 4192,
               "time": 20,
-              "streakLocationCode": "de",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1282,13 +1117,10 @@
               "distance": 2468809.2098953053,
               "score": 1316,
               "time": 22,
-              "streakLocationCode": "om",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 4017490.7466549915,
           "scorePercentage": 71.096
         },
@@ -1298,12 +1130,9 @@
           "nick": "dingyiyi",
           "totalScore": 16295,
           "totalTime": 126,
-          "gameToken": "Q91O4q5pnQHncYp2",
           "playedAt": "2025-06-22T13:38:41.2170000+00:00",
-          "pinUrl": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1314,7 +1143,6 @@
               "distance": 1186619.783482773,
               "score": 2633,
               "time": 20,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1327,7 +1155,6 @@
               "distance": 231047.3696103928,
               "score": 4413,
               "time": 25,
-              "streakLocationCode": "tw",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1340,7 +1167,6 @@
               "distance": 544859.6426041416,
               "score": 3724,
               "time": 24,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1353,7 +1179,6 @@
               "distance": 308443.8721444284,
               "score": 4232,
               "time": 17,
-              "streakLocationCode": "de",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1366,13 +1191,10 @@
               "distance": 2502506.2196795237,
               "score": 1293,
               "time": 40,
-              "streakLocationCode": "om",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 4773476.8875212595,
           "scorePercentage": 65.18
         },
@@ -1382,12 +1204,9 @@
           "nick": "Utaha",
           "totalScore": 13765,
           "totalTime": 131,
-          "gameToken": "KC5DKkaLJv9lx8Ix",
           "playedAt": "2025-06-22T14:08:36.1760000+00:00",
-          "pinUrl": "pin/23b33fb1efd31d09b978595404e69479.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 0,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1398,7 +1217,6 @@
               "distance": 577549.4621836573,
               "score": 3659,
               "time": 17,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1411,7 +1229,6 @@
               "distance": 62466.124359145,
               "score": 4834,
               "time": 17,
-              "streakLocationCode": "tw",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1424,7 +1241,6 @@
               "distance": 13433015.571879,
               "score": 4,
               "time": 73,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1437,7 +1253,6 @@
               "distance": 424061.0850196462,
               "score": 3976,
               "time": 11,
-              "streakLocationCode": "de",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1450,13 +1265,10 @@
               "distance": 2502922.5498372414,
               "score": 1292,
               "time": 12,
-              "streakLocationCode": "om",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 17000014.79327869,
           "scorePercentage": 55.06
         },
@@ -1466,12 +1278,9 @@
           "nick": "GaySir",
           "totalScore": 13013,
           "totalTime": 146,
-          "gameToken": "couQCYuSVtSivkGS",
           "playedAt": "2025-06-22T13:13:40.9700000+00:00",
-          "pinUrl": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1482,7 +1291,6 @@
               "distance": 648966.4984620893,
               "score": 3521,
               "time": 13,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1495,7 +1303,6 @@
               "distance": 14256313.227034595,
               "score": 2,
               "time": 62,
-              "streakLocationCode": "tw",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1508,7 +1315,6 @@
               "distance": 679252.0480820725,
               "score": 3463,
               "time": 13,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1521,7 +1327,6 @@
               "distance": 96958.2015170232,
               "score": 4745,
               "time": 28,
-              "streakLocationCode": "de",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1534,13 +1339,10 @@
               "distance": 2518250.6436014287,
               "score": 1282,
               "time": 31,
-              "streakLocationCode": "om",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 18199740.618697207,
           "scorePercentage": 52.052
         },
@@ -1550,12 +1352,9 @@
           "nick": "PK",
           "totalScore": 10093,
           "totalTime": 64,
-          "gameToken": "U9cezk37AJjiuSIW",
           "playedAt": "2025-06-22T16:22:41.9220000+00:00",
-          "pinUrl": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
           "countryCode": "tt",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1566,7 +1365,6 @@
               "distance": 9518009.698177937,
               "score": 29,
               "time": 11,
-              "streakLocationCode": "pl",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1579,7 +1377,6 @@
               "distance": 227616.5776076674,
               "score": 4421,
               "time": 24,
-              "streakLocationCode": "tw",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1592,7 +1389,6 @@
               "distance": 15591093.679458993,
               "score": 1,
               "time": 18,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1605,7 +1401,6 @@
               "distance": 2287127.044979027,
               "score": 1452,
               "time": 5,
-              "streakLocationCode": "de",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1618,21 +1413,16 @@
               "distance": 326930.8421603203,
               "score": 4190,
               "time": 5,
-              "streakLocationCode": "om",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 27950777.842383947,
           "scorePercentage": 40.372
         }
       ],
-      "totalParticipants": 5,
       "mapName": "A Rainbolt World",
       "mapId": "65c86935d327035509fd616f",
-      "url": "/maps/65c86935d327035509fd616f",
       "bounds": {
         "min": {
           "lat": -54.88367615480539,
@@ -1643,14 +1433,8 @@
           "lng": 178.54383891929268
         }
       },
-      "highscoreCount": 5,
-      "forbidMoving": true,
-      "forbidRotating": true,
-      "forbidZooming": true,
       "roundCount": 5,
       "challengeType": 0,
-      "streakType": "countrystreak",
-      "accessLevel": 1,
       "cachedAt": 1751119176520,
       "version": "1.0",
       "lastModified": 1751123833570
@@ -1658,7 +1442,6 @@
     {
       "id": "feUGFXy80M7eg69Z",
       "name": "6/24",
-      "description": "A world map with 100k+ handpicked locations put together by over a hundred experienced players and map makers from the GeoGuessr community || More about ACW: https://bit.ly/acwmap || ACW discord: https://discord.gg/zausPpkFPM || The map contains only official Google Street View locations, meaning there should be no blurry images, photospheres or black screens in game",
       "creator": "PK",
       "mode": "No move",
       "timeLimit": 120,
@@ -1669,12 +1452,9 @@
           "nick": "toxicpie",
           "totalScore": 24585,
           "totalTime": 564,
-          "gameToken": "B6czgmVtKEAVIQ4V",
           "playedAt": "2025-06-23T15:43:50.2840000+00:00",
-          "pinUrl": "pin/3e77630ce7f799f815bc2dd903e9ad91.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 0,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1685,7 +1465,6 @@
               "distance": 33785.8399889104,
               "score": 4910,
               "time": 120,
-              "streakLocationCode": "lk",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1698,7 +1477,6 @@
               "distance": 1933.1098612958,
               "score": 4995,
               "time": 120,
-              "streakLocationCode": "li",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1711,7 +1489,6 @@
               "distance": 25510.4034564809,
               "score": 4932,
               "time": 120,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1724,7 +1501,6 @@
               "distance": 2620.7824365765,
               "score": 4993,
               "time": 120,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1737,13 +1513,10 @@
               "distance": 93161.0329744556,
               "score": 4755,
               "time": 84,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 157011.1687177192,
           "scorePercentage": 98.34
         },
@@ -1753,12 +1526,9 @@
           "nick": "dingyiyi",
           "totalScore": 24263,
           "totalTime": 226,
-          "gameToken": "L9gcQowF4YMe25BM",
           "playedAt": "2025-06-23T13:47:20.7210000+00:00",
-          "pinUrl": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1769,7 +1539,6 @@
               "distance": 55359.9952471896,
               "score": 4853,
               "time": 13,
-              "streakLocationCode": "lk",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1782,7 +1551,6 @@
               "distance": 71245.0430733941,
               "score": 4811,
               "time": 30,
-              "streakLocationCode": "li",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1795,7 +1563,6 @@
               "distance": 8668.9848811373,
               "score": 4977,
               "time": 38,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1808,7 +1575,6 @@
               "distance": 13521.1257648939,
               "score": 4964,
               "time": 120,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1821,13 +1587,10 @@
               "distance": 131335.7715189865,
               "score": 4658,
               "time": 26,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 280130.9204856014,
           "scorePercentage": 97.052
         },
@@ -1837,12 +1600,9 @@
           "nick": "PK",
           "totalScore": 24071,
           "totalTime": 261,
-          "gameToken": "owYWUU6D09ccLBGW",
           "playedAt": "2025-06-23T13:36:15.3080000+00:00",
-          "pinUrl": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
           "countryCode": "tt",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1853,7 +1613,6 @@
               "distance": 31441.843810714,
               "score": 4916,
               "time": 19,
-              "streakLocationCode": "lk",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1866,7 +1625,6 @@
               "distance": 1058.7581499812,
               "score": 4997,
               "time": 27,
-              "streakLocationCode": "li",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1879,7 +1637,6 @@
               "distance": 153765.9311908732,
               "score": 4602,
               "time": 80,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1892,7 +1649,6 @@
               "distance": 9056.1991955252,
               "score": 4976,
               "time": 111,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1905,13 +1661,10 @@
               "distance": 162676.592282,
               "score": 4580,
               "time": 23,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 357999.32462909364,
           "scorePercentage": 96.284
         },
@@ -1921,12 +1674,9 @@
           "nick": "Utaha",
           "totalScore": 23720,
           "totalTime": 263,
-          "gameToken": "RLjSzz6aBjs47x6U",
           "playedAt": "2025-06-24T03:00:37.9550000+00:00",
-          "pinUrl": "pin/23b33fb1efd31d09b978595404e69479.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 0,
           "rounds": [
             {
               "roundNumber": 1,
@@ -1937,7 +1687,6 @@
               "distance": 15084.8525123719,
               "score": 4959,
               "time": 12,
-              "streakLocationCode": "lk",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1950,7 +1699,6 @@
               "distance": 14844.413248285,
               "score": 4960,
               "time": 41,
-              "streakLocationCode": "li",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1963,7 +1711,6 @@
               "distance": 393642.1741852574,
               "score": 4043,
               "time": 102,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1976,7 +1723,6 @@
               "distance": 31402.487034796,
               "score": 4916,
               "time": 90,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -1989,13 +1735,10 @@
               "distance": 59324.2342316165,
               "score": 4842,
               "time": 18,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 514298.1612123268,
           "scorePercentage": 94.88
         },
@@ -2005,12 +1748,9 @@
           "nick": "GaySir",
           "totalScore": 21474,
           "totalTime": 164,
-          "gameToken": "z7MEUrRTfpWJkhKU",
           "playedAt": "2025-06-24T02:11:53.5860000+00:00",
-          "pinUrl": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2021,7 +1761,6 @@
               "distance": 71287.2349812406,
               "score": 4811,
               "time": 56,
-              "streakLocationCode": "lk",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2034,7 +1773,6 @@
               "distance": 2905.6786738691,
               "score": 4992,
               "time": 21,
-              "streakLocationCode": "li",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2047,7 +1785,6 @@
               "distance": 654551.3110880977,
               "score": 3512,
               "time": 34,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2060,7 +1797,6 @@
               "distance": 507007.9595953346,
               "score": 3803,
               "time": 33,
-              "streakLocationCode": "jp",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2073,21 +1809,16 @@
               "distance": 255755.7991619678,
               "score": 4356,
               "time": 20,
-              "streakLocationCode": "ie",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 1491507.98350051,
           "scorePercentage": 85.896
         }
       ],
-      "totalParticipants": 5,
       "mapName": "A Community World",
       "mapId": "62a44b22040f04bd36e8a914",
-      "url": "/maps/62a44b22040f04bd36e8a914",
       "bounds": {
         "min": {
           "lat": -84.99784921796194,
@@ -2098,14 +1829,8 @@
           "lng": 178.4581818407309
         }
       },
-      "highscoreCount": 5,
-      "forbidMoving": true,
-      "forbidRotating": false,
-      "forbidZooming": false,
       "roundCount": 5,
       "challengeType": 0,
-      "streakType": "countrystreak",
-      "accessLevel": 1,
       "cachedAt": 1751119157811,
       "version": "1.0",
       "lastModified": 1751123893871
@@ -2113,7 +1838,6 @@
     {
       "id": "261M0FHAsRuTPRrg",
       "name": "6/25",
-      "description": "Explore the world on this computer generated map with 110672 locations (only official Google coverage). NMPZ friendly. Great care has been taken to make the map balanced between countries as well as between subregions within countries. See https://bit.ly/slashp for distribution and other maps.",
       "creator": "PK",
       "mode": "No move",
       "timeLimit": 120,
@@ -2124,12 +1848,9 @@
           "nick": "dingyiyi",
           "totalScore": 23407,
           "totalTime": 153,
-          "gameToken": "VHG1kEelQYeUmerT",
           "playedAt": "2025-06-24T12:49:37.3720000+00:00",
-          "pinUrl": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2140,7 +1861,6 @@
               "distance": 51875.6047297083,
               "score": 4862,
               "time": 30,
-              "streakLocationCode": "dk",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2153,7 +1873,6 @@
               "distance": 64341.638624481,
               "score": 4829,
               "time": 40,
-              "streakLocationCode": "es",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2166,7 +1885,6 @@
               "distance": 101882.1376089204,
               "score": 4732,
               "time": 20,
-              "streakLocationCode": "at",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2179,7 +1897,6 @@
               "distance": 238833.4060485074,
               "score": 4394,
               "time": 19,
-              "streakLocationCode": "ua",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2192,13 +1909,10 @@
               "distance": 158464.6678323101,
               "score": 4590,
               "time": 44,
-              "streakLocationCode": "gl",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 615397.4548439272,
           "scorePercentage": 93.628
         },
@@ -2208,12 +1922,9 @@
           "nick": "GaySir",
           "totalScore": 20963,
           "totalTime": 300,
-          "gameToken": "4HsAlrWtWAuNYaDB",
           "playedAt": "2025-06-24T13:30:05.0810000+00:00",
-          "pinUrl": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2224,7 +1935,6 @@
               "distance": 102706.2785308896,
               "score": 4730,
               "time": 57,
-              "streakLocationCode": "dk",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2237,7 +1947,6 @@
               "distance": 217759.4866363746,
               "score": 4445,
               "time": 88,
-              "streakLocationCode": "es",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2250,7 +1959,6 @@
               "distance": 81223.9174981715,
               "score": 4785,
               "time": 95,
-              "streakLocationCode": "at",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2263,7 +1971,6 @@
               "distance": 336858.6749802367,
               "score": 4168,
               "time": 20,
-              "streakLocationCode": "ua",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2276,13 +1983,10 @@
               "distance": 1049775.4057752048,
               "score": 2835,
               "time": 40,
-              "streakLocationCode": "gl",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 1788323.763420877,
           "scorePercentage": 83.852
         },
@@ -2292,12 +1996,9 @@
           "nick": "PK",
           "totalScore": 19691,
           "totalTime": 211,
-          "gameToken": "8B0a3uoiM4MzPEB2",
           "playedAt": "2025-06-24T11:58:33.8860000+00:00",
-          "pinUrl": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
           "countryCode": "tt",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2308,7 +2009,6 @@
               "distance": 91744.272742312,
               "score": 4758,
               "time": 41,
-              "streakLocationCode": "dk",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2321,7 +2021,6 @@
               "distance": 91048.8731338766,
               "score": 4760,
               "time": 120,
-              "streakLocationCode": "es",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2334,7 +2033,6 @@
               "distance": 1205314.0767257027,
               "score": 2606,
               "time": 24,
-              "streakLocationCode": "at",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2347,7 +2045,6 @@
               "distance": 296425.2120326976,
               "score": 4260,
               "time": 10,
-              "streakLocationCode": "ua",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2360,21 +2057,16 @@
               "distance": 764925.6578427919,
               "score": 3307,
               "time": 16,
-              "streakLocationCode": "gl",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 2449458.0924773808,
           "scorePercentage": 78.764
         }
       ],
-      "totalParticipants": 3,
       "mapName": "An Arbitrary World",
       "mapId": "6089bfcff6a0770001f645dd",
-      "url": "/maps/6089bfcff6a0770001f645dd",
       "bounds": {
         "min": {
           "lat": -54.88004233754411,
@@ -2385,14 +2077,8 @@
           "lng": 178.54357646903617
         }
       },
-      "highscoreCount": 3,
-      "forbidMoving": true,
-      "forbidRotating": false,
-      "forbidZooming": false,
       "roundCount": 5,
       "challengeType": 0,
-      "streakType": "countrystreak",
-      "accessLevel": 1,
       "cachedAt": 1751112433887,
       "version": "1.0",
       "lastModified": 1751123895947
@@ -2400,7 +2086,6 @@
     {
       "id": "CcVm5aWVTrPSdcNH",
       "name": "6/26",
-      "description": "A world map with 100k+ handpicked locations put together by over a hundred experienced players and map makers from the GeoGuessr community || More about ACW: https://bit.ly/acwmap || ACW discord: https://discord.gg/zausPpkFPM || The map contains only official Google Street View locations, meaning there should be no blurry images, photospheres or black screens in game",
       "creator": "PK",
       "mode": "No move",
       "timeLimit": 120,
@@ -2411,12 +2096,9 @@
           "nick": "GaySir",
           "totalScore": 18935,
           "totalTime": 292,
-          "gameToken": "1fUNwX6DYMlXtV41",
           "playedAt": "2025-06-28T06:25:39.2540000+00:00",
-          "pinUrl": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2427,7 +2109,6 @@
               "distance": 59886.766756802,
               "score": 4841,
               "time": 21,
-              "streakLocationCode": "bo",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2440,7 +2121,6 @@
               "distance": 780651.9905552899,
               "score": 3281,
               "time": 65,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2453,7 +2133,6 @@
               "distance": 544845.2835154694,
               "score": 3727,
               "time": 66,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2466,7 +2145,6 @@
               "distance": 886015.0875936635,
               "score": 3100,
               "time": 60,
-              "streakLocationCode": "ar",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2479,13 +2157,10 @@
               "distance": 420240.2433395502,
               "score": 3986,
               "time": 80,
-              "streakLocationCode": "co",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 2691639.371760775,
           "scorePercentage": 75.74
         },
@@ -2495,12 +2170,9 @@
           "nick": "sahu",
           "totalScore": 17811,
           "totalTime": 402,
-          "gameToken": "GZXlPEjiVsHIhpjE",
           "playedAt": "2025-06-26T13:34:33.9760000+00:00",
-          "pinUrl": "pin/74b3e877f719d8c44d14aea50d7ecc55.png",
           "countryCode": "ca",
           "isVerified": false,
-          "flair": 0,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2511,7 +2183,6 @@
               "distance": 712859.5616772118,
               "score": 3404,
               "time": 52,
-              "streakLocationCode": "bo",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2524,7 +2195,6 @@
               "distance": 602205.4494532464,
               "score": 3613,
               "time": 44,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2537,7 +2207,6 @@
               "distance": 652610.7115140152,
               "score": 3516,
               "time": 114,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2550,7 +2219,6 @@
               "distance": 243663.9983729688,
               "score": 4384,
               "time": 104,
-              "streakLocationCode": "ar",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2563,13 +2231,10 @@
               "distance": 1013782.3394731114,
               "score": 2894,
               "time": 88,
-              "streakLocationCode": "co",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 3225122.0604905537,
           "scorePercentage": 71.244
         },
@@ -2579,12 +2244,9 @@
           "nick": "dingyiyi",
           "totalScore": 16949,
           "totalTime": 325,
-          "gameToken": "wNvirqpVF95pXep5",
           "playedAt": "2025-06-25T14:12:32.5460000+00:00",
-          "pinUrl": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2595,7 +2257,6 @@
               "distance": 259385.0671665064,
               "score": 4347,
               "time": 26,
-              "streakLocationCode": "bo",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2608,7 +2269,6 @@
               "distance": 290524.0760534412,
               "score": 4275,
               "time": 95,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2621,7 +2281,6 @@
               "distance": 695132.6820901295,
               "score": 3436,
               "time": 91,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2634,7 +2293,6 @@
               "distance": 998264.48961351,
               "score": 2918,
               "time": 37,
-              "streakLocationCode": "ar",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2647,13 +2305,10 @@
               "distance": 1723736.8133694034,
               "score": 1973,
               "time": 76,
-              "streakLocationCode": "co",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 3967043.128292991,
           "scorePercentage": 67.796
         },
@@ -2663,12 +2318,9 @@
           "nick": "toxicpie",
           "totalScore": 13079,
           "totalTime": 385,
-          "gameToken": "gRv5qC3pjO5iEJmA",
           "playedAt": "2025-06-25T14:15:18.1760000+00:00",
-          "pinUrl": "pin/3e77630ce7f799f815bc2dd903e9ad91.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 0,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2679,7 +2331,6 @@
               "distance": 73139.4981337671,
               "score": 4807,
               "time": 112,
-              "streakLocationCode": "bo",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2692,7 +2343,6 @@
               "distance": 1111009.414261522,
               "score": 2746,
               "time": 79,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2705,7 +2355,6 @@
               "distance": 1253897.6885052288,
               "score": 2542,
               "time": 120,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2718,7 +2367,6 @@
               "distance": 6752316.109333079,
               "score": 131,
               "time": 49,
-              "streakLocationCode": "ar",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2731,13 +2379,10 @@
               "distance": 1039915.668304279,
               "score": 2853,
               "time": 26,
-              "streakLocationCode": "co",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 10230278.378537877,
           "scorePercentage": 52.316
         },
@@ -2747,12 +2392,9 @@
           "nick": "PK",
           "totalScore": 11098,
           "totalTime": 195,
-          "gameToken": "HXrr4O0xRGY9EPxX",
           "playedAt": "2025-06-25T15:09:55.6370000+00:00",
-          "pinUrl": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
           "countryCode": "tt",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2763,7 +2405,6 @@
               "distance": 421282.3338676982,
               "score": 3983,
               "time": 30,
-              "streakLocationCode": "bo",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2776,7 +2417,6 @@
               "distance": 924854.7373763542,
               "score": 3036,
               "time": 20,
-              "streakLocationCode": "ru",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2789,7 +2429,6 @@
               "distance": 1218861.1590219613,
               "score": 2590,
               "time": 103,
-              "streakLocationCode": "ca",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2802,7 +2441,6 @@
               "distance": 9223957.54107738,
               "score": 34,
               "time": 26,
-              "streakLocationCode": "ar",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2815,21 +2453,16 @@
               "distance": 2288574.358144061,
               "score": 1455,
               "time": 16,
-              "streakLocationCode": "co",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 14077530.129487455,
           "scorePercentage": 44.392
         }
       ],
-      "totalParticipants": 5,
       "mapName": "A Community World",
       "mapId": "62a44b22040f04bd36e8a914",
-      "url": "/maps/62a44b22040f04bd36e8a914",
       "bounds": {
         "min": {
           "lat": -84.99784921796194,
@@ -2840,14 +2473,8 @@
           "lng": 178.4581818407309
         }
       },
-      "highscoreCount": 5,
-      "forbidMoving": true,
-      "forbidRotating": false,
-      "forbidZooming": false,
       "roundCount": 5,
       "challengeType": 0,
-      "streakType": "countrystreak",
-      "accessLevel": 1,
       "cachedAt": 1751104943460,
       "version": "1.0",
       "lastModified": 1751123901596
@@ -2855,7 +2482,6 @@
     {
       "id": "q002JtjN7sbQcCw8",
       "name": "6/27",
-      "description": "A world map with 100k+ handpicked locations put together by over a hundred experienced players and map makers from the GeoGuessr community || More about ACW: https://bit.ly/acwmap || ACW discord: https://discord.gg/zausPpkFPM || The map contains only official Google Street View locations, meaning there should be no blurry images, photospheres or black screens in game",
       "creator": "PK",
       "mode": "No move",
       "timeLimit": 120,
@@ -2866,12 +2492,9 @@
           "nick": "dingyiyi",
           "totalScore": 23549,
           "totalTime": 128,
-          "gameToken": "5MYkvLbqvMAs396p",
           "playedAt": "2025-06-27T12:38:23.5770000+00:00",
-          "pinUrl": "pin/34b621543d3ae136e47ef80f4cc20fda.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2882,7 +2505,6 @@
               "distance": 42318.9201801194,
               "score": 4887,
               "time": 24,
-              "streakLocationCode": "kr",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2895,7 +2517,6 @@
               "distance": 291697.0420410846,
               "score": 4272,
               "time": 17,
-              "streakLocationCode": "my",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2908,7 +2529,6 @@
               "distance": 72182.9577143538,
               "score": 4809,
               "time": 33,
-              "streakLocationCode": "br",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2921,7 +2541,6 @@
               "distance": 48373.1003323125,
               "score": 4871,
               "time": 11,
-              "streakLocationCode": "bt",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2934,13 +2553,10 @@
               "distance": 110822.2182513339,
               "score": 4710,
               "time": 43,
-              "streakLocationCode": "nz",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 565394.2385192042,
           "scorePercentage": 94.196
         },
@@ -2950,12 +2566,9 @@
           "nick": "PK",
           "totalScore": 18175,
           "totalTime": 166,
-          "gameToken": "a5IMpje7cvT4DEJe",
           "playedAt": "2025-06-27T02:18:52.0280000+00:00",
-          "pinUrl": "pin/ab665b4161ea0050dbba3c9c4806966f.png",
           "countryCode": "tt",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -2966,7 +2579,6 @@
               "distance": 41838.8848573391,
               "score": 4888,
               "time": 23,
-              "streakLocationCode": "kr",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2979,7 +2591,6 @@
               "distance": 50632.8123445581,
               "score": 4865,
               "time": 56,
-              "streakLocationCode": "my",
               "timedOut": false,
               "skippedRound": false
             },
@@ -2992,7 +2603,6 @@
               "distance": 674289.8649031332,
               "score": 3475,
               "time": 19,
-              "streakLocationCode": "br",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3005,7 +2615,6 @@
               "distance": 24483.5283892308,
               "score": 4934,
               "time": 33,
-              "streakLocationCode": "bt",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3018,13 +2627,10 @@
               "distance": 11069263.24295067,
               "score": 13,
               "time": 35,
-              "streakLocationCode": "nz",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 11860508.333444932,
           "scorePercentage": 72.7
         },
@@ -3034,12 +2640,9 @@
           "nick": "Quantquant",
           "totalScore": 17842,
           "totalTime": 134,
-          "gameToken": "kY66nx9NkkzKzZT2",
           "playedAt": "2025-06-27T21:44:48.6550000+00:00",
-          "pinUrl": "pin/aaa239a47f04973abb25c2201646d931.png",
           "countryCode": "us",
           "isVerified": false,
-          "flair": 0,
           "rounds": [
             {
               "roundNumber": 1,
@@ -3050,7 +2653,6 @@
               "distance": 62575.6914184659,
               "score": 4834,
               "time": 49,
-              "streakLocationCode": "kr",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3063,7 +2665,6 @@
               "distance": 653989.7695449971,
               "score": 3513,
               "time": 27,
-              "streakLocationCode": "my",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3076,7 +2677,6 @@
               "distance": 8019130.59839236,
               "score": 66,
               "time": 19,
-              "streakLocationCode": "br",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3089,7 +2689,6 @@
               "distance": 90535.4043248282,
               "score": 4762,
               "time": 19,
-              "streakLocationCode": "bt",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3102,13 +2701,10 @@
               "distance": 127649.0481574992,
               "score": 4667,
               "time": 19,
-              "streakLocationCode": "nz",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 8953880.511838151,
           "scorePercentage": 71.368
         },
@@ -3118,12 +2714,9 @@
           "nick": "GaySir",
           "totalScore": 16936,
           "totalTime": 146,
-          "gameToken": "c9dFTT8HUOoHkoP3",
           "playedAt": "2025-06-28T06:37:30.8570000+00:00",
-          "pinUrl": "pin/0010700b5d0c3f45279322bf2e2ce82b.png",
           "countryCode": "tw",
           "isVerified": false,
-          "flair": 1,
           "rounds": [
             {
               "roundNumber": 1,
@@ -3134,7 +2727,6 @@
               "distance": 168821.3501283734,
               "score": 4565,
               "time": 7,
-              "streakLocationCode": "kr",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3147,7 +2739,6 @@
               "distance": 242933.7068599544,
               "score": 4386,
               "time": 24,
-              "streakLocationCode": "my",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3160,7 +2751,6 @@
               "distance": 821385.6676217733,
               "score": 3210,
               "time": 23,
-              "streakLocationCode": "br",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3173,7 +2763,6 @@
               "distance": 17979167.459929798,
               "score": 0,
               "time": 14,
-              "streakLocationCode": "bt",
               "timedOut": false,
               "skippedRound": false
             },
@@ -3186,21 +2775,16 @@
               "distance": 85318.000350764,
               "score": 4775,
               "time": 78,
-              "streakLocationCode": "nz",
               "timedOut": false,
               "skippedRound": false
             }
           ],
-          "gameMode": "standard",
-          "gameType": "challenge",
           "totalDistance": 19297626.18489066,
           "scorePercentage": 67.744
         }
       ],
-      "totalParticipants": 4,
       "mapName": "A Community World",
       "mapId": "62a44b22040f04bd36e8a914",
-      "url": "/maps/62a44b22040f04bd36e8a914",
       "bounds": {
         "min": {
           "lat": -84.99784921796194,
@@ -3211,14 +2795,8 @@
           "lng": 178.4581818407309
         }
       },
-      "highscoreCount": 4,
-      "forbidMoving": true,
-      "forbidRotating": false,
-      "forbidZooming": false,
       "roundCount": 5,
       "challengeType": 0,
-      "streakType": "countrystreak",
-      "accessLevel": 1,
       "cachedAt": 1751104967698,
       "version": "1.0",
       "lastModified": 1751112459271
