@@ -38,31 +38,11 @@
    - We will parse every challenge links from each message.
    - The name of the challenge will be the date of the message.
 
-## 🚀 Getting Started for Developers
+## 🚀 Getting Started for Local Development
 
-### Installation
+**For local development, you can use direct API access**, since we don't have CORS issue.
 
-1. **Clone or download the repository**
-   ```bash
-   git clone https://github.com/dingyiyi0226/geoguessr-challenge-tracker.git
-   cd geoguessr-challenge-tracker
-   ```
-
-2. **Install dependencies**
-   ```bash
-   yarn install
-   ```
-
-3. **Start the development server**
-   ```bash
-   yarn start
-   ```
-
-### Local Development Setup
-
-**For local development, you can use direct API access**, since we don't have cors issue.
-
-#### Authentication Setup
+### Authentication Setup
 
 1. **Authentication Setup** (for real data):
    - Open Geoguessr in your browser and log in
@@ -71,7 +51,7 @@
    - Find the `_ncfa` cookie and copy its value
    - In the app, click "Setup API Access" and paste the token
 
-#### Adding Challenges
+### Adding Challenges
 
 2. **Enter Challenge URL**: Paste a Geoguessr challenge URL in the input field. Supported formats:
    - `https://www.geoguessr.com/challenge/ABC123`
