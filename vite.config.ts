@@ -102,21 +102,12 @@ export default defineConfig(() => ({
     chunkSizeWarningLimit: 800,
     rollupOptions: {
       output: {
-        manualChunks(id) {
+        manualChunks: (id) => {
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'react-vendor';
-            }
-            if (id.includes('@mantine') || id.includes('@tabler/icons-react')) {
-              return 'mantine';
-            }
-            if (id.includes('apexcharts') || id.includes('react-apexcharts')) {
-              return 'charts';
-            }
             return 'vendor';
           }
-        }
-      }
-    }
+        },
+      },
+    },
   },
 }));
