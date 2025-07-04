@@ -10,6 +10,8 @@ export {
 
 export { getChallengeInfo } from './challenges';
 
+export { getGameInfo, getGamesInfo } from './games';
+
 export { getUser } from './profiles';
 
 export { getChallengeHighscores } from './highscores';

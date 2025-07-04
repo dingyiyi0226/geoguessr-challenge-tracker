@@ -46,6 +46,7 @@ export type GeoguessrPlayerGameResult = GeoguessrUser & {
   totalDistanceInMeters: number;
   totalStepsCount: number;
   guesses: Array<GeoguessrPlayerRoundResult>;
+  isLeader: boolean;
 };
 
 export type GeoguessrGame = {
