@@ -3,7 +3,15 @@ import styled from 'styled-components';
 import { Button, Loader, TextInput, Switch, Textarea } from '@mantine/core';
 import { hasAuthToken, setAuthToken, clearAuthToken, getChallengeIDFromUrl } from '../api';
 import { loadChallenge, convertRespToChallengeData } from '../services';
-import { hasChallenge, getChallengesList, updateChallengeName, updateChallengeOrder, saveChallenge, appendChallengeList, batchSaveChallenges } from '../utils/indexedDbStorage';
+import {
+  getChallengesList,
+  hasChallenge,
+  saveChallenge,
+  batchSaveChallenges,
+  appendChallengeList,
+  updateChallengeName,
+  updateChallengeOrder,
+} from '../idb';
 import { importChallenges } from '../utils/fileOperations';
 
 import AuthSection from './AuthSection';

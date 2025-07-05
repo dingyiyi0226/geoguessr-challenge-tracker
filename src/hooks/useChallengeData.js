@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { 
-  loadAllChallenges, 
-  clearAllChallenges,
-  removeChallenge,
-  updateChallengeName,
+import {
+  loadAllChallenges,
   updateChallengeOrder,
-  batchSaveChallenges
-} from '../utils/indexedDbStorage';
+  removeChallenge as removeChallengeFromDB,
+  updateChallengeName,
+  clearAllChallenges, 
+  batchSaveChallenges,
+} from '../idb';
 import demoChallenges from '../data/demoChallenges.json';
 
 /**
@@ -60,7 +60,7 @@ export const useChallengeData = () => {
       const challengeToRemove = prev[index];
       if (challengeToRemove) {
         // Remove from IndexedDB asynchronously
-        removeChallenge(challengeToRemove.id).catch(error => {
+        removeChallengeFromDB(challengeToRemove.id).catch(error => {
           console.error('Error removing challenge from IndexedDB:', error);
         });
       }

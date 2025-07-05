@@ -13,7 +13,7 @@ import {
   loadChallenge as loadChallengeFromDB, 
   hasChallenge,
   appendChallengeList
-} from '../utils/indexedDbStorage';
+} from '../idb';
 
 /**
  * Fetch challenge results using the API and process them
