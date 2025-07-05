@@ -490,11 +490,13 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
               </Button>
             </>
           )}
-          <DiscordImporter
-            onAddChallenge={onAddChallenge}
-            onStatusUpdate={onStatusUpdate}
-            disabled={loading || pasteLoading}
-          />
+          {process.env.NODE_ENV === 'development' && (
+            <DiscordImporter
+              onAddChallenge={onAddChallenge}
+              onStatusUpdate={onStatusUpdate}
+              disabled={loading || pasteLoading}
+            />
+          )}
         </OptionsRow>
       </ChallengeImportOptionsContainer>
     </FormContainer>
