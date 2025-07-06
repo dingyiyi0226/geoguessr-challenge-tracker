@@ -7,7 +7,7 @@ import {
   getChallengesList,
   hasChallenge,
   saveChallenge,
-  batchSaveChallenges,
+  saveChallenges,
   appendChallengeList,
   updateChallengeName,
   updateChallengeOrder,
@@ -151,8 +151,7 @@ function ChallengeImportForm({ onAddChallenge, hasExistingChallenges, onLoadDemo
       const existingChallengeIds = await getChallengesList();
       const existingIdsSet = new Set(existingChallengeIds);
       
-      // Use batch insert for better performance
-      const result = await batchSaveChallenges(importedChallenges);
+      const result = await saveChallenges(importedChallenges);
       
       if (result.error) {
         throw new Error(result.error);

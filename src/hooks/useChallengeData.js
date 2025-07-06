@@ -5,7 +5,7 @@ import {
   removeChallenge as removeChallengeFromDB,
   updateChallengeName,
   clearAllChallenges, 
-  batchSaveChallenges,
+  saveChallenges,
 } from '../idb';
 import demoChallenges from '../data/demoChallenges.json';
 
@@ -127,11 +127,10 @@ export const useChallengeData = () => {
       return 0;
     }
     
-    // Use batch insert for better performance
-    const result = await batchSaveChallenges(newChallenges);
+    const result = await saveChallenges(newChallenges);
     
     if (result.error) {
-      console.error('Error batch saving challenges:', result.error);
+      console.error('Error saving challenges:', result.error);
       return 0;
     }
     
@@ -155,8 +154,7 @@ export const useChallengeData = () => {
         return 0;
       }
       
-      // Use batch insert for better performance
-      const result = await batchSaveChallenges(newDemoChallenges);
+      const result = await saveChallenges(newDemoChallenges);
       
       if (result.error) {
         console.error('Error batch saving demo challenges:', result.error);

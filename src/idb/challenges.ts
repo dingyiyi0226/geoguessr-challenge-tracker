@@ -209,32 +209,30 @@ export const appendChallengeList = async (
   }
 };
 
-export const batchSaveChallenges = async (
+/**
+ * Save multiple challenges to IndexedDB and update the challenges list.
+ * Filters out challenges that already exist to avoid duplicates.
+ */
+export const saveChallenges = async (
   challengesData: ChallengeData[]
 ): Promise<{ addedCount: number; totalProcessed: number }> => {
   try {
-    const db = await initDB();
     const currentChallengesList = await getChallengesList();
     const existingChallengesIds = new Set(currentChallengesList);
 
-    const challengesToSave: StoredChallenge[] = [];
-    const newChallengeIds: string[] = [];
-
-    for (const challengeData of challengesData) {
-      if (!existingChallengesIds.has(challengeData.id)) {
-        const dataToStore: StoredChallenge = {
-          ...challengeData,
-          cachedAt: Date.now(),
-          version: '1.0',
-        };
-        challengesToSave.push(dataToStore);
-        newChallengeIds.push(challengeData.id);
-      }
-    }
+    const challengesToSave = challengesData
+      .filter(challengeData => !existingChallengesIds.has(challengeData.id))
+      .map(challengeData => ({
+        ...challengeData,
+        cachedAt: Date.now(),
+        version: '1.0',
+      }));
 
     if (challengesToSave.length === 0) {
       return { addedCount: 0, totalProcessed: challengesData.length };
     }
+
+    const newChallengeIds = challengesToSave.map(challenge => challenge.id);
 
     await withTransaction(
       [CHALLENGES_STORE, METADATA_STORE],
@@ -243,9 +241,9 @@ export const batchSaveChallenges = async (
         const challengesStore = tx.objectStore(CHALLENGES_STORE);
         const metadataStore = tx.objectStore(METADATA_STORE);
 
-        for (const challenge of challengesToSave) {
+        challengesToSave.forEach(challenge => {
           challengesStore.put(challenge);
-        }
+        });
 
         const updatedChallengesList = [
           ...currentChallengesList,
@@ -260,7 +258,7 @@ export const batchSaveChallenges = async (
       totalProcessed: challengesData.length,
     };
   } catch (error) {
-    console.error('Error batch saving challenges:', error);
+    console.error('Error saving challenges:', error);
     return { addedCount: 0, totalProcessed: challengesData.length };
   }
 }; 
