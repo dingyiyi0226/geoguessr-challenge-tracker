@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
+import { Text, List, Stack } from '@mantine/core';
 import ChallengeImportForm from './components/ChallengeImportForm';
 import ChallengeResults from './components/ChallengeResults';
 import ChallengeTrends from './components/ChallengeTrends';
@@ -37,6 +38,7 @@ function App() {
     handleImportChallenges,
     loadDemoData,
     sortChallengesAscending,
+    isLoading,
   } = useChallengeData();
 
   const CHALLENGES_PER_PAGE = 20;
@@ -56,6 +58,25 @@ function App() {
   const handleCloseStatusMessage = useCallback(() => {
     setStatusMessage({ type: '', content: '' });
   }, []);
+
+  // Show welcome message in production mode when app first loads with no challenges
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production' && !isLoading && challenges.length === 0) {
+        setStatusMessage({
+          type: 'info',
+          content: (
+            <Stack gap="xs">
+              <Text size="sm">Run the website locally to unlock extra features like direct API access and advanced imports. See the <a href="https://github.com/dingyiyi0226/geoguessr-challenge-tracker" target="_blank">GitHub repo</a> for more information.</Text>
+              <Text size="sm">You can import challenges by:</Text>
+              <List size="sm" spacing="xs">
+                <List.Item>GeoGuessr challenge URL</List.Item>
+                <List.Item>Discord messages containing multiple challenge URLs</List.Item>
+              </List>
+            </Stack>
+          )
+        });
+    }
+  }, [isLoading, challenges.length]);
 
   React.useEffect(() => {
     setFilteredChallenges(challenges);
